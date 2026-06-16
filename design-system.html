@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zuzo Robotics — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ZUZO ROBOTICS — DESIGN SYSTEM (canonical reference)
+   Copy these tokens and component classes into any new feature.
+   Inspired by onbeam.com: white canvas, orange point-accent, near-black ink.
+   ============================================================ */
+:root{
+  --white:#FFFFFF;
+  --ink:#0D0D0D;          /* near-black text, never pure #000 in body */
+  --fog:#6B6B6B;          /* secondary copy */
+  --fog-2:#9A9A9A;        /* tertiary / labels */
+  --panel:#F4F4F2;        /* soft grey fill */
+  --panel-2:#F8F7F5;      /* section tint */
+  --line:rgba(13,13,13,.08);
+  --line-2:rgba(13,13,13,.15);
+  --orange:#EC450D;       /* PRIMARY ACCENT — use sparingly */
+  --orange-600:#D43C09;   /* hover */
+  --orange-tint:#FDEFE8;  /* icon wells, soft fills */
+  --orange-line:rgba(236,69,13,.28);
+  --pos:#0FA958;
+  --neg:#E5484D;
+  --warn:#E8A100;
+  --sans:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --gut:clamp(20px,5vw,72px);
+  --max:1320px;
+  --r-sm:8px; --r-md:14px; --r-lg:18px; --r-xl:24px; --r-pill:100px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+a{color:var(--orange)}
+code{font-family:var(--mono);font-size:.86em;background:var(--panel);padding:2px 6px;border-radius:5px;color:var(--ink)}
+
+/* doc shell */
+header.doc{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:16px var(--gut);display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:11px;font-weight:600;font-size:16px}
+.brand svg{width:28px;height:28px}
+.brand small{font-family:var(--mono);font-size:11px;color:var(--fog-2);letter-spacing:.1em;text-transform:uppercase;margin-left:8px}
+.doc nav a{font-family:var(--mono);font-size:12px;color:var(--fog);margin-left:18px}
+.doc nav a:hover{color:var(--ink)}
+@media(max-width:780px){.doc nav{display:none}}
+
+main{max-width:var(--max);margin:0 auto;padding:0 var(--gut) 100px}
+.hero{padding:70px 0 30px;border-bottom:1px solid var(--line);margin-bottom:60px}
+.hero .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+.hero h1{font-size:clamp(34px,5vw,58px);font-weight:300;letter-spacing:-.025em;margin:14px 0 0;line-height:1.05}
+.hero p{margin-top:18px;max-width:620px;color:var(--fog);font-size:18px}
+
+section.sec{padding:46px 0;border-bottom:1px solid var(--line)}
+.sec>h2{font-size:13px;font-family:var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--fog-2);margin-bottom:6px}
+.sec>.lead{font-size:clamp(22px,3vw,30px);font-weight:300;letter-spacing:-.02em;margin-bottom:8px}
+.sec>.desc{color:var(--fog);max-width:680px;margin-bottom:30px;font-size:15.5px}
+
+.demo{background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-lg);padding:34px;margin-bottom:14px}
+.note{font-family:var(--mono);font-size:12.5px;color:var(--fog);line-height:1.7}
+.note b{color:var(--ink)}
+
+/* swatches */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.sw{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:#fff}
+.sw .chip{height:74px}
+.sw .meta{padding:11px 13px;font-family:var(--mono);font-size:11.5px}
+.sw .meta .nm{font-weight:500}
+.sw .meta .hx{color:var(--fog);margin-top:3px}
+
+/* type scale */
+.type-row{display:flex;align-items:baseline;gap:20px;padding:14px 0;border-bottom:1px dashed var(--line);flex-wrap:wrap}
+.type-row:last-child{border:none}
+.type-row .tag{font-family:var(--mono);font-size:11px;color:var(--fog-2);width:140px;flex-shrink:0}
+.h-display{font-size:clamp(34px,5vw,58px);font-weight:300;letter-spacing:-.025em}
+.h-2{font-size:clamp(28px,4.4vw,50px);font-weight:300;letter-spacing:-.025em}
+.h-3{font-size:20px;font-weight:600;letter-spacing:-.01em}
+.body-lg{font-size:18px;color:var(--fog)}
+.body{font-size:15.5px;color:var(--fog)}
+.kicker-eg{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
+.mono-eg{font-family:var(--mono);font-size:13px;color:var(--ink)}
+
+/* buttons */
+.btn{font-family:var(--sans);font-size:14px;font-weight:500;padding:13px 22px;border-radius:var(--r-pill);cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:9px;transition:all .2s}
+.btn-primary{background:var(--orange);color:#fff}
+.btn-primary:hover{background:var(--orange-600);transform:translateY(-1px);box-shadow:0 8px 24px rgba(236,69,13,.25)}
+.btn-grey{background:var(--panel);color:var(--ink)}
+.btn-grey:hover{background:#ebebe8}
+.btn-dark{background:var(--ink);color:#fff}
+.btn-dark:hover{background:#000;transform:translateY(-1px)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+/* tags / pills */
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.05em;padding:4px 8px;border-radius:6px;text-transform:uppercase;display:inline-block}
+.tag.cat{background:var(--ink);color:#fff;font-weight:500}
+.tag.vis{border:1px solid var(--line-2);color:var(--fog)}
+.chip{font-family:var(--mono);font-size:13px;padding:10px 16px;border:1px solid var(--line);border-radius:var(--r-pill);color:var(--ink);background:#fff;display:inline-block}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 4px var(--orange-tint)}
+
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:760px){.cards{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:26px;transition:all .25s}
+.card:hover{border-color:var(--orange-line);transform:translateY(-3px)}
+.card .ic{width:40px;height:40px;border-radius:11px;background:var(--orange-tint);display:grid;place-items:center;color:var(--orange);font-size:17px}
+.card h3{font-size:17px;margin:16px 0 8px;font-weight:600}
+.card p{font-size:14px;color:var(--fog)}
+
+/* metric cells + progress (app components) */
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;max-width:440px}
+.metrics .cell{background:#fff;padding:11px 13px}
+.metrics .cell .k{font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--fog-2);text-transform:uppercase}
+.metrics .cell .v{font-family:var(--mono);font-size:14px;margin-top:5px;font-weight:500}
+.metrics .cell .v.sig{color:var(--orange)}
+.bar{height:7px;background:var(--panel);border-radius:var(--r-pill);overflow:hidden;max-width:440px}
+.bar i{display:block;height:100%;background:var(--orange);border-radius:var(--r-pill)}
+.barlabel{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--fog);margin:14px 0 6px;max-width:440px}
+.barlabel b{color:var(--ink)}
+
+/* scale / radius / spacing chips */
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.kv .item{border:1px solid var(--line);border-radius:var(--r-md);padding:16px;background:#fff}
+.kv .item .demo-box{height:40px;background:var(--orange-tint);border:1px solid var(--orange-line);margin-bottom:12px}
+.kv .item .l{font-family:var(--mono);font-size:12px}
+.kv .item .l span{color:var(--fog)}
+
+/* do / dont */
+.dd{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:680px){.dd{grid-template-columns:1fr}}
+.dd .box{border-radius:var(--r-md);padding:22px;font-size:14px;line-height:1.6}
+.dd .do{background:rgba(15,169,88,.07);border:1px solid rgba(15,169,88,.3)}
+.dd .dont{background:rgba(229,72,77,.06);border:1px solid rgba(229,72,77,.3)}
+.dd h4{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.dd .do h4{color:var(--pos)}
+.dd .dont h4{color:var(--neg)}
+.dd ul{list-style:none}
+.dd li{padding:6px 0 6px 18px;position:relative;color:var(--ink)}
+.dd li::before{content:"";position:absolute;left:0;top:13px;width:6px;height:6px;border-radius:2px}
+.dd .do li::before{background:var(--pos)}
+.dd .dont li::before{background:var(--neg)}
+</style>
+</head>
+<body>
+
+<header class="doc">
+  <span class="brand">
+    <svg viewBox="0 0 48 48" fill="none"><path d="M15 12 C24 12 22 22 29 24 C22 26 24 36 15 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 12 C24 12 26 22 19 24 C26 26 24 36 33 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Zuzo Robotics <small>Design System v1</small>
+  </span>
+  <nav>
+    <a href="#color">Color</a>
+    <a href="#type">Type</a>
+    <a href="#buttons">Buttons</a>
+    <a href="#components">Components</a>
+    <a href="#rules">Rules</a>
+    <a href="index.html">View site →</a>
+  </nav>
+</header>
+
+<main>
+  <div class="hero">
+    <span class="kicker">Canonical reference</span>
+    <h1>The Zuzo design system.</h1>
+    <p>Every new feature, page, or component must be built from these tokens and patterns. The rule of thumb: a white canvas, near-black text, and orange used sparingly as a single point of emphasis. When in doubt, copy a block from this page.</p>
+  </div>
+
+  <!-- COLOR -->
+  <section class="sec" id="color">
+    <h2>01 · Color</h2>
+    <div class="lead">A neutral canvas with one warm accent.</div>
+    <p class="desc">Roughly 90% of any screen is white, near-black, and grey. Orange is reserved for one or two focal moments per section: primary actions, key figures, live signals, and hover states. Never fill large areas with orange.</p>
+    <div class="demo">
+      <div class="swatches">
+        <div class="sw"><div class="chip" style="background:#FFFFFF;border-bottom:1px solid var(--line)"></div><div class="meta"><div class="nm">--white</div><div class="hx">#FFFFFF · canvas</div></div></div>
+        <div class="sw"><div class="chip" style="background:#0D0D0D"></div><div class="meta"><div class="nm">--ink</div><div class="hx">#0D0D0D · text</div></div></div>
+        <div class="sw"><div class="chip" style="background:#6B6B6B"></div><div class="meta"><div class="nm">--fog</div><div class="hx">#6B6B6B · secondary</div></div></div>
+        <div class="sw"><div class="chip" style="background:#9A9A9A"></div><div class="meta"><div class="nm">--fog-2</div><div class="hx">#9A9A9A · labels</div></div></div>
+        <div class="sw"><div class="chip" style="background:#F4F4F2"></div><div class="meta"><div class="nm">--panel</div><div class="hx">#F4F4F2 · fill</div></div></div>
+        <div class="sw"><div class="chip" style="background:#F8F7F5"></div><div class="meta"><div class="nm">--panel-2</div><div class="hx">#F8F7F5 · section</div></div></div>
+        <div class="sw"><div class="chip" style="background:#EC450D"></div><div class="meta"><div class="nm">--orange</div><div class="hx">#EC450D · ACCENT</div></div></div>
+        <div class="sw"><div class="chip" style="background:#FDEFE8"></div><div class="meta"><div class="nm">--orange-tint</div><div class="hx">#FDEFE8 · wells</div></div></div>
+        <div class="sw"><div class="chip" style="background:#0FA958"></div><div class="meta"><div class="nm">--pos</div><div class="hx">#0FA958 · success</div></div></div>
+        <div class="sw"><div class="chip" style="background:#E5484D"></div><div class="meta"><div class="nm">--neg</div><div class="hx">#E5484D · alert</div></div></div>
+      </div>
+    </div>
+    <p class="note"><b>Use:</b> orange for primary buttons, the live <span class="dot"></span> dot, key metric values, and hover borders. <b>Avoid:</b> orange backgrounds larger than an icon well, orange body text, and more than one orange element competing in the same eyeline.</p>
+  </section>
+
+  <!-- TYPE -->
+  <section class="sec" id="type">
+    <h2>02 · Typography</h2>
+    <div class="lead">Inter for everything, JetBrains Mono for data.</div>
+    <p class="desc">Headings are light weight (300) at large sizes with tight negative tracking, which reads premium on white. Body is regular weight in grey. Monospace carries labels, metrics, addresses, and any machine output. Sentence case throughout — no all-caps headlines.</p>
+    <div class="demo">
+      <div class="type-row"><span class="tag">Display / 300</span><span class="h-display">Robots that act.</span></div>
+      <div class="type-row"><span class="tag">Heading 2 / 300</span><span class="h-2">Verified training data.</span></div>
+      <div class="type-row"><span class="tag">Heading 3 / 600</span><span class="h-3">Episode-level annotation</span></div>
+      <div class="type-row"><span class="tag">Body large / 400</span><span class="body-lg">Miners produce it, validators verify it.</span></div>
+      <div class="type-row"><span class="tag">Body / 400</span><span class="body">Each job leaves a verified training pair on-chain.</span></div>
+      <div class="type-row"><span class="tag">Kicker / mono</span><span class="kicker-eg">The coordination layer</span></div>
+      <div class="type-row"><span class="tag">Mono / data</span><span class="mono-eg">$118/hr · 50,000 hrs · ORD-2271</span></div>
+    </div>
+  </section>
+
+  <!-- BUTTONS -->
+  <section class="sec" id="buttons">
+    <h2>03 · Buttons</h2>
+    <div class="lead">Fully-rounded pills, three weights.</div>
+    <p class="desc">Primary (orange) for the single most important action in a view. Dark for app entry and high-intent navigation. Grey for everything secondary. One primary button per section, never two side by side.</p>
+    <div class="demo">
+      <div class="row">
+        <button class="btn btn-primary">Primary action</button>
+        <button class="btn btn-dark">Launch app</button>
+        <button class="btn btn-grey">Secondary</button>
+      </div>
+      <p class="note" style="margin-top:20px"><code>.btn.btn-primary</code> · <code>.btn.btn-dark</code> · <code>.btn.btn-grey</code> — radius <code>--r-pill</code>, hover lifts 1px with a soft shadow.</p>
+    </div>
+  </section>
+
+  <!-- COMPONENTS -->
+  <section class="sec" id="components">
+    <h2>04 · Components</h2>
+    <div class="lead">The building blocks shared across site and app.</div>
+    <p class="desc">All cards use hairline borders over white, rounded corners, and an orange-tint icon well. App data uses monospace metric cells and orange progress bars.</p>
+
+    <p class="note" style="margin:18px 0 10px"><b>Feature cards</b></p>
+    <div class="demo">
+      <div class="cards">
+        <div class="card"><div class="ic">◈</div><h3>Provable trust</h3><p>Trust scores compound on-chain and are publicly auditable.</p></div>
+        <div class="card"><div class="ic">⌁</div><h3>Tiered access</h3><p>Higher trust unlocks higher-paying pose tasks.</p></div>
+        <div class="card"><div class="ic">⚇</div><h3>Eval emissions</h3><p>Rewards flow to the highest model-performance delta.</p></div>
+      </div>
+    </div>
+
+    <p class="note" style="margin:26px 0 10px"><b>Tags &amp; pills</b></p>
+    <div class="demo">
+      <div class="row">
+        <span class="tag cat">Hand pose</span>
+        <span class="tag vis">Private</span>
+        <span class="chip">Figure AI <span style="color:var(--orange)">$39B</span></span>
+        <span class="chip"><span class="dot"></span> &nbsp;Network live</span>
+      </div>
+    </div>
+
+    <p class="note" style="margin:26px 0 10px"><b>Metric cells &amp; progress (order book)</b></p>
+    <div class="demo">
+      <div class="barlabel"><span>15,400 / 50,000 hrs delivered</span><b>31%</b></div>
+      <div class="bar" style="margin-bottom:18px"><i style="width:31%"></i></div>
+      <div class="metrics">
+        <div class="cell"><div class="k">Pay rate</div><div class="v sig">$118/hr</div></div>
+        <div class="cell"><div class="k">Deadline</div><div class="v">14 days</div></div>
+        <div class="cell"><div class="k">Miners</div><div class="v">29</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOKENS -->
+  <section class="sec" id="tokens">
+    <h2>05 · Radius &amp; layout tokens</h2>
+    <div class="lead">Consistent rounding and rhythm.</div>
+    <p class="desc">Container maxes at <code>--max</code> (1320px) with responsive gutters via <code>--gut</code>. Use the radius scale below rather than ad-hoc pixel values.</p>
+    <div class="demo">
+      <div class="kv">
+        <div class="item"><div class="demo-box" style="border-radius:8px"></div><div class="l">--r-sm <span>· 8px · cells, tags</span></div></div>
+        <div class="item"><div class="demo-box" style="border-radius:14px"></div><div class="l">--r-md <span>· 14px · app cards</span></div></div>
+        <div class="item"><div class="demo-box" style="border-radius:18px"></div><div class="l">--r-lg <span>· 18px · content cards</span></div></div>
+        <div class="item"><div class="demo-box" style="border-radius:24px"></div><div class="l">--r-xl <span>· 24px · hero, CTA</span></div></div>
+        <div class="item"><div class="demo-box" style="border-radius:100px"></div><div class="l">--r-pill <span>· buttons, chips</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RULES -->
+  <section class="sec" id="rules">
+    <h2>06 · Voice &amp; usage rules</h2>
+    <div class="lead">How to keep new work on-system.</div>
+    <div class="demo">
+      <div class="dd">
+        <div class="box do">
+          <h4>Do</h4>
+          <ul>
+            <li>Write full, concise sentences in institutional voice.</li>
+            <li>Lead with the figure or claim, then explain it.</li>
+            <li>Keep one orange focal point per section.</li>
+            <li>Use monospace for any data, metric, or address.</li>
+            <li>Reuse these classes; extend tokens, don't replace them.</li>
+          </ul>
+        </div>
+        <div class="box dont">
+          <h4>Don't</h4>
+          <ul>
+            <li>Use choppy two-word fragments as copy.</li>
+            <li>Add new accent colors or gradients outside the tokens.</li>
+            <li>Fill large areas with orange or use pure black text.</li>
+            <li>Stack two primary buttons in one view.</li>
+            <li>Introduce a third typeface or all-caps headlines.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p class="note" style="margin-top:18px">Every screen should pass three checks before shipping: the canvas is predominantly neutral, the copy reads as complete institutional sentences, and the components are reused from this page rather than re-styled. Tokens live in the <code>:root</code> block at the top of each HTML file.</p>
+  </section>
+</main>
+
+</body>
+</html>
