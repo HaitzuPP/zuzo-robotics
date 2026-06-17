@@ -38,10 +38,10 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.85);backdrop-
 .nav-in{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px var(--gut)}
 .brand{display:flex;align-items:center;gap:11px;font-weight:600;font-size:17px;letter-spacing:-.01em}
 .brand svg{width:30px;height:30px;display:block}
-.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links{display:flex;gap:22px;align-items:center}
 .nav-links a{font-size:14px;color:var(--fog);transition:color .2s}
 .nav-links a:hover,.nav-links a.active{color:var(--ink)}
-@media(max-width:900px){.nav-links{display:none}}
+@media(max-width:1040px){.nav-links{display:none}}
 
 /* ROBOTICS VISUAL LAYER */
 .blueprint-tag{position:absolute;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--fog);border:1px solid var(--line);background:rgba(255,255,255,.7);padding:4px 8px;border-radius:4px;z-index:4}
@@ -201,6 +201,7 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
       <a class="active" href="index.html">Network</a>
       <a href="#how">How it works</a>
       <a href="#challenges">Challenges</a>
+      <a href="anti-gaming.html">Anti-gaming</a>
       <a href="datasets.html">Datasets</a>
       <a href="order-book.html">Order book</a>
     </div>
@@ -213,8 +214,8 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
   <div class="hero-grid">
     <div>
       <span class="kicker"><span class="dot"></span> &nbsp;Bittensor Subnet · Physical AI Data Network</span>
-      <h1>Verified human-motion data that teaches robots to <b>act.</b></h1>
-      <p class="lede">Zuzo turns egocentric human video into the verified action and trajectory data labs use to train robot policies. Miners produce it, validators verify it, and every result is recorded on-chain.</p>
+      <h1>Verified human-motion data that teaches robots to <b>act</b></h1>
+      <p class="lede">Zuzo turns egocentric human video into verified training data for robot policies, produced by miners, verified by validators, recorded on-chain.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="order-book.html">View the order book</a>
         <a class="btn btn-grey" href="datasets.html">Browse datasets</a>
@@ -280,8 +281,8 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
   <div class="head">
     <div class="ix">( 01 )</div>
     <span class="kicker">The coordination layer</span>
-    <h2>One brief in. Verified training data out.</h2>
-    <p>Zuzo coordinates the work, not the tooling: a lab's order routes to miners, validators score every submission, and clean training pairs are delivered back on-chain.</p>
+    <h2>From one brief to verified training data</h2>
+    <p>We coordinate the work, not the tooling: orders route to miners, validators score every submission, verified pairs return on-chain.</p>
   </div>
   <div class="flow">
     <div class="fstep"><div class="num">01 / Intake</div><h3>Client brief</h3><p>A lab specifies the data and quality standard it needs.</p></div>
@@ -324,8 +325,8 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
     <div>
       <div class="ix" style="font-family:var(--mono);font-size:11px;color:var(--fog-2);letter-spacing:.14em">( 02 )</div>
       <span class="kicker">The compounding asset</span>
-      <h2 style="font-size:clamp(26px,4vw,42px);font-weight:300;letter-spacing:-.025em;line-height:1.1;margin-top:12px">Every task builds the largest verified robotics dataset ever assembled.</h2>
-      <p style="margin-top:18px;font-size:16.5px;line-height:1.6;color:var(--fog)">Each job leaves a training pair on-chain: raw footage in, verified annotation and quality score out. As miners shift from labelling to edge-case review, the network builds an open annotation model it owns outright.</p>
+      <h2 style="font-size:clamp(26px,4vw,42px);font-weight:300;letter-spacing:-.025em;line-height:1.1;margin-top:12px">Every task builds the largest verified robotics dataset ever assembled</h2>
+      <p style="margin-top:18px;font-size:16.5px;line-height:1.6;color:var(--fog)">Each job leaves a training pair on-chain: raw footage in, verified annotation out. As miners move to edge-case review, the network builds an open annotation model it owns outright.</p>
       <div class="hero-actions" style="margin-top:26px"><a class="btn btn-grey" href="datasets.html">Explore the datasets</a></div>
     </div>
     <div class="codecard">
@@ -346,14 +347,14 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
   <div class="head">
     <div class="ix">( 03 )</div>
     <span class="kicker">What the network produces</span>
-    <h2>Challenges that turn human video into robot policy.</h2>
-    <p>Labs order across twelve challenge types, from cheap language grounding to expert model-in-the-loop work. Four of the core tiers are below; the full catalog lives in the order book.</p>
+    <h2>Challenges that turn human video into robot policy</h2>
+    <p>Labs order across twelve challenge types, from language grounding to expert model-in-the-loop work. The full catalog lives in the order book.</p>
   </div>
   <div class="chals">
     <div class="cc">
       <div class="ccnum"><span class="b">01</span><span class="tier">Tier 1 · Language grounding</span></div>
       <h3>Episode-level annotation</h3>
-      <p>A whole trajectory gets one or a few high-level labels: the instruction it satisfies, the objects in scene, and the outcome. Cheapest tier, but it decides how the model maps language to behaviour.</p>
+      <p>One or a few high-level labels per trajectory: the instruction, the objects, the outcome. The cheapest tier, but it sets how the model maps language to behaviour.</p>
       <div class="lbl">Example lab tasks</div>
       <ul>
         <li>Write 5–10 distinct instructions that each correctly describe the episode.</li>
@@ -364,7 +365,7 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
     <div class="cc">
       <div class="ccnum"><span class="b">02</span><span class="tier">Tier 2 · Temporal segmentation</span></div>
       <h3>Action labelling</h3>
-      <p>Decompose the episode into atomic skills with timestamps: reach, grasp, transport, place, release. The hierarchy unlocks long-horizon tasks and skill recombination.</p>
+      <p>Break the episode into timestamped atomic skills: reach, grasp, transport, place, release. Unlocks long-horizon tasks and skill recombination.</p>
       <div class="lbl">Example lab tasks</div>
       <ul>
         <li>Segment the episode using a fixed verb list of motion primitives.</li>
@@ -375,7 +376,7 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
     <div class="cc">
       <div class="ccnum"><span class="b">03</span><span class="tier">Tier 1 · Data hygiene</span></div>
       <h3>Clipping</h3>
-      <p>Cut raw continuous recordings into clean units: trim dead time, split sessions into episodes, and strip scene-reset and fumbling segments before any labelling begins.</p>
+      <p>Cut raw recordings into clean units: trim dead time, split into episodes, strip scene-resets before labelling begins.</p>
       <div class="lbl">Example lab tasks</div>
       <ul>
         <li>Trim each recording to the moment the task starts and finishes.</li>
@@ -386,7 +387,7 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
     <div class="cc">
       <div class="ccnum"><span class="b">04</span><span class="tier">Tier 3 · Model-in-the-loop</span></div>
       <h3>Hand pose estimation</h3>
-      <p>Per-frame 3D hand, finger, and object keypoints turn human video into joint angles a robot gripper can copy. It is the bridge from cheap human demos to robot policy.</p>
+      <p>Per-frame 3D hand and object keypoints turn human video into joint angles a gripper can copy: the bridge from human demos to robot policy.</p>
       <div class="lbl">Example lab tasks</div>
       <ul>
         <li>Correct the 21 predicted hand keypoints on frames where the estimator drifted.</li>
@@ -403,8 +404,8 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
   <div class="head">
     <div class="ix">( 04 )</div>
     <span class="kicker">Why a subnet</span>
-    <h2>A quality signal no annotation vendor can match.</h2>
-    <p>Centralised vendors keep a fixed workforce and their quality methods behind closed doors. A subnet opens both collection and verification to the world, and settles trust on-chain where it compounds and stays auditable.</p>
+    <h2>A quality signal no annotation vendor can match</h2>
+    <p>Centralised vendors keep a fixed workforce and opaque methods. A subnet opens collection and verification to the world, and settles trust on-chain where it compounds.</p>
   </div>
 
   <!-- centralised vs decentralised -->
@@ -431,11 +432,11 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
 
   <!-- roles -->
   <h3 class="minihead">Two roles keep the network honest</h3>
-  <p class="minisub">Collection and verification are separated and independently rewarded, so the people producing data are never the ones grading it.</p>
+  <p class="minisub">Collection and verification are separate and independently rewarded, so miners never grade their own work.</p>
   <div class="roles">
     <div class="role">
       <div class="rk"><div class="ic">⛏</div><div><h3>Miners</h3><div class="who">Anyone, anywhere</div></div></div>
-      <p>A global, permissionless workforce that collects and annotates. Miners claim hours from open orders, produce annotations with their own tools, and earn per accepted unit.</p>
+      <p>A global, permissionless workforce. Miners claim hours, annotate with their own tools, and earn per accepted unit.</p>
       <ul>
         <li>Claim hours from any open order their trust tier allows.</li>
         <li>Submit structured output in the order's required delivery format.</li>
@@ -444,7 +445,7 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
     </div>
     <div class="role">
       <div class="rk"><div class="ic">✓</div><div><h3>Validators</h3><div class="who">Stake to verify</div></div></div>
-      <p>The quality layer that fact-checks every submission and decides what the network accepts and how emissions are split. Validators stake collateral and are rewarded for catching bad work.</p>
+      <p>The quality layer. Validators fact-check every submission, decide what the network accepts, stake collateral, and earn for catching bad work.</p>
       <ul>
         <li>Inject hidden honeypots and run multi-miner consensus to surface errors.</li>
         <li>Score submissions against the client's held-out evaluation set.</li>
@@ -455,7 +456,7 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
 
   <!-- anti-gaming -->
   <h3 class="minihead">Designed against gaming</h3>
-  <p class="minisub">Six independent defenses make it cheaper to do the work correctly than to attempt to game the reward.</p>
+  <p class="minisub">Six independent defenses make honest work cheaper than gaming the reward.</p>
   <div class="defense">
     <div class="def"><div class="dn">01</div><h4>Hidden honeypots</h4><p>Pre-verified gold clips are seeded invisibly at 10–15% of volume. Failing them drops a miner's trust score and tier.</p></div>
     <div class="def"><div class="dn">02</div><h4>Multi-miner consensus</h4><p>The same clip is annotated by several miners, so outliers are flagged and disagreements escalate to review.</p></div>
@@ -464,6 +465,7 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
     <div class="def"><div class="dn">05</div><h4>Compounding trust</h4><p>Trust scores are non-transferable and accrue on-chain, so a clean record cannot be bought, sold, or faked by a fresh account.</p></div>
     <div class="def"><div class="dn">06</div><h4>Randomised assignment & stake</h4><p>Tasks and honeypots are assigned unpredictably, and validators stake collateral that is slashed for collusion or negligent approval.</p></div>
   </div>
+  <div class="morelink"><a class="btn btn-dark" href="anti-gaming.html">See how anti-gaming works →</a></div>
 </section>
 
 <!-- BUYERS -->
@@ -471,8 +473,8 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
   <div class="head">
     <div class="ix">( 05 )</div>
     <span class="kicker">Who buys the data</span>
-    <h2>The labs building physical AI.</h2>
-    <p>Frontier robotics labs are buying annotated egocentric data at scale, with the strongest paying up to $120 an hour for verified trajectories.</p>
+    <h2>The labs building physical AI</h2>
+    <p>Frontier labs are buying annotated egocentric data at scale, the strongest paying up to $120 an hour.</p>
   </div>
   <div class="buyers">
     <span class="chip">Physical Intelligence <span class="v">$2B</span></span>
@@ -489,7 +491,7 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
 <section class="block">
   <div class="cta">
     <span class="kicker"><span class="dot"></span> &nbsp;Live now</span>
-    <h2>Produce the data that trains physical AI.</h2>
+    <h2>Produce the data that trains physical AI</h2>
     <p>Mine commercial-grade robotics annotation, or order verified data for your lab.</p>
     <div class="hero-actions" style="justify-content:center">
       <a class="btn btn-primary" href="order-book.html">Open the order book</a>

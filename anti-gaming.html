@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zuzo Robotics — Anti-Gaming</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ZUZO ROBOTICS — design system tokens (see design-system.html) */
+:root{
+  --white:#FFFFFF;--ink:#0D0D0D;--fog:#6B6B6B;--fog-2:#9A9A9A;
+  --panel:#F4F4F2;--panel-2:#F8F7F5;--line:rgba(13,13,13,.08);--line-2:rgba(13,13,13,.15);
+  --orange:#EC450D;--orange-600:#D43C09;--orange-tint:#FDEFE8;--orange-line:rgba(236,69,13,.28);
+  --pos:#0FA958;--neg:#E5484D;--warn:#E8A100;
+  --sans:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  --gut:clamp(20px,5vw,72px);--max:1320px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}.mono{font-family:var(--mono)}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 4px var(--orange-tint)}
+.btn{font-family:var(--sans);font-size:14px;font-weight:500;padding:13px 22px;border-radius:100px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:9px;transition:all .2s}
+.btn-primary{background:var(--orange);color:#fff}.btn-primary:hover{background:var(--orange-600);transform:translateY(-1px);box-shadow:0 8px 24px rgba(236,69,13,.25)}
+.btn-grey{background:var(--panel);color:var(--ink)}.btn-grey:hover{background:#ebebe8}
+.btn-dark{background:var(--ink);color:#fff}.btn-dark:hover{background:#000}
+
+.announce{background:var(--ink);color:#fff;font-family:var(--mono);font-size:12px;text-align:center;padding:9px var(--gut);letter-spacing:.02em}
+.announce a{color:var(--orange);border-bottom:1px solid var(--orange-line);margin-left:8px}
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px var(--gut)}
+.brand{display:flex;align-items:center;gap:11px;font-weight:600;font-size:17px;letter-spacing:-.01em}
+.brand svg{width:30px;height:30px}
+.nav-links{display:flex;gap:26px;align-items:center}
+.nav-links a{font-size:14px;color:var(--fog)}.nav-links a:hover,.nav-links a.active{color:var(--ink)}
+@media(max-width:980px){.nav-links{display:none}}
+
+main{max-width:var(--max);margin:0 auto;padding:0 var(--gut)}
+.hero{padding:62px 0 20px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+@media(max-width:880px){.hero{grid-template-columns:1fr;gap:30px}}
+.hero h1{font-size:clamp(36px,5.2vw,62px);font-weight:300;letter-spacing:-.025em;line-height:1.05;margin-top:16px}
+.hero h1 b{font-weight:500;color:var(--orange)}
+.hero p{margin-top:20px;font-size:18px;color:var(--fog);line-height:1.55;max-width:480px}
+/* hero shield visual */
+.shield{position:relative;border:1px solid var(--line);border-radius:24px;background:linear-gradient(150deg,var(--orange-tint),#fff 60%);min-height:300px;display:grid;place-items:center;overflow:hidden}
+.shield .grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:34px 34px;mask-image:radial-gradient(70% 70% at 50% 50%,#000,transparent);-webkit-mask-image:radial-gradient(70% 70% at 50% 50%,#000,transparent)}
+
+.statstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:42px 0}
+.statstrip .s{background:#fff;padding:22px}
+.statstrip .s .n{font-size:clamp(22px,2.6vw,30px);font-weight:300;letter-spacing:-.02em}
+.statstrip .s .n .u{color:var(--orange);font-weight:500}
+.statstrip .s .l{font-family:var(--mono);font-size:11px;color:var(--fog-2);margin-top:7px;text-transform:uppercase;letter-spacing:.05em}
+@media(max-width:680px){.statstrip{grid-template-columns:1fr 1fr}}
+
+section.sec{padding:64px 0;border-top:1px solid var(--line)}
+.shead{max-width:680px;margin-bottom:36px}
+.shead .ix{font-family:var(--mono);font-size:11px;color:var(--fog-2);letter-spacing:.14em}
+.shead h2{font-size:clamp(26px,3.6vw,40px);font-weight:300;letter-spacing:-.02em;margin-top:10px;line-height:1.1}
+.shead p{margin-top:14px;color:var(--fog);font-size:16px;line-height:1.55}
+
+/* pipeline */
+.pipe{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}
+.pnode{flex:1;min-width:150px;padding:22px 20px;border-right:1px solid var(--line);position:relative}
+.pnode:last-child{border-right:none}
+.pnode .pn{font-family:var(--mono);font-size:10px;color:var(--fog-2);letter-spacing:.08em}
+.pnode .ic{width:38px;height:38px;border-radius:10px;background:var(--orange-tint);color:var(--orange);display:grid;place-items:center;margin:12px 0 12px;font-size:17px}
+.pnode h4{font-size:15px;font-weight:600;margin-bottom:5px}
+.pnode p{font-size:12.5px;color:var(--fog);line-height:1.45}
+.pnode .arrow{position:absolute;right:-9px;top:50%;transform:translateY(-50%);z-index:2;width:18px;height:18px;background:#fff;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;font-size:10px;color:var(--orange)}
+.pnode.gate .ic{background:var(--ink);color:#fff}
+@media(max-width:760px){.pnode{flex:1 1 100%;border-right:none;border-bottom:1px solid var(--line)}.pnode .arrow{display:none}}
+
+/* defenses */
+.defs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.defs{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.defs{grid-template-columns:1fr}}
+.dcard{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;transition:all .25s}
+.dcard:hover{border-color:var(--orange-line);box-shadow:0 12px 30px rgba(13,13,13,.05)}
+.dcard .viz{height:120px;background:var(--panel-2);border-bottom:1px solid var(--line);display:grid;place-items:center;position:relative}
+.dcard .body{padding:20px}
+.dcard .dn{font-family:var(--mono);font-size:11px;color:var(--orange)}
+.dcard h3{font-size:17px;font-weight:600;margin:8px 0 8px;letter-spacing:-.01em}
+.dcard p{font-size:13.5px;color:var(--fog);line-height:1.55}
+
+/* trust curve */
+.trust{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+@media(max-width:860px){.trust{grid-template-columns:1fr;gap:26px}}
+.trust .curve{border:1px solid var(--line);border-radius:16px;background:#fff;padding:22px}
+.tlist{list-style:none}
+.tlist li{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.tlist li:last-child{border:none}
+.tlist .num{width:26px;height:26px;border-radius:7px;background:var(--orange-tint);color:var(--orange);font-family:var(--mono);font-size:12px;display:grid;place-items:center;flex-shrink:0;font-weight:600}
+.tlist .tt{font-size:15px;font-weight:600}
+.tlist .td{font-size:13.5px;color:var(--fog);margin-top:3px;line-height:1.5}
+
+/* cheat flow */
+.cheat{display:flex;align-items:center;gap:14px;flex-wrap:wrap;border:1px solid var(--neg);background:rgba(229,72,77,.04);border-radius:16px;padding:24px}
+.cheat .step{font-family:var(--mono);font-size:13px;display:flex;align-items:center;gap:8px}
+.cheat .step b{color:var(--neg)}
+.cheat .sep{color:var(--neg)}
+
+.cta{background:var(--ink);color:#fff;border-radius:24px;padding:clamp(48px,8vw,90px) var(--gut);text-align:center;position:relative;overflow:hidden;margin:64px 0}
+.cta::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 120% at 50% 0%,rgba(236,69,13,.3),transparent 60%)}
+.cta>*{position:relative;z-index:2}
+.cta h2{font-size:clamp(26px,4.4vw,46px);font-weight:300;letter-spacing:-.03em;line-height:1.05}
+.cta p{margin:16px auto 26px;max-width:420px;color:rgba(255,255,255,.72);font-size:17px}
+
+footer{border-top:1px solid var(--line);padding:42px var(--gut)}
+.foot-in{max-width:var(--max);margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;color:var(--fog-2);font-size:13px;align-items:center}
+.foot-in .brand{font-size:15px}
+</style>
+</head>
+<body>
+
+<div class="announce">Honeypots run on 10–15% of all submitted work <a href="order-book.html">View the order book →</a></div>
+
+<nav>
+  <div class="nav-in">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 48 48" fill="none"><path d="M15 12 C24 12 22 22 29 24 C22 26 24 36 15 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 12 C24 12 26 22 19 24 C26 26 24 36 33 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Zuzo Robotics
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Network</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#challenges">Challenges</a>
+      <a class="active" href="anti-gaming.html">Anti-gaming</a>
+      <a href="datasets.html">Datasets</a>
+      <a href="order-book.html">Order book</a>
+    </div>
+    <a class="btn btn-dark" href="order-book.html">Launch app</a>
+  </div>
+</nav>
+
+<main>
+  <!-- HERO -->
+  <header class="hero">
+    <div>
+      <span class="kicker"><span class="dot"></span> &nbsp;Quality &amp; security</span>
+      <h1>How the network stays <b>honest</b></h1>
+      <p>Open data networks invite gamers, so quality cannot rest on trust alone. Every submission runs a gauntlet of independent checks before a single token is paid.</p>
+      <div style="display:flex;gap:12px;margin-top:30px;flex-wrap:wrap">
+        <a class="btn btn-primary" href="#pipeline">See the verification pipeline</a>
+        <a class="btn btn-grey" href="order-book.html">View live orders</a>
+      </div>
+    </div>
+    <div class="shield">
+      <div class="grid"></div>
+      <svg width="200" height="200" viewBox="0 0 200 200" fill="none">
+        <path d="M100 24 L160 48 V104 C160 142 132 168 100 178 C68 168 40 142 40 104 V48 Z" fill="#fff" stroke="#0D0D0D" stroke-width="4"/>
+        <path d="M100 24 L160 48 V104 C160 142 132 168 100 178 V24 Z" fill="rgba(236,69,13,.08)"/>
+        <path d="M74 100 L92 120 L128 78" stroke="#EC450D" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="100" cy="24" r="5" fill="#EC450D"/>
+      </svg>
+    </div>
+  </header>
+
+  <div class="statstrip">
+    <div class="s"><div class="n">10–15<span class="u">%</span></div><div class="l">Hidden honeypots</div></div>
+    <div class="s"><div class="n">3<span class="u">×</span></div><div class="l">Consensus per clip</div></div>
+    <div class="s"><div class="n">100<span class="u">%</span></div><div class="l">On-chain provenance</div></div>
+    <div class="s"><div class="n">0<span class="u"> pay</span></div><div class="l">Until work is accepted</div></div>
+  </div>
+
+  <!-- THREAT -->
+  <section class="sec" style="border-top:none;padding-top:10px">
+    <div class="shead">
+      <div class="ix">( 01 )</div>
+      <h2>What gaming looks like</h2>
+      <p>The failure modes are predictable, so the defenses are built directly against them.</p>
+    </div>
+    <div class="defs" style="grid-template-columns:repeat(4,1fr)">
+      <div class="dcard"><div class="body"><div class="dn">Lazy labels</div><h3 style="margin-top:6px">Phoning it in</h3><p>Rushed or copy-pasted annotations that look plausible but teach the model nothing.</p></div></div>
+      <div class="dcard"><div class="body"><div class="dn">Sybil farms</div><h3 style="margin-top:6px">Fake identities</h3><p>One actor spinning up many accounts to flood orders and dilute quality.</p></div></div>
+      <div class="dcard"><div class="body"><div class="dn">Collusion</div><h3 style="margin-top:6px">Rubber-stamping</h3><p>Miners and validators colluding to approve each other's bad work.</p></div></div>
+      <div class="dcard"><div class="body"><div class="dn">Volume spam</div><h3 style="margin-top:6px">Quantity over quality</h3><p>Submitting huge volumes of low-value labels to farm the reward.</p></div></div>
+    </div>
+  </section>
+
+  <!-- PIPELINE -->
+  <section class="sec" id="pipeline">
+    <div class="shead">
+      <div class="ix">( 02 )</div>
+      <h2>The verification pipeline</h2>
+      <p>Every submission passes through five gates before payout, and any one of them can reject it.</p>
+    </div>
+    <div class="pipe">
+      <div class="pnode"><span class="arrow">→</span><div class="pn">INPUT</div><div class="ic">↥</div><h4>Submission</h4><p>A miner submits structured annotation against the order's schema.</p></div>
+      <div class="pnode gate"><span class="arrow">→</span><div class="pn">GATE 01</div><div class="ic">◆</div><h4>Honeypot</h4><p>Scored against hidden gold clips seeded in the queue.</p></div>
+      <div class="pnode gate"><span class="arrow">→</span><div class="pn">GATE 02</div><div class="ic">≋</div><h4>Consensus</h4><p>Cross-checked against other miners on the same clip.</p></div>
+      <div class="pnode gate"><span class="arrow">→</span><div class="pn">GATE 03</div><div class="ic">∡</div><h4>Geometry</h4><p>Validated against the stereo calibration file.</p></div>
+      <div class="pnode gate"><span class="arrow">→</span><div class="pn">GATE 04</div><div class="ic">▤</div><h4>Eval score</h4><p>Measured by model-performance delta on a held-out set.</p></div>
+      <div class="pnode"><div class="pn">OUTPUT</div><div class="ic" style="background:rgba(15,169,88,.12);color:var(--pos)">✓</div><h4>Accept &amp; pay</h4><p>Verified data is delivered and the miner is paid per hour.</p></div>
+    </div>
+  </section>
+
+  <!-- DEFENSES -->
+  <section class="sec">
+    <div class="shead">
+      <div class="ix">( 03 )</div>
+      <h2>Six defenses, working together</h2>
+      <p>No single check is decisive, but together they make honest work cheaper than gaming the reward.</p>
+    </div>
+    <div class="defs">
+
+      <div class="dcard">
+        <div class="viz"><svg width="150" height="90" viewBox="0 0 150 90" fill="none"><rect x="14" y="22" width="26" height="26" rx="5" stroke="#9A9A9A" stroke-width="2.5"/><rect x="50" y="22" width="26" height="26" rx="5" stroke="#9A9A9A" stroke-width="2.5"/><rect x="86" y="22" width="26" height="26" rx="5" fill="#FDEFE8" stroke="#EC450D" stroke-width="2.5"/><path d="M93 35 l4 4 7 -8" stroke="#EC450D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><text x="14" y="72" font-family="monospace" font-size="9" fill="#9A9A9A">clip 1   2   3(gold)</text></svg></div>
+        <div class="body"><div class="dn">01</div><h3>Hidden honeypots</h3><p>Pre-verified gold clips are seeded invisibly at 10–15% of volume, so failing them drops a miner's trust score and tier.</p></div>
+      </div>
+
+      <div class="dcard">
+        <div class="viz"><svg width="150" height="90" viewBox="0 0 150 90" fill="none"><circle cx="45" cy="30" r="10" stroke="#0D0D0D" stroke-width="2.5"/><circle cx="75" cy="30" r="10" stroke="#0D0D0D" stroke-width="2.5"/><circle cx="105" cy="30" r="10" stroke="#EC450D" stroke-width="2.5"/><path d="M45 40 L75 62 M75 40 L75 62 M105 40 L75 62" stroke="#9A9A9A" stroke-width="2"/><circle cx="75" cy="66" r="6" fill="#EC450D"/></svg></div>
+        <div class="body"><div class="dn">02</div><h3>Multi-miner consensus</h3><p>The same clip is annotated by several miners, so outliers are flagged and disagreements escalate to review.</p></div>
+      </div>
+
+      <div class="dcard">
+        <div class="viz"><svg width="150" height="90" viewBox="0 0 150 90" fill="none"><line x1="30" y1="62" x2="30" y2="22" stroke="#0D0D0D" stroke-width="2.5"/><line x1="30" y1="62" x2="78" y2="62" stroke="#0D0D0D" stroke-width="2.5"/><line x1="30" y1="62" x2="62" y2="34" stroke="#EC450D" stroke-width="2.5"/><path d="M40 58 a 12 12 0 0 0 -4 -10" stroke="#EC450D" stroke-width="2" fill="none"/><text x="84" y="40" font-family="monospace" font-size="9" fill="#EC450D">XYZ</text></svg></div>
+        <div class="body"><div class="dn">03</div><h3>Geometric checks</h3><p>Trajectory submissions are validated against the calibration file, so physically impossible labels are rejected automatically.</p></div>
+      </div>
+
+      <div class="dcard">
+        <div class="viz"><svg width="150" height="90" viewBox="0 0 150 90" fill="none"><rect x="22" y="48" width="14" height="22" fill="#9A9A9A"/><rect x="44" y="36" width="14" height="34" fill="#9A9A9A"/><rect x="66" y="44" width="14" height="26" fill="#9A9A9A"/><rect x="88" y="24" width="14" height="46" fill="#EC450D"/><line x1="16" y1="70" x2="120" y2="70" stroke="#0D0D0D" stroke-width="2"/></svg></div>
+        <div class="body"><div class="dn">04</div><h3>Held-out eval scoring</h3><p>Work is scored on model-performance delta against a hidden set, not on label count, so volume cannot buy a passing grade.</p></div>
+      </div>
+
+      <div class="dcard">
+        <div class="viz"><svg width="150" height="90" viewBox="0 0 150 90" fill="none"><path d="M20 66 C60 64 70 40 128 24" stroke="#EC450D" stroke-width="3" fill="none"/><circle cx="20" cy="66" r="3.5" fill="#9A9A9A"/><circle cx="70" cy="48" r="3.5" fill="#EC450D"/><circle cx="128" cy="24" r="4.5" fill="#EC450D"/><line x1="16" y1="74" x2="132" y2="74" stroke="#0D0D0D" stroke-width="1.5"/></svg></div>
+        <div class="body"><div class="dn">05</div><h3>Compounding trust</h3><p>Trust scores are non-transferable and accrue on-chain, so a clean record cannot be bought, sold, or faked by a fresh account.</p></div>
+      </div>
+
+      <div class="dcard">
+        <div class="viz"><svg width="150" height="90" viewBox="0 0 150 90" fill="none"><circle cx="75" cy="45" r="22" stroke="#0D0D0D" stroke-width="2.5" stroke-dasharray="5 5"/><path d="M75 33 v12 l8 6" stroke="#EC450D" stroke-width="2.5" stroke-linecap="round" fill="none"/><rect x="60" y="64" width="30" height="8" rx="3" fill="#EC450D"/></svg></div>
+        <div class="body"><div class="dn">06</div><h3>Random assignment &amp; stake</h3><p>Tasks and honeypots are assigned unpredictably, and validators stake collateral that is slashed for collusion or negligence.</p></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TRUST LIFECYCLE -->
+  <section class="sec">
+    <div class="shead">
+      <div class="ix">( 04 )</div>
+      <h2>Trust is earned, then it compounds</h2>
+      <p>A miner's history is the network's strongest signal, because it is the one thing a new account cannot fake.</p>
+    </div>
+    <div class="trust">
+      <div class="curve">
+        <svg width="100%" viewBox="0 0 460 240" fill="none" preserveAspectRatio="xMidYMid meet">
+          <!-- tier bands -->
+          <rect x="40" y="30" width="400" height="56" fill="rgba(13,13,13,.04)"/>
+          <rect x="40" y="86" width="400" height="56" fill="var(--orange-tint)"/>
+          <rect x="40" y="142" width="400" height="56" fill="rgba(15,169,88,.07)"/>
+          <text x="46" y="50" font-family="monospace" font-size="10" fill="#9A9A9A">TIER 3 · expert</text>
+          <text x="46" y="106" font-family="monospace" font-size="10" fill="#EC450D">TIER 2 · segmentation</text>
+          <text x="46" y="162" font-family="monospace" font-size="10" fill="#0FA958">TIER 1 · entry</text>
+          <!-- axes -->
+          <line x1="40" y1="198" x2="440" y2="198" stroke="#0D0D0D" stroke-width="1.5"/>
+          <!-- trust curve with a dip on honeypot fail -->
+          <path d="M40 190 L110 170 L170 150 L210 178 L260 120 L320 86 L400 52" stroke="#EC450D" stroke-width="3" fill="none" stroke-linejoin="round"/>
+          <circle cx="210" cy="178" r="5" fill="#fff" stroke="#E5484D" stroke-width="3"/>
+          <text x="178" y="205" font-family="monospace" font-size="9" fill="#E5484D">honeypot fail</text>
+          <circle cx="400" cy="52" r="5" fill="#EC450D"/>
+          <text x="300" y="226" font-family="monospace" font-size="9" fill="#9A9A9A">time on network →</text>
+        </svg>
+      </div>
+      <ol class="tlist">
+        <li><span class="num">1</span><div><div class="tt">Start at Tier 1</div><div class="td">New miners take entry tasks that are cheap to verify and honeypot-checked.</div></div></li>
+        <li><span class="num">2</span><div><div class="tt">Pass to climb</div><div class="td">Every accepted submission lifts trust; failed honeypots pull it back down.</div></div></li>
+        <li><span class="num">3</span><div><div class="tt">Unlock higher pay</div><div class="td">Higher trust opens Tier 2 and Tier 3 work at higher rates and a higher barrier.</div></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- CHEAT FLOW -->
+  <section class="sec">
+    <div class="shead">
+      <div class="ix">( 05 )</div>
+      <h2>What happens if you cheat</h2>
+      <p>The penalty is automatic and it compounds, so a single bad streak is expensive to recover from.</p>
+    </div>
+    <div class="cheat">
+      <span class="step"><b>Fail a honeypot</b></span><span class="sep">→</span>
+      <span class="step">trust score drops</span><span class="sep">→</span>
+      <span class="step">tier downgrade</span><span class="sep">→</span>
+      <span class="step">lower-paid tasks only</span><span class="sep">→</span>
+      <span class="step">validators stake slashed for collusion</span>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta">
+    <span class="kicker" style="color:var(--orange)"><span class="dot"></span> &nbsp;Provably honest</span>
+    <h2>Quality you can audit, not just trust</h2>
+    <p>Every label, score, and reviewer is recorded on-chain and open to inspection.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a class="btn btn-primary" href="order-book.html">Open the order book</a>
+      <a class="btn" style="background:#fff;color:var(--ink)" href="index.html#why">Why a subnet</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="foot-in">
+    <span class="brand">
+      <svg viewBox="0 0 48 48" width="24" height="24" fill="none"><path d="M15 12 C24 12 22 22 29 24 C22 26 24 36 15 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 12 C24 12 26 22 19 24 C26 26 24 36 33 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Zuzo Robotics
+    </span>
+    <span class="mono">Physical AI Data Network · Built on Bittensor · © 2026 · <a href="design-system.html" style="border-bottom:1px solid var(--line-2)">design system</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
