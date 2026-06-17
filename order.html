@@ -39,6 +39,10 @@ main{max-width:var(--cont);margin:0 auto;padding:24px var(--gut) 80px}
 .back:hover{color:var(--ink)}
 
 .ohead{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;margin-bottom:22px}
+.ocover{position:relative;height:210px;margin:-28px -28px 22px;border-radius:15px 15px 0 0;overflow:hidden;background:linear-gradient(150deg,var(--orange-tint),#fff);border-bottom:1px solid var(--line)}
+.ocover img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05)}
+.ocover .cap{position:absolute;left:16px;bottom:14px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;background:rgba(255,255,255,.92);padding:6px 11px;border-radius:100px}
+.ocover .ft{position:absolute;right:14px;top:14px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink);background:rgba(255,255,255,.85);border:1px solid var(--line);padding:4px 8px;border-radius:5px}
 .ohead .top{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;color:var(--fog-2);margin-bottom:12px}
 .tpill{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:6px;background:var(--orange-tint);color:var(--orange)}
 .statusp{color:var(--orange)}
@@ -149,6 +153,7 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut);background:#fff}
   <a class="back" href="order-book.html">← Back to order book</a>
 
   <div class="ohead">
+    <div class="ocover"><img id="o-cover" src="" alt=""><span class="ft">FIG · CAPTURE</span><span class="cap" id="o-cover-cap">Capture</span></div>
     <div class="top"><span class="tpill" id="o-type">Hand pose</span><span id="o-id">ORD-2271</span><span class="statusp">● open</span></div>
     <h1 id="o-title">Kitchen manipulation</h1>
     <div class="client" id="o-client">Client · Frontier humanoid lab (undisclosed)</div>
@@ -342,6 +347,7 @@ const ORDERS={
  'ORD-2240':{type:'Affordance',client:'Dexterous-grasp lab (undisclosed)',title:'Grasp-point & contact',capture:'RGB-D capture with graspable-region and contact-point labelling.',spec:'Embodiment: fixed-base + RGB-D. Gripper geometry supplied.',vol:'540k grasps',volNum:540000,unit:'grasps',pay:96,value:'$1.1M',deadline:'19 days',miners:15,fill:33,deliv:'180k / 540k grasps'},
  'ORD-2231':{type:'Clipping',client:'Home-robot startup (undisclosed)',title:'Laundry & tidying',capture:'Monocular RGB sessions clipped into clean episodes with boundary detection.',spec:'Embodiment: egocentric. Sensors: monocular RGB at 30 fps.',vol:'12,000 hrs',volNum:12000,unit:'hrs',pay:9,value:'$0.11M',deadline:'6 days',miners:44,fill:44,deliv:'5,300 / 12,000 hrs'}
 };
+const COVERS={'ORD-2271':'1485827404703-89b55fcc595e','ORD-2243':'1535378917042-10a22c95931a','ORD-2255':'1518770660439-4636190af475','ORD-2262':'1563207153-f403bf289096','ORD-2268':'1581092160562-40aa08e78837','ORD-2249':'1599507593499-a3f7d7d97667','ORD-2240':'1561557944-6e7860d1a7eb','ORD-2231':'1531746790731-6c087fecd65a'};
 const params=new URLSearchParams(location.search);
 const id=params.get('id')&&ORDERS[params.get('id')]?params.get('id'):'ORD-2271';
 const o=ORDERS[id];
@@ -349,6 +355,8 @@ const set=(el,v)=>{document.getElementById(el).textContent=v;};
 set('o-type',o.type);set('o-id',id);set('o-title',o.title);set('o-client','Client · '+o.client);
 set('o-pay','$'+o.pay+'/hr');set('o-vol',o.vol);set('o-value',o.value);set('o-deadline',o.deadline);set('o-miners',o.miners);set('o-fill',o.fill+'%');
 set('o-capture',o.capture);set('o-spec',o.spec);
+document.getElementById('o-cover').src='https://images.unsplash.com/photo-'+(COVERS[id]||COVERS['ORD-2271'])+'?auto=format&fit=crop&w=1200&q=75';
+set('o-cover-cap',o.type+' · '+o.title);
 document.getElementById('rail-fill').style.width=o.fill+'%';
 set('rail-pct',o.fill+'%');set('rail-deliv',o.deliv);
 document.title='Zuzo Robotics — '+id;
