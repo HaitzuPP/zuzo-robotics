@@ -171,6 +171,27 @@ section.grey{background:var(--panel-2);border-top:1px solid var(--line);border-b
 .def h4{font-size:15px;font-weight:600;margin-bottom:7px}
 .def p{font-size:13px;color:var(--fog);line-height:1.55}
 
+/* hero growth chart */
+.chartviz{display:flex;flex-direction:column;justify-content:center;padding:26px}
+.chartviz .ct-lab{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fog-2)}
+.chartviz .ct-big{font-size:clamp(30px,4vw,40px);font-weight:300;letter-spacing:-.02em;margin-top:6px}
+.chartviz .ct-big span{font-size:16px;color:var(--orange);font-weight:500;margin-left:6px}
+.chartviz .growth{width:100%;height:auto;margin-top:8px}
+.chartviz .ct-foot{font-family:var(--mono);font-size:11px;color:var(--fog);line-height:1.5;margin-top:8px;display:flex;align-items:center;gap:8px}
+.chartviz .ct-foot .r{color:var(--orange)}
+/* redacted buyer profiles */
+.profiles{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:880px){.profiles{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.profiles{grid-template-columns:1fr}}
+.profile{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;transition:all .25s}
+.profile:hover{border-color:var(--orange-line);box-shadow:0 12px 30px rgba(13,13,13,.05)}
+.profile .ph{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:15px}
+.redact{height:16px;width:118px;border-radius:4px;background:repeating-linear-gradient(90deg,var(--ink) 0 13px,#33312f 13px 16px);filter:blur(.4px)}
+.profile .rtag{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--fog-2);border:1px solid var(--line);border-radius:5px;padding:3px 7px;text-transform:uppercase;flex-shrink:0}
+.profile h4{font-size:16px;font-weight:600;letter-spacing:-.01em}
+.profile .pmeta{font-family:var(--mono);font-size:11px;color:var(--orange);margin:6px 0 11px}
+.profile p{font-size:13.5px;color:var(--fog);line-height:1.55}
+
 .buyers{max-width:var(--max);margin:0 auto;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
 .chip{font-family:var(--mono);font-size:13px;padding:11px 18px;border:1px solid var(--line);border-radius:100px;color:var(--ink);background:#fff;transition:all .2s}
 .chip:hover{border-color:var(--orange-line)}.chip .v{color:var(--orange);margin-left:8px;font-size:11px}
@@ -213,9 +234,9 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
 <header class="hero">
   <div class="hero-grid">
     <div>
-      <span class="kicker"><span class="dot"></span> &nbsp;Bittensor Subnet · Physical AI Data Network</span>
-      <h1>Verified human-motion data that teaches robots to <b>act</b></h1>
-      <p class="lede">Zuzo turns egocentric human video into verified training data for robot policies, produced by miners, verified by validators, recorded on-chain.</p>
+      <span class="kicker"><span class="dot"></span> &nbsp;Open-source robotics lab · Bittensor subnet</span>
+      <h1>The world's first <b>open-source</b> robotics lab</h1>
+      <p class="lede">Zuzo crowdsources the best robotics data and annotation using open-source Bittensor proof-of-work and crypto incentives, coordinating contributors worldwide to out-train the closed labs.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="order-book.html">View the order book</a>
         <a class="btn btn-grey" href="datasets.html">Browse datasets</a>
@@ -228,43 +249,31 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
           <line x1="10" y1="34" x2="30" y2="18" stroke="#EC450D" stroke-width="2"/><text x="33" y="16" font-family="monospace" font-size="9" fill="#EC450D">Z</text>
           <circle cx="10" cy="34" r="2.5" fill="#EC450D"/>
         </svg>
-        <span class="mono" style="font-size:11px;color:var(--fog-2);letter-spacing:.08em">WORLD FRAME · STEREO RGB + IMU · 21-JOINT</span>
+        <span class="mono" style="font-size:11px;color:var(--fog-2);letter-spacing:.08em">OPEN-SOURCE · BITTENSOR PROOF-OF-WORK · PAID IN $TAO</span>
       </div>
     </div>
 
-    <!-- annotated capture visual -->
-    <div class="visual">
-      <span class="blueprint-tag" style="right:14px;top:14px">FIG.01 · REV A</span>
-      <div class="fallback"><div class="gridfloor"></div>
-        <svg width="190" height="190" viewBox="0 0 200 200" fill="none">
-          <rect x="62" y="44" width="76" height="64" rx="18" stroke="#EC450D" stroke-width="5"/>
-          <circle cx="84" cy="76" r="8" fill="#EC450D"/><circle cx="116" cy="76" r="8" fill="#EC450D"/>
-          <line x1="100" y1="44" x2="100" y2="26" stroke="#0D0D0D" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="22" r="6" fill="#0D0D0D"/>
-          <rect x="74" y="116" width="52" height="50" rx="14" stroke="#0D0D0D" stroke-width="5"/>
-        </svg>
-      </div>
-      <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1100&q=80" alt="Humanoid robot" loading="lazy" onerror="this.style.display='none'">
-      <div class="scanline"></div>
-      <!-- hand keypoint constellation overlay -->
-      <svg class="overlay" viewBox="0 0 400 440" preserveAspectRatio="xMidYMid slice">
-        <g class="kpl">
-          <line x1="150" y1="300" x2="170" y2="250"/><line x1="170" y1="250" x2="185" y2="210"/><line x1="185" y1="210" x2="196" y2="180"/>
-          <line x1="150" y1="300" x2="200" y2="245"/><line x1="200" y1="245" x2="225" y2="205"/><line x1="225" y1="205" x2="243" y2="178"/>
-          <line x1="150" y1="300" x2="228" y2="250"/><line x1="228" y1="250" x2="258" y2="215"/><line x1="258" y1="215" x2="278" y2="190"/>
-          <line x1="150" y1="300" x2="120" y2="262"/><line x1="120" y1="262" x2="100" y2="232"/>
+    <!-- robot-population inflection chart -->
+    <div class="visual chartviz">
+      <span class="blueprint-tag" style="right:14px;top:14px">FIG.01 · GROWTH</span>
+      <div class="ct-lab">Projected humanoid robots in operation</div>
+      <div class="ct-big">10M+<span>by 2030</span></div>
+      <svg class="growth" viewBox="0 0 460 290" preserveAspectRatio="xMidYMid meet">
+        <g stroke="rgba(13,13,13,.08)" stroke-width="1">
+          <line x1="44" y1="40" x2="444" y2="40"/><line x1="44" y1="95" x2="444" y2="95"/><line x1="44" y1="150" x2="444" y2="150"/><line x1="44" y1="205" x2="444" y2="205"/>
         </g>
-        <g class="kp">
-          <circle cx="150" cy="300" r="5"/><circle cx="170" cy="250" r="3.4"/><circle cx="185" cy="210" r="3.4"/><circle cx="196" cy="180" r="3.4"/>
-          <circle cx="200" cy="245" r="3.4"/><circle cx="225" cy="205" r="3.4"/><circle cx="243" cy="178" r="3.4"/>
-          <circle cx="228" cy="250" r="3.4"/><circle cx="258" cy="215" r="3.4"/><circle cx="278" cy="190" r="3.4"/>
-          <circle cx="120" cy="262" r="3.4"/><circle cx="100" cy="232" r="3.4"/>
+        <path d="M44 244 C150 242 200 230 250 205 C300 180 330 116 404 54 L444 40 L444 244 Z" fill="rgba(236,69,13,.10)"/>
+        <path d="M44 244 C150 242 200 230 250 205 C300 180 330 116 404 54 L444 40" fill="none" stroke="#EC450D" stroke-width="3" stroke-linejoin="round"/>
+        <line x1="250" y1="40" x2="250" y2="244" stroke="#0D0D0D" stroke-width="1" stroke-dasharray="4 4"/>
+        <circle cx="250" cy="205" r="6" fill="#fff" stroke="#0D0D0D" stroke-width="3"/>
+        <text x="256" y="196" font-family="monospace" font-size="10" fill="#0D0D0D">YOU ARE HERE / 2026</text>
+        <text x="322" y="98" font-family="monospace" font-size="10" fill="#EC450D">millions shipping</text>
+        <line x1="44" y1="244" x2="444" y2="244" stroke="#0D0D0D" stroke-width="1.5"/>
+        <g font-family="monospace" font-size="9" fill="#9A9A9A">
+          <text x="40" y="262">2024</text><text x="146" y="262">2025</text><text x="236" y="262">2026</text><text x="330" y="262">2028</text><text x="418" y="262">2030</text>
         </g>
-        <rect x="92" y="160" width="200" height="156" fill="none" stroke="#EC450D" stroke-width="1.5" stroke-dasharray="4 4"/>
       </svg>
-      <div class="hud">
-        <span><span class="r">▶ REC</span> · ego_cam_00 · 1280×800 · 30fps</span>
-        <span>hand_kp 21/21 · conf 0.97 · contact ●</span>
-      </div>
+      <div class="ct-foot"><span class="r">&#9679;</span> Early inflection: data demand compounds with every robot shipped</div>
     </div>
   </div>
 
@@ -429,10 +438,16 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
       <div class="r"><div class="k">Provenance</div><div class="v">Every label, score, and reviewer recorded on-chain.</div></div>
     </div>
   </div>
+</section>
 
-  <!-- roles -->
-  <h3 class="minihead">Two roles keep the network honest</h3>
-  <p class="minisub">Collection and verification are separate and independently rewarded, so miners never grade their own work.</p>
+<!-- ROLES -->
+<section class="block grey">
+  <div class="head">
+    <div class="ix">( 05 )</div>
+    <span class="kicker">How it is organised</span>
+    <h2>Two roles keep the network honest</h2>
+    <p>Collection and verification are separate and independently rewarded, so miners never grade their own work.</p>
+  </div>
   <div class="roles">
     <div class="role">
       <div class="rk"><div class="ic">⛏</div><div><h3>Miners</h3><div class="who">Anyone, anywhere</div></div></div>
@@ -453,10 +468,16 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
       </ul>
     </div>
   </div>
+</section>
 
-  <!-- anti-gaming -->
-  <h3 class="minihead">Designed against gaming</h3>
-  <p class="minisub">Six independent defenses make honest work cheaper than gaming the reward.</p>
+<!-- ANTI-GAMING PREVIEW -->
+<section class="block">
+  <div class="head">
+    <div class="ix">( 06 )</div>
+    <span class="kicker">Designed against gaming</span>
+    <h2>Six defenses that keep the network honest</h2>
+    <p>Together they make honest work cheaper than gaming the reward.</p>
+  </div>
   <div class="defense">
     <div class="def"><div class="dn">01</div><h4>Hidden honeypots</h4><p>Pre-verified gold clips are seeded invisibly at 10–15% of volume. Failing them drops a miner's trust score and tier.</p></div>
     <div class="def"><div class="dn">02</div><h4>Multi-miner consensus</h4><p>The same clip is annotated by several miners, so outliers are flagged and disagreements escalate to review.</p></div>
@@ -471,19 +492,18 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
 <!-- BUYERS -->
 <section class="block grey" id="labs">
   <div class="head">
-    <div class="ix">( 05 )</div>
+    <div class="ix">( 07 )</div>
     <span class="kicker">Who buys the data</span>
     <h2>The labs building physical AI</h2>
-    <p>Frontier labs are buying annotated egocentric data at scale, the strongest paying up to $120 an hour.</p>
+    <p>We partner with the labs building physical AI. Buyer identities are redacted under NDA, so here are the customer types the network serves.</p>
   </div>
-  <div class="buyers">
-    <span class="chip">Physical Intelligence <span class="v">$2B</span></span>
-    <span class="chip">Figure AI <span class="v">$39B</span></span>
-    <span class="chip">Apptronik <span class="v">$5B</span></span>
-    <span class="chip">AgiBot <span class="v">10k units</span></span>
-    <span class="chip">Unitree <span class="v">IPO</span></span>
-    <span class="chip">Toyota Research</span>
-    <span class="chip">Ant Group <span class="v">$120/hr</span></span>
+  <div class="profiles">
+    <div class="profile"><div class="ph"><span class="redact"></span><span class="rtag">Redacted</span></div><h4>Humanoid foundation-model lab</h4><div class="pmeta">Series C+ · multi-billion</div><p>Buys hand-pose and trajectory data at scale to train general manipulation policies.</p></div>
+    <div class="profile"><div class="ph"><span class="redact"></span><span class="rtag">Redacted</span></div><h4>Industrial robotics OEM</h4><div class="pmeta">Fleet deployment</div><p>Buys tool-use and assembly segmentation to automate factory and warehouse lines.</p></div>
+    <div class="profile"><div class="ph"><span class="redact"></span><span class="rtag">Redacted</span></div><h4>Logistics & warehouse automation</h4><div class="pmeta">Volume buyer</div><p>Buys bin-picking episode labels and clipping at high volume across mixed SKUs.</p></div>
+    <div class="profile"><div class="ph"><span class="redact"></span><span class="rtag">Redacted</span></div><h4>Autonomous home-robot startup</h4><div class="pmeta">Seed to Series B</div><p>Buys kitchen and laundry egocentric data with contact-state labels for dexterous tasks.</p></div>
+    <div class="profile"><div class="ph"><span class="redact"></span><span class="rtag">Redacted</span></div><h4>Frontier research group</h4><div class="pmeta">Academic / lab</div><p>Buys 6-DoF object pose and point-cloud labelling for world models and benchmarks.</p></div>
+    <div class="profile"><div class="ph"><span class="redact"></span><span class="rtag">Redacted</span></div><h4>Big-tech embodied-AI division</h4><div class="pmeta">Strategic</div><p>Buys multi-view synchronisation and reward labelling for large-scale policy training.</p></div>
   </div>
 </section>
 
