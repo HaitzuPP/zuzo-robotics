@@ -149,12 +149,13 @@ section.sec{padding:46px 0;border-bottom:1px solid var(--line)}
 <header class="doc">
   <span class="brand">
     <svg viewBox="0 0 48 48" fill="none"><path d="M15 12 C24 12 22 22 29 24 C22 26 24 36 15 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 12 C24 12 26 22 19 24 C26 26 24 36 33 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Zuzo Robotics <small>Design System v1</small>
+    Zuzo Robotics <small>Design System v1.1</small>
   </span>
   <nav>
     <a href="#color">Color</a>
     <a href="#type">Type</a>
     <a href="#buttons">Buttons</a>
+    <a href="#header">Header</a>
     <a href="#components">Components</a>
     <a href="#rules">Rules</a>
     <a href="index.html">View site →</a>
@@ -219,6 +220,22 @@ section.sec{padding:46px 0;border-bottom:1px solid var(--line)}
       </div>
       <p class="note" style="margin-top:20px"><code>.btn.btn-primary</code> · <code>.btn.btn-dark</code> · <code>.btn.btn-grey</code> — radius <code>--r-pill</code>, hover lifts 1px with a soft shadow.</p>
     </div>
+  </section>
+
+  <!-- HEADER -->
+  <section class="sec" id="header">
+    <h2>04 · Header &amp; navigation</h2>
+    <div class="lead">One header. Two variants. Never inconsistent.</div>
+    <p class="desc">Every page uses the same sticky nav: brand on the left, the same five section links in the centre, and a single dark "Launch app" pill on the right. Marketing pages add a thin dark announcement strip above the nav; the order-book app replaces that strip with its live status bar. The nav links, CTA style, and order never change between pages.</p>
+    <div class="demo" style="padding:0;overflow:hidden">
+      <div style="background:var(--ink);color:#fff;font-family:var(--mono);font-size:12px;text-align:center;padding:9px">Announcement strip — marketing pages only <span style="color:var(--orange)">View the order book →</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 22px;border-top:1px solid var(--line);background:#fff;flex-wrap:wrap">
+        <span style="font-weight:600;display:flex;align-items:center;gap:9px"><svg viewBox="0 0 48 48" width="22" height="22" fill="none"><path d="M15 12 C24 12 22 22 29 24 C22 26 24 36 15 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 12 C24 12 26 22 19 24 C26 26 24 36 33 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Zuzo Robotics</span>
+        <span style="font-family:var(--sans);font-size:13px;color:var(--fog)">Network · How it works · Challenges · Datasets · Order book</span>
+        <span class="btn btn-dark" style="pointer-events:none">Launch app</span>
+      </div>
+    </div>
+    <p class="note"><b>Marketing variant</b> (Network, Datasets): announcement strip + nav. <b>App variant</b> (Order book): live status bar + nav, with the orange "Submit an order" action placed in the page header rather than the nav. Nav is <code>position:sticky</code> on every page.</p>
   </section>
 
   <!-- COMPONENTS -->

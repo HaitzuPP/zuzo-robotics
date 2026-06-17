@@ -31,8 +31,10 @@ a{color:inherit;text-decoration:none}
 .btn-grey{background:var(--panel);color:var(--ink)}.btn-grey:hover{background:#ebebe8}
 .btn-dark{background:var(--ink);color:#fff}.btn-dark:hover{background:#000;transform:translateY(-1px)}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+/* ANNOUNCEMENT + NAV (canonical header) */
+.announce{background:var(--ink);color:#fff;font-family:var(--mono);font-size:12px;text-align:center;padding:9px var(--gut);letter-spacing:.02em}
+.announce a{color:var(--orange);border-bottom:1px solid var(--orange-line);margin-left:8px}
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .nav-in{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px var(--gut)}
 .brand{display:flex;align-items:center;gap:11px;font-weight:600;font-size:17px;letter-spacing:-.01em}
 .brand svg{width:30px;height:30px;display:block}
@@ -52,7 +54,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,
 .scanline{position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,var(--orange-line),transparent);z-index:3;animation:sweep 6s linear infinite;opacity:.7}
 
 /* HERO */
-.hero{padding:138px var(--gut) 66px;position:relative}
+.hero{padding:60px var(--gut) 66px;position:relative}
 .hero-grid{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
 @media(max-width:920px){.hero-grid{grid-template-columns:1fr;gap:36px}}
 .hero h1{font-size:clamp(40px,5.6vw,68px);line-height:1.04;font-weight:300;letter-spacing:-.025em;margin:18px 0 0}
@@ -131,6 +133,44 @@ section.grey{background:var(--panel-2);border-top:1px solid var(--line);border-b
 .card p{font-size:14.5px;line-height:1.6;color:var(--fog)}
 @media(max-width:880px){.cards{grid-template-columns:1fr}}
 
+/* mini headings */
+.minihead{max-width:var(--max);margin:58px auto 6px;text-align:center;font-size:clamp(20px,2.6vw,28px);font-weight:300;letter-spacing:-.015em}
+.minisub{max-width:560px;margin:0 auto 24px;text-align:center;color:var(--fog);font-size:15px;line-height:1.55}
+/* compare */
+.compare{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.compare{grid-template-columns:1fr}}
+.col{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}
+.col.us{border-color:var(--orange-line);box-shadow:0 16px 44px rgba(236,69,13,.08)}
+.col .ch{padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.col .ch .nm{font-weight:600;font-size:16px}
+.col.us .ch .nm{color:var(--orange)}
+.col .ch .tg{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--fog-2)}
+.col .r{padding:13px 24px;border-bottom:1px solid var(--line)}
+.col .r:last-child{border:none}
+.col .r .k{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fog-2);margin-bottom:5px}
+.col .r .v{font-size:14px;color:var(--ink);line-height:1.5}
+.col.alt .r .v{color:var(--fog)}
+/* roles */
+.roles{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:760px){.roles{grid-template-columns:1fr}}
+.role{background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px}
+.role .rk{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+.role .rk .ic{width:42px;height:42px;border-radius:11px;background:var(--orange-tint);display:grid;place-items:center;color:var(--orange);font-size:18px}
+.role .rk h3{font-size:19px;font-weight:600}
+.role .rk .who{font-family:var(--mono);font-size:11px;color:var(--fog-2);margin-top:2px}
+.role>p{font-size:14.5px;color:var(--fog);line-height:1.6;margin-bottom:14px}
+.role ul{list-style:none}
+.role li{font-size:13.5px;padding:9px 0 9px 22px;position:relative;border-top:1px solid var(--line);color:var(--ink);line-height:1.45}
+.role li::before{content:"";position:absolute;left:2px;top:15px;width:7px;height:7px;border-radius:2px;background:var(--orange)}
+/* defenses */
+.defense{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:880px){.defense{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.defense{grid-template-columns:1fr}}
+.def{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
+.def .dn{font-family:var(--mono);font-size:11px;color:var(--orange);letter-spacing:.06em;margin-bottom:10px}
+.def h4{font-size:15px;font-weight:600;margin-bottom:7px}
+.def p{font-size:13px;color:var(--fog);line-height:1.55}
+
 .buyers{max-width:var(--max);margin:0 auto;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
 .chip{font-family:var(--mono);font-size:13px;padding:11px 18px;border:1px solid var(--line);border-radius:100px;color:var(--ink);background:#fff;transition:all .2s}
 .chip:hover{border-color:var(--orange-line)}.chip .v{color:var(--orange);margin-left:8px;font-size:11px}
@@ -148,6 +188,8 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
 </style>
 </head>
 <body>
+
+<div class="announce">Zuzo data network surpasses 120,000 verified hours <a href="order-book.html">View the order book →</a></div>
 
 <nav>
   <div class="nav-in">
@@ -357,16 +399,70 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
 </section>
 
 <!-- WHY A SUBNET -->
-<section class="block">
+<section class="block" id="why">
   <div class="head">
     <div class="ix">( 04 )</div>
     <span class="kicker">Why a subnet</span>
     <h2>A quality signal no annotation vendor can match.</h2>
+    <p>Centralised vendors keep a fixed workforce and their quality methods behind closed doors. A subnet opens both collection and verification to the world, and settles trust on-chain where it compounds and stays auditable.</p>
   </div>
-  <div class="cards">
-    <div class="card"><div class="ic">◈</div><h3>Provable trust</h3><p>Trust scores are non-transferable and compound on-chain. A six-month honeypot record is publicly auditable reliability.</p></div>
-    <div class="card"><div class="ic">⌁</div><h3>Tiered access</h3><p>New miners start on episode-level work. High-trust miners unlock stereo trajectory and pose tasks at higher pay.</p></div>
-    <div class="card"><div class="ic">⚇</div><h3>Eval-based emissions</h3><p>Submissions are scored on model-performance delta against a held-out set, keeping constant pressure on quality.</p></div>
+
+  <!-- centralised vs decentralised -->
+  <div class="compare">
+    <div class="col alt">
+      <div class="ch"><span class="nm">Centralised annotation vendor</span><span class="tg">Scale · Encord · Labelbox</span></div>
+      <div class="r"><div class="k">Workforce</div><div class="v">Fixed, contracted teams in a handful of locations.</div></div>
+      <div class="r"><div class="k">Quality control</div><div class="v">Internal review with methods opaque to the buyer.</div></div>
+      <div class="r"><div class="k">Scaling</div><div class="v">Hiring-bound, ramping over weeks to months.</div></div>
+      <div class="r"><div class="k">Trust signal</div><div class="v">A brand name and a sales promise.</div></div>
+      <div class="r"><div class="k">Incentives</div><div class="v">Hourly wage, paid regardless of accepted quality.</div></div>
+      <div class="r"><div class="k">Provenance</div><div class="v">Private logs with no independent audit trail.</div></div>
+    </div>
+    <div class="col us">
+      <div class="ch"><span class="nm">Zuzo decentralised network</span><span class="tg">Bittensor subnet</span></div>
+      <div class="r"><div class="k">Workforce</div><div class="v">Anyone, anywhere can collect and annotate, permissionlessly.</div></div>
+      <div class="r"><div class="k">Quality control</div><div class="v">Validators fact-check every submission with public, on-chain methods.</div></div>
+      <div class="r"><div class="k">Scaling</div><div class="v">Elastic, expanding automatically as demand and rewards rise.</div></div>
+      <div class="r"><div class="k">Trust signal</div><div class="v">Non-transferable trust scores that compound on-chain.</div></div>
+      <div class="r"><div class="k">Incentives</div><div class="v">Emissions flow only to submissions that pass the evaluation.</div></div>
+      <div class="r"><div class="k">Provenance</div><div class="v">Every label, score, and reviewer recorded on-chain.</div></div>
+    </div>
+  </div>
+
+  <!-- roles -->
+  <h3 class="minihead">Two roles keep the network honest</h3>
+  <p class="minisub">Collection and verification are separated and independently rewarded, so the people producing data are never the ones grading it.</p>
+  <div class="roles">
+    <div class="role">
+      <div class="rk"><div class="ic">⛏</div><div><h3>Miners</h3><div class="who">Anyone, anywhere</div></div></div>
+      <p>A global, permissionless workforce that collects and annotates. Miners claim hours from open orders, produce annotations with their own tools, and earn per accepted unit.</p>
+      <ul>
+        <li>Claim hours from any open order their trust tier allows.</li>
+        <li>Submit structured output in the order's required delivery format.</li>
+        <li>Build a trust score that unlocks higher-paying tiers over time.</li>
+      </ul>
+    </div>
+    <div class="role">
+      <div class="rk"><div class="ic">✓</div><div><h3>Validators</h3><div class="who">Stake to verify</div></div></div>
+      <p>The quality layer that fact-checks every submission and decides what the network accepts and how emissions are split. Validators stake collateral and are rewarded for catching bad work.</p>
+      <ul>
+        <li>Inject hidden honeypots and run multi-miner consensus to surface errors.</li>
+        <li>Score submissions against the client's held-out evaluation set.</li>
+        <li>Run geometric checks against calibration to reject impossible labels.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- anti-gaming -->
+  <h3 class="minihead">Designed against gaming</h3>
+  <p class="minisub">Six independent defenses make it cheaper to do the work correctly than to attempt to game the reward.</p>
+  <div class="defense">
+    <div class="def"><div class="dn">01</div><h4>Hidden honeypots</h4><p>Pre-verified gold clips are seeded invisibly at 10–15% of volume. Failing them drops a miner's trust score and tier.</p></div>
+    <div class="def"><div class="dn">02</div><h4>Multi-miner consensus</h4><p>The same clip is annotated by several miners, so outliers are flagged and disagreements escalate to review.</p></div>
+    <div class="def"><div class="dn">03</div><h4>Geometric checks</h4><p>Trajectory submissions are validated against the stereo calibration file, so physically impossible labels are rejected automatically.</p></div>
+    <div class="def"><div class="dn">04</div><h4>Held-out eval scoring</h4><p>Work is scored on model-performance delta against a hidden evaluation set, not on label count, so volume cannot buy a passing grade.</p></div>
+    <div class="def"><div class="dn">05</div><h4>Compounding trust</h4><p>Trust scores are non-transferable and accrue on-chain, so a clean record cannot be bought, sold, or faked by a fresh account.</p></div>
+    <div class="def"><div class="dn">06</div><h4>Randomised assignment & stake</h4><p>Tasks and honeypots are assigned unpredictably, and validators stake collateral that is slashed for collusion or negligent approval.</p></div>
   </div>
 </section>
 
