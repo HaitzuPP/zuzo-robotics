@@ -191,6 +191,14 @@ section.grey{background:var(--panel-2);border-top:1px solid var(--line);border-b
 .profile h4{font-size:16px;font-weight:600;letter-spacing:-.01em}
 .profile .pmeta{font-family:var(--mono);font-size:11px;color:var(--orange);margin:6px 0 11px}
 .profile p{font-size:13.5px;color:var(--fog);line-height:1.55}
+/* value-chain flow diagram */
+.flowdia{max-width:var(--max);margin:0 auto}
+.flowdia .scroll{overflow-x:auto;padding-bottom:8px}
+.flowdia svg{display:block;width:100%;min-width:840px;height:auto}
+.flowlegend{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:24px;font-family:var(--mono);font-size:11px;color:var(--fog)}
+.flowlegend span{display:inline-flex;align-items:center;gap:8px}
+.flowlegend i{width:20px;height:2px;background:var(--orange);display:inline-block;border-radius:2px}
+.flowlegend i.ret{background:none;border-top:2px dashed var(--fog-2);height:0;width:20px}
 
 .buyers{max-width:var(--max);margin:0 auto;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
 .chip{font-family:var(--mono);font-size:13px;padding:11px 18px;border:1px solid var(--line);border-radius:100px;color:var(--ink);background:#fff;transition:all .2s}
@@ -440,32 +448,102 @@ footer{border-top:1px solid var(--line);padding:42px var(--gut)}
   </div>
 </section>
 
-<!-- ROLES -->
+<!-- VALUE CHAIN FLOW -->
 <section class="block grey">
   <div class="head">
     <div class="ix">( 05 )</div>
     <span class="kicker">How it is organised</span>
-    <h2>Two roles keep the network honest</h2>
-    <p>Collection and verification are separate and independently rewarded, so miners never grade their own work.</p>
+    <h2>From data sellers to robotics labs</h2>
+    <p>Suppliers feed raw footage in, miners annotate it, validators fact-check every submission, and verified training data flows out to the labs building physical AI.</p>
   </div>
-  <div class="roles">
-    <div class="role">
-      <div class="rk"><div class="ic">⛏</div><div><h3>Miners</h3><div class="who">Anyone, anywhere</div></div></div>
-      <p>A global, permissionless workforce. Miners claim hours, annotate with their own tools, and earn per accepted unit.</p>
-      <ul>
-        <li>Claim hours from any open order their trust tier allows.</li>
-        <li>Submit structured output in the order's required delivery format.</li>
-        <li>Build a trust score that unlocks higher-paying tiers over time.</li>
-      </ul>
+  <div class="flowdia">
+    <div class="scroll">
+      <svg viewBox="0 0 1180 440" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', ui-monospace, monospace">
+        <defs>
+          <marker id="ah" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L6.5,3 L0,6 Z" fill="#EC450D"/></marker>
+          <marker id="ahg" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L6.5,3 L0,6 Z" fill="#9A9A9A"/></marker>
+        </defs>
+
+        <!-- DATA SELLERS -->
+        <rect x="24" y="124" width="236" height="172" rx="14" fill="#fff" stroke="#E6E5E2" stroke-width="1.5"/>
+        <text x="48" y="156" font-size="11" letter-spacing="1.5" fill="#9A9A9A">DATA SELLERS</text>
+        <text x="48" y="187" font-size="16" font-weight="600" fill="#0D0D0D" font-family="Inter, sans-serif">Raw footage</text>
+        <text x="48" y="208" font-size="16" font-weight="600" fill="#0D0D0D" font-family="Inter, sans-serif">suppliers</text>
+        <g font-size="11.5" fill="#6B6B6B">
+          <circle cx="50" cy="232" r="2.5" fill="#EC450D"/><text x="62" y="236">Egocentric capture</text>
+          <circle cx="50" cy="254" r="2.5" fill="#EC450D"/><text x="62" y="258">Teleoperation rigs</text>
+          <circle cx="50" cy="276" r="2.5" fill="#EC450D"/><text x="62" y="280">Factory &amp; warehouse</text>
+        </g>
+
+        <!-- connector in -->
+        <line x1="260" y1="210" x2="345" y2="210" stroke="#EC450D" stroke-width="2" marker-end="url(#ah)"/>
+        <text x="302" y="198" font-size="10" fill="#6B6B6B" text-anchor="middle">raw footage</text>
+        <circle r="4.5" fill="#EC450D"><animateMotion dur="2.4s" repeatCount="indefinite" path="M260,210 L342,210"/></circle>
+
+        <!-- ENGINE -->
+        <rect x="350" y="96" width="484" height="240" rx="18" fill="#fff" stroke="#F2C9B6" stroke-width="1.5"/>
+        <text x="592" y="124" font-size="12" letter-spacing="2" fill="#EC450D" text-anchor="middle">ZUZO NETWORK</text>
+
+        <!-- miners -->
+        <rect x="368" y="152" width="196" height="160" rx="12" fill="#FBFBFA" stroke="#EAE9E6"/>
+        <text x="388" y="184" font-size="15" font-weight="600" fill="#0D0D0D" font-family="Inter, sans-serif">Miners</text>
+        <text x="388" y="201" font-size="10" fill="#9A9A9A">annotate · anyone, anywhere</text>
+        <line x1="388" y1="212" x2="544" y2="212" stroke="#EDECE9"/>
+        <g font-size="11" fill="#0D0D0D">
+          <circle cx="390" cy="232" r="2.5" fill="#EC450D"/><text x="402" y="236">Claim hours by tier</text>
+          <circle cx="390" cy="254" r="2.5" fill="#EC450D"/><text x="402" y="258">Annotate, own tools</text>
+          <circle cx="390" cy="276" r="2.5" fill="#EC450D"/><text x="402" y="280">Paid per accepted unit</text>
+        </g>
+
+        <!-- validators -->
+        <rect x="616" y="152" width="196" height="160" rx="12" fill="#FBFBFA" stroke="#EAE9E6"/>
+        <text x="636" y="184" font-size="15" font-weight="600" fill="#0D0D0D" font-family="Inter, sans-serif">Validators</text>
+        <text x="636" y="201" font-size="10" fill="#9A9A9A">fact-check · stake to verify</text>
+        <line x1="636" y1="212" x2="792" y2="212" stroke="#EDECE9"/>
+        <g font-size="11" fill="#0D0D0D">
+          <circle cx="638" cy="232" r="2.5" fill="#EC450D"/><text x="650" y="236">Hidden honeypots</text>
+          <circle cx="638" cy="254" r="2.5" fill="#EC450D"/><text x="650" y="258">Multi-miner consensus</text>
+          <circle cx="638" cy="276" r="2.5" fill="#EC450D"/><text x="650" y="280">Geometric + eval checks</text>
+        </g>
+
+        <!-- submit / re-do loop -->
+        <line x1="566" y1="204" x2="612" y2="204" stroke="#EC450D" stroke-width="2" marker-end="url(#ah)"/>
+        <text x="589" y="196" font-size="9" fill="#6B6B6B" text-anchor="middle">submit</text>
+        <circle r="3" fill="#EC450D"><animateMotion dur="1.5s" repeatCount="indefinite" path="M566,204 L610,204"/></circle>
+        <line x1="612" y1="252" x2="566" y2="252" stroke="#9A9A9A" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#ahg)"/>
+        <text x="589" y="268" font-size="9" fill="#9A9A9A" text-anchor="middle">re-do</text>
+
+        <!-- accept gate -->
+        <circle cx="834" cy="210" r="10" fill="#fff" stroke="#0FA958" stroke-width="2"/>
+        <path d="M829,210 l3.5,3.5 l6,-7" stroke="#0FA958" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="834" y="240" font-size="9" fill="#0FA958" text-anchor="middle">accept</text>
+
+        <!-- connector out -->
+        <line x1="848" y1="210" x2="916" y2="210" stroke="#EC450D" stroke-width="2" marker-end="url(#ah)"/>
+        <text x="882" y="198" font-size="10" fill="#6B6B6B" text-anchor="middle">verified data</text>
+        <circle r="4.5" fill="#EC450D"><animateMotion dur="2.4s" repeatCount="indefinite" path="M848,210 L913,210"/></circle>
+
+        <!-- ROBOTICS LABS -->
+        <rect x="920" y="124" width="236" height="172" rx="14" fill="#fff" stroke="#E6E5E2" stroke-width="1.5"/>
+        <text x="944" y="156" font-size="11" letter-spacing="1.5" fill="#9A9A9A">ROBOTICS LABS</text>
+        <text x="944" y="187" font-size="16" font-weight="600" fill="#0D0D0D" font-family="Inter, sans-serif">Physical-AI</text>
+        <text x="944" y="208" font-size="16" font-weight="600" fill="#0D0D0D" font-family="Inter, sans-serif">buyers</text>
+        <g font-size="11.5" fill="#6B6B6B">
+          <circle cx="946" cy="232" r="2.5" fill="#EC450D"/><text x="958" y="236">Foundation models</text>
+          <circle cx="946" cy="254" r="2.5" fill="#EC450D"/><text x="958" y="258">Humanoids &amp; VLAs</text>
+          <circle cx="946" cy="276" r="2.5" fill="#EC450D"/><text x="958" y="280">World models</text>
+        </g>
+
+        <!-- return lane: orders + $TAO / payouts -->
+        <path d="M1038,296 V414 H592 V340" fill="none" stroke="#9A9A9A" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#ahg)"/>
+        <text x="590" y="406" font-size="11" fill="#6B6B6B" text-anchor="middle">data orders + $TAO in   ·   payouts to miners out</text>
+        <circle r="3.5" fill="#9A9A9A"><animateMotion dur="4.6s" repeatCount="indefinite" path="M1038,296 V414 H592 V340"/></circle>
+      </svg>
     </div>
-    <div class="role">
-      <div class="rk"><div class="ic">✓</div><div><h3>Validators</h3><div class="who">Stake to verify</div></div></div>
-      <p>The quality layer. Validators fact-check every submission, decide what the network accepts, stake collateral, and earn for catching bad work.</p>
-      <ul>
-        <li>Inject hidden honeypots and run multi-miner consensus to surface errors.</li>
-        <li>Score submissions against the client's held-out evaluation set.</li>
-        <li>Run geometric checks against calibration to reject impossible labels.</li>
-      </ul>
+    <div class="flowlegend">
+      <span><i></i> material flow</span>
+      <span><i class="ret"></i> orders, $TAO &amp; payouts</span>
+      <span><span class="dot"></span> verified on-chain</span>
     </div>
   </div>
 </section>
