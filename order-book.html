@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zuzo Robotics — Order Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ZUZO ROBOTICS — design system tokens (see design-system.html) */
+:root{
+  --white:#FFFFFF;--ink:#0D0D0D;--fog:#6B6B6B;--fog-2:#9A9A9A;
+  --panel:#F4F4F2;--panel-2:#F8F7F5;--line:rgba(13,13,13,.08);--line-2:rgba(13,13,13,.15);
+  --orange:#EC450D;--orange-600:#D43C09;--orange-tint:#FDEFE8;--orange-line:rgba(236,69,13,.28);
+  --pos:#0FA958;--neg:#E5484D;--warn:#E8A100;
+  --sans:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  --gut:clamp(20px,5vw,72px);--max:1320px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--panel-2);color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}.mono{font-family:var(--mono)}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 4px var(--orange-tint);animation:pulse 2.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.btn{font-family:var(--sans);font-size:14px;font-weight:500;padding:11px 18px;border-radius:100px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:9px;transition:all .2s;white-space:nowrap}
+.btn-primary{background:var(--orange);color:#fff}.btn-primary:hover{background:var(--orange-600);transform:translateY(-1px);box-shadow:0 8px 24px rgba(236,69,13,.25)}
+.btn-grey{background:var(--panel);color:var(--ink)}.btn-grey:hover{background:#ebebe8}
+.btn-dark{background:var(--ink);color:#fff}.btn-dark:hover{background:#000}
+
+/* NAV */
+nav{background:#fff;border-bottom:1px solid var(--line)}
+.nav-in{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px var(--gut)}
+.brand{display:flex;align-items:center;gap:11px;font-weight:600;font-size:17px;letter-spacing:-.01em}
+.brand svg{width:30px;height:30px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:14px;color:var(--fog)}.nav-links a:hover,.nav-links a.active{color:var(--ink)}
+@media(max-width:900px){.nav-links{display:none}}
+
+.statusbar{background:#fff;border-bottom:1px solid var(--line)}
+.statusbar .in{max-width:var(--max);margin:0 auto;display:flex;align-items:center;gap:clamp(16px,3vw,38px);flex-wrap:wrap;padding:12px var(--gut);font-family:var(--mono);font-size:12.5px;color:var(--fog)}
+.statusbar .s b{color:var(--ink);font-weight:500}
+.statusbar .right{margin-left:auto;display:flex;align-items:center;gap:8px;color:var(--orange);font-weight:500}
+
+.app-in{max-width:var(--max);margin:0 auto;padding:26px var(--gut) 70px}
+.apphead{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.apphead h1{font-size:clamp(24px,3vw,32px);font-weight:300;letter-spacing:-.02em}
+.apphead p{font-size:14px;color:var(--fog);margin-top:6px;max-width:520px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:22px 0 4px;margin-bottom:22px;scrollbar-width:thin}
+.tab{font-family:var(--mono);font-size:12px;padding:9px 15px;border-radius:100px;border:1px solid var(--line);color:var(--fog);cursor:pointer;background:#fff;white-space:nowrap;transition:all .2s}
+.tab:hover{color:var(--ink)}.tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.lab{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--fog-2);margin:26px 0 14px}
+
+.highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.hl{display:flex;gap:15px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}
+.hl .ic{width:36px;height:36px;border-radius:9px;background:var(--orange-tint);display:grid;place-items:center;color:var(--orange);font-size:16px;flex-shrink:0}
+.hl .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--fog-2)}
+.hl .m{font-size:17px;font-weight:600;margin:7px 0 3px;letter-spacing:-.01em}
+.hl .sub{font-family:var(--mono);font-size:12px;color:var(--fog)}.hl .sub.pos{color:var(--pos)}
+@media(max-width:880px){.highlights{grid-template-columns:1fr}}
+
+.app-grid{display:grid;grid-template-columns:1fr 320px;gap:26px;margin-top:6px}
+@media(max-width:1000px){.app-grid{grid-template-columns:1fr}}
+.order-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:620px){.order-grid{grid-template-columns:1fr}}
+.order{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;cursor:pointer;transition:all .2s}
+.order:hover{border-color:var(--orange-line);box-shadow:0 10px 26px rgba(13,13,13,.05)}
+.order .toprow{display:flex;gap:7px;align-items:center;font-family:var(--mono);font-size:10px;letter-spacing:.05em;margin-bottom:13px}
+.tag{padding:4px 8px;border-radius:6px;text-transform:uppercase}
+.tag.cat{background:var(--ink);color:#fff;font-weight:500}
+.tag.vis{border:1px solid var(--line-2);color:var(--fog)}
+.order .oid{margin-left:auto;color:var(--fog-2)}
+.order .client{font-family:var(--mono);font-size:11px;color:var(--fog);letter-spacing:.02em}
+.order h4{font-size:17px;margin:5px 0 2px;font-weight:600;letter-spacing:-.01em}
+.order h4 .vol{color:var(--orange)}
+.order .cap-line{font-family:var(--mono);font-size:11px;color:var(--fog-2);margin-bottom:14px}
+.bar{height:7px;background:var(--panel);border-radius:100px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--orange);border-radius:100px}
+.barlabel{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--fog);margin:9px 0 4px}.barlabel b{color:var(--ink);font-weight:500}
+.ometrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-top:15px}
+.ometrics .cell{background:#fff;padding:11px 12px}
+.ometrics .cell .k{font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--fog-2);text-transform:uppercase}
+.ometrics .cell .v{font-family:var(--mono);font-size:14px;margin-top:5px;font-weight:500}
+.ometrics .cell .v.sig{color:var(--orange)}.ometrics .cell .v.warn{color:var(--neg)}
+
+.board{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;align-self:start}
+.board .bhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.board .bhead h3{font-size:14px;font-weight:600}
+.board .bhead a{font-family:var(--mono);font-size:11px;color:var(--fog);border-bottom:1px solid var(--line-2)}
+.miner{display:flex;align-items:center;gap:13px;padding:14px 0;border-bottom:1px solid var(--line)}
+.miner:last-child{border:none}
+.miner .rk{width:22px;height:22px;border-radius:6px;background:var(--panel);display:grid;place-items:center;font-family:var(--mono);font-size:11px;color:var(--fog)}
+.miner.top .rk{background:var(--orange);color:#fff;font-weight:600}
+.miner .id{font-family:var(--mono);font-size:13px}
+.miner .w{font-family:var(--mono);font-size:11px;color:var(--fog-2);margin-top:2px}
+.miner .e{margin-left:auto;font-family:var(--mono);font-size:13px;color:var(--orange)}
+.note{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--fog-2);line-height:1.8}
+
+/* CHALLENGE CATALOG */
+.catalog{background:#fff;border-top:1px solid var(--line);margin-top:46px;padding:54px var(--gut)}
+.catalog .in{max-width:var(--max);margin:0 auto}
+.catalog .ch-head{max-width:640px;margin-bottom:30px}
+.catalog .ch-head .k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
+.catalog .ch-head h2{font-size:clamp(24px,3.4vw,38px);font-weight:300;letter-spacing:-.02em;margin-top:12px;line-height:1.1}
+.catalog .ch-head p{margin-top:14px;color:var(--fog);font-size:15.5px;line-height:1.6}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:980px){.cat-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.cat-grid{grid-template-columns:1fr}}
+.ct{border:1px solid var(--line);border-radius:14px;padding:22px;transition:all .2s;background:#fff}
+.ct:hover{border-color:var(--orange-line);box-shadow:0 10px 26px rgba(13,13,13,.05)}
+.ct .row1{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ct .n{font-family:var(--mono);font-size:11px;color:var(--fog-2)}
+.ct .tier{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:5px;margin-left:auto}
+.tier.t1{background:rgba(15,169,88,.1);color:var(--pos)}
+.tier.t2{background:var(--orange-tint);color:var(--orange)}
+.tier.t3{background:rgba(13,13,13,.06);color:var(--ink)}
+.ct h4{font-size:16px;font-weight:600;letter-spacing:-.01em}
+.ct p{font-size:13px;color:var(--fog);line-height:1.55;margin:8px 0 12px}
+.ct .eg{font-family:var(--mono);font-size:11px;color:var(--ink);background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:9px 11px;line-height:1.5}
+.ct .eg b{color:var(--orange);font-weight:500}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 48 48" fill="none"><path d="M15 12 C24 12 22 22 29 24 C22 26 24 36 15 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 12 C24 12 26 22 19 24 C26 26 24 36 33 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Zuzo Robotics
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Network</a>
+      <a href="index.html#how">How it works</a>
+      <a href="#catalog">Challenges</a>
+      <a href="datasets.html">Datasets</a>
+      <a class="active" href="order-book.html">Order book</a>
+    </div>
+    <a class="btn btn-primary" href="#">Submit an order</a>
+  </div>
+</nav>
+
+<div class="statusbar">
+  <div class="in">
+    <span class="s">OPEN ORDERS <b>14</b></span>
+    <span class="s">HOURS REQUESTED <b>412k</b></span>
+    <span class="s">HOURS DELIVERED <b>187k</b></span>
+    <span class="s">AVG PAY <b>$41/hr</b></span>
+    <span class="s">MINERS ONLINE <b>148</b></span>
+    <span class="right"><span class="dot"></span> NETWORK LIVE</span>
+  </div>
+</div>
+
+<div class="app-in">
+  <div class="apphead">
+    <div>
+      <h1>Open data orders</h1>
+      <p>Live commercial briefs from robotics labs. Claim hours, deliver verified annotation, get paid per hour on delivery.</p>
+    </div>
+    <a class="btn btn-primary" href="#">Submit an order</a>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on">All orders</button>
+    <button class="tab">Episode-level</button>
+    <button class="tab">Action labelling</button>
+    <button class="tab">Clipping</button>
+    <button class="tab">Hand pose</button>
+    <button class="tab">6-DoF pose</button>
+    <button class="tab">Point-cloud</button>
+    <button class="tab">Affordance</button>
+    <button class="tab">Force / tactile</button>
+    <button class="tab">Reward</button>
+    <button class="tab">Multi-view</button>
+  </div>
+
+  <div class="lab">Order highlights</div>
+  <div class="highlights">
+    <div class="hl"><div class="ic">◳</div><div><div class="t">Largest open order</div><div class="m">80,000 hrs · Bin picking</div><div class="sub">Logistics automation · undisclosed</div></div></div>
+    <div class="hl"><div class="ic">$</div><div><div class="t">Highest pay rate</div><div class="m">$120 / hr</div><div class="sub pos">Force / tactile · frontier lab</div></div></div>
+    <div class="hl"><div class="ic">⏱</div><div><div class="t">Closing soonest</div><div class="m">ORD-2243 · 88% filled</div><div class="sub">3 days remaining</div></div></div>
+  </div>
+
+  <div class="app-grid">
+    <div>
+      <div class="lab">Active orders</div>
+      <div class="order-grid">
+
+        <div class="order">
+          <div class="toprow"><span class="tag cat">Hand pose</span><span class="tag vis">Private</span><span class="oid">ORD-2271</span></div>
+          <div class="client">Client · Frontier humanoid lab (undisclosed)</div>
+          <h4><span class="vol">50,000 hrs</span> · Kitchen manipulation</h4>
+          <div class="cap-line">Stereo RGB + IMU · 21-joint correction</div>
+          <div class="barlabel"><span>15,400 / 50,000 hrs delivered</span><b>31%</b></div>
+          <div class="bar"><i style="width:31%"></i></div>
+          <div class="ometrics"><div class="cell"><div class="k">Pay rate</div><div class="v sig">$118/hr</div></div><div class="cell"><div class="k">Deadline</div><div class="v">14 days</div></div><div class="cell"><div class="k">Miners</div><div class="v">29</div></div></div>
+        </div>
+
+        <div class="order">
+          <div class="toprow"><span class="tag cat">Force / tactile</span><span class="tag vis">Private</span><span class="oid">ORD-2243</span></div>
+          <div class="client">Client · Autonomous-home lab (undisclosed)</div>
+          <h4><span class="vol">5,000 hrs</span> · Pouring & insertion</h4>
+          <div class="cap-line">RGB + force-torque · contact-event labelling</div>
+          <div class="barlabel"><span>4,400 / 5,000 hrs delivered</span><b>88%</b></div>
+          <div class="bar"><i style="width:88%"></i></div>
+          <div class="ometrics"><div class="cell"><div class="k">Pay rate</div><div class="v sig">$120/hr</div></div><div class="cell"><div class="k">Deadline</div><div class="v warn">3 days</div></div><div class="cell"><div class="k">Miners</div><div class="v">18</div></div></div>
+        </div>
+
+        <div class="order">
+          <div class="toprow"><span class="tag cat">Episode</span><span class="tag vis">Public</span><span class="oid">ORD-2255</span></div>
+          <div class="client">Client · Logistics automation (undisclosed)</div>
+          <h4><span class="vol">80,000 hrs</span> · Bin picking & sorting</h4>
+          <div class="cap-line">Monocular RGB · instruction & outcome</div>
+          <div class="barlabel"><span>57,600 / 80,000 hrs delivered</span><b>72%</b></div>
+          <div class="bar"><i style="width:72%"></i></div>
+          <div class="ometrics"><div class="cell"><div class="k">Pay rate</div><div class="v sig">$22/hr</div></div><div class="cell"><div class="k">Deadline</div><div class="v">21 days</div></div><div class="cell"><div class="k">Miners</div><div class="v">61</div></div></div>
+        </div>
+
+        <div class="order">
+          <div class="toprow"><span class="tag cat">6-DoF pose</span><span class="tag vis">Private</span><span class="oid">ORD-2262</span></div>
+          <div class="client">Client · Manipulation research group (undisclosed)</div>
+          <h4><span class="vol">1.2M frames</span> · Object & end-effector pose</h4>
+          <div class="cap-line">RGB-D · 6-DoF tracks through occlusion</div>
+          <div class="barlabel"><span>410k / 1.2M frames delivered</span><b>34%</b></div>
+          <div class="bar"><i style="width:34%"></i></div>
+          <div class="ometrics"><div class="cell"><div class="k">Pay rate</div><div class="v sig">$92/hr</div></div><div class="cell"><div class="k">Deadline</div><div class="v">17 days</div></div><div class="cell"><div class="k">Miners</div><div class="v">24</div></div></div>
+        </div>
+
+        <div class="order">
+          <div class="toprow"><span class="tag cat">Action</span><span class="tag vis">Private</span><span class="oid">ORD-2268</span></div>
+          <div class="client">Client · Industrial robotics OEM (undisclosed)</div>
+          <h4><span class="vol">25,000 hrs</span> · Tool use & assembly</h4>
+          <div class="cap-line">Monocular RGB · primitive segmentation</div>
+          <div class="barlabel"><span>14,500 / 25,000 hrs delivered</span><b>58%</b></div>
+          <div class="bar"><i style="width:58%"></i></div>
+          <div class="ometrics"><div class="cell"><div class="k">Pay rate</div><div class="v sig">$64/hr</div></div><div class="cell"><div class="k">Deadline</div><div class="v">9 days</div></div><div class="cell"><div class="k">Miners</div><div class="v">37</div></div></div>
+        </div>
+
+        <div class="order">
+          <div class="toprow"><span class="tag cat">Point-cloud</span><span class="tag vis">Public</span><span class="oid">ORD-2249</span></div>
+          <div class="client">Client · Mobile-manipulation startup (undisclosed)</div>
+          <h4><span class="vol">9,500 scenes</span> · Navigation segmentation</h4>
+          <div class="cap-line">Fused LiDAR + RGB · instance tracks</div>
+          <div class="barlabel"><span>6,000 / 9,500 scenes delivered</span><b>63%</b></div>
+          <div class="bar"><i style="width:63%"></i></div>
+          <div class="ometrics"><div class="cell"><div class="k">Pay rate</div><div class="v sig">$78/hr</div></div><div class="cell"><div class="k">Deadline</div><div class="v">12 days</div></div><div class="cell"><div class="k">Miners</div><div class="v">19</div></div></div>
+        </div>
+
+        <div class="order">
+          <div class="toprow"><span class="tag cat">Affordance</span><span class="tag vis">Private</span><span class="oid">ORD-2240</span></div>
+          <div class="client">Client · Dexterous-grasp lab (undisclosed)</div>
+          <h4><span class="vol">540k grasps</span> · Grasp-point & contact</h4>
+          <div class="cap-line">RGB-D · reachability & collision validation</div>
+          <div class="barlabel"><span>180k / 540k grasps delivered</span><b>33%</b></div>
+          <div class="bar"><i style="width:33%"></i></div>
+          <div class="ometrics"><div class="cell"><div class="k">Pay rate</div><div class="v sig">$96/hr</div></div><div class="cell"><div class="k">Deadline</div><div class="v">19 days</div></div><div class="cell"><div class="k">Miners</div><div class="v">15</div></div></div>
+        </div>
+
+        <div class="order">
+          <div class="toprow"><span class="tag cat">Clipping</span><span class="tag vis">Public</span><span class="oid">ORD-2231</span></div>
+          <div class="client">Client · Home-robot startup (undisclosed)</div>
+          <h4><span class="vol">12,000 hrs</span> · Laundry & tidying</h4>
+          <div class="cap-line">Monocular RGB · episode boundary detection</div>
+          <div class="barlabel"><span>5,300 / 12,000 hrs delivered</span><b>44%</b></div>
+          <div class="bar"><i style="width:44%"></i></div>
+          <div class="ometrics"><div class="cell"><div class="k">Pay rate</div><div class="v sig">$9/hr</div></div><div class="cell"><div class="k">Deadline</div><div class="v">6 days</div></div><div class="cell"><div class="k">Miners</div><div class="v">44</div></div></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="board">
+      <div class="bhead"><h3>Top miners</h3><a href="#">Full ranking</a></div>
+      <div class="miner top"><div class="rk">1</div><div><div class="id">5Dt42o5VSQ…</div><div class="w">1,302 wins</div></div><div class="e">$12,298</div></div>
+      <div class="miner"><div class="rk">2</div><div><div class="id">5FXDWbJSw6…</div><div class="w">805 wins</div></div><div class="e">$8,876</div></div>
+      <div class="miner"><div class="rk">3</div><div><div class="id">5Fn9PWH2PE…</div><div class="w">428 wins</div></div><div class="e">$7,844</div></div>
+      <div class="miner"><div class="rk">4</div><div><div class="id">5FX8Hi1PDp…</div><div class="w">401 wins</div></div><div class="e">$5,986</div></div>
+      <div class="miner"><div class="rk">5</div><div><div class="id">5GEGJohxNm…</div><div class="w">197 wins</div></div><div class="e">$3,241</div></div>
+      <div class="note">Trust score gates order access. Honeypots run at 10–15% of volume. Emissions flow to the highest eval delta.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CHALLENGE CATALOG -->
+<section class="catalog" id="catalog">
+  <div class="in">
+    <div class="ch-head">
+      <div class="k">Challenge catalog</div>
+      <h2>Twelve annotation challenge types.</h2>
+      <p>Every order maps to one challenge type, tiered by complexity and verifiability. New miners start on Tier 1 and unlock higher tiers as their on-chain trust score compounds.</p>
+    </div>
+    <div class="cat-grid">
+
+      <div class="ct"><div class="row1"><span class="n">01</span><span class="tier t1">Tier 1</span></div><h4>Episode-level annotation</h4><p>One or a few high-level labels per trajectory: the instruction, objects, and outcome. Grounds language to behaviour.</p><div class="eg"><b>Task:</b> Write 5–10 instructions describing this episode.</div></div>
+
+      <div class="ct"><div class="row1"><span class="n">02</span><span class="tier t2">Tier 2</span></div><h4>Action labelling</h4><p>Decompose the episode into timestamped atomic skills. Unlocks long-horizon tasks and skill recombination.</p><div class="eg"><b>Task:</b> Mark the start and end frame of each primitive.</div></div>
+
+      <div class="ct"><div class="row1"><span class="n">03</span><span class="tier t1">Tier 1</span></div><h4>Clipping</h4><p>Cut raw recordings into clean units and strip idle and reset frames that poison behavioural cloning.</p><div class="eg"><b>Task:</b> Split a 10-minute session into pick-place episodes.</div></div>
+
+      <div class="ct"><div class="row1"><span class="n">04</span><span class="tier t3">Tier 3</span></div><h4>Hand pose estimation</h4><p>Per-frame 3D hand and finger keypoints, correcting an automated estimator. The bridge from human video to gripper.</p><div class="eg"><b>Task:</b> Correct the 21 keypoints where the estimator drifted.</div></div>
+
+      <div class="ct"><div class="row1"><span class="n">05</span><span class="tier t2">Tier 2</span></div><h4>6-DoF object pose</h4><p>Full position and orientation tracks for objects and end-effectors, consistent through occlusion, against RGB-D.</p><div class="eg"><b>Task:</b> Annotate the mug's 6-DoF pose across all visible frames.</div></div>
+
+      <div class="ct"><div class="row1"><span class="n">06</span><span class="tier t2">Tier 2</span></div><h4>Point-cloud labelling</h4><p>Semantic and instance segmentation of fused LiDAR and multi-camera scenes, with persistent track IDs.</p><div class="eg"><b>Task:</b> Segment every graspable instance and assign a track ID.</div></div>
+
+      <div class="ct"><div class="row1"><span class="n">07</span><span class="tier t3">Tier 3</span></div><h4>Affordance & grasp</h4><p>Graspable regions and functional contact points, validated for reachability and collision against gripper geometry.</p><div class="eg"><b>Task:</b> Mark valid grasp points on the drill and its grip axis.</div></div>
+
+      <div class="ct"><div class="row1"><span class="n">08</span><span class="tier t3">Tier 3</span></div><h4>Force / tactile events</h4><p>Mark contact onset, slip, and insertion on synchronized force-torque and tactile streams. Scarce and high-value.</p><div class="eg"><b>Task:</b> Mark first contact and successful peg insertion frames.</div></div>
+
+      <div class="ct"><div class="row1"><span class="n">09</span><span class="tier t1">Tier 1</span></div><h4>Language instructions</h4><p>Write and diversify natural-language instructions at consistent granularity for instruction-conditioned VLAs.</p><div class="eg"><b>Task:</b> Paraphrase into two alternatives preserving the goal.</div></div>
+
+      <div class="ct"><div class="row1"><span class="n">10</span><span class="tier t2">Tier 2</span></div><h4>Reward & progress</h4><p>Per-frame progress scores and sub-goal markers, providing dense supervision for reward models and value functions.</p><div class="eg"><b>Task:</b> Assign a monotonic 0-to-1 progress score per frame.</div></div>
+
+      <div class="ct"><div class="row1"><span class="n">11</span><span class="tier t1">Tier 1</span></div><h4>Success / failure & safety</h4><p>Classify outcomes and flag collisions, drops, and near-misses with timestamps. Foundational for filtering and safety.</p><div class="eg"><b>Task:</b> Flag every arm-environment collision with timestamps.</div></div>
+
+      <div class="ct"><div class="row1"><span class="n">12</span><span class="tier t2">Tier 2</span></div><h4>Multi-view sync & calibration</h4><p>Verify cross-camera time alignment and extrinsic calibration so every stream shares a drift-free timeline.</p><div class="eg"><b>Task:</b> Flag any drift across the four views and proprioception.</div></div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  t.classList.add('on');
+}));
+</script>
+</body>
+</html>
