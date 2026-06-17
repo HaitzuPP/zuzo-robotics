@@ -31,14 +31,14 @@ a{color:inherit;text-decoration:none}.mono{font-family:var(--mono)}
 .announce{background:var(--ink);color:#fff;font-family:var(--mono);font-size:12px;text-align:center;padding:9px var(--gut);letter-spacing:.02em}
 .announce a{color:var(--orange);border-bottom:1px solid var(--orange-line);margin-left:8px}
 nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.nav-in{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px var(--gut)}
+.nav-in{max-width:calc(var(--max) + var(--gut)*2);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px var(--gut)}
 .brand{display:flex;align-items:center;gap:11px;font-weight:600;font-size:17px;letter-spacing:-.01em}
 .brand svg{width:30px;height:30px}
 .nav-links{display:flex;gap:26px;align-items:center}
 .nav-links a{font-size:14px;color:var(--fog)}.nav-links a:hover,.nav-links a.active{color:var(--ink)}
 @media(max-width:980px){.nav-links{display:none}}
 
-main{max-width:var(--max);margin:0 auto;padding:0 var(--gut)}
+main{max-width:calc(var(--max) + var(--gut)*2);margin:0 auto;padding:0 var(--gut)}
 .hero{padding:62px 0 20px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
 @media(max-width:880px){.hero{grid-template-columns:1fr;gap:30px}}
 .hero h1{font-size:clamp(36px,5.2vw,62px);font-weight:300;letter-spacing:-.025em;line-height:1.05;margin-top:16px}

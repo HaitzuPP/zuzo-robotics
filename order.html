@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zuzo Robotics — Order</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#FFFFFF;--ink:#0D0D0D;--fog:#6B6B6B;--fog-2:#9A9A9A;
+  --panel:#F4F4F2;--panel-2:#F8F7F5;--line:rgba(13,13,13,.08);--line-2:rgba(13,13,13,.15);
+  --orange:#EC450D;--orange-600:#D43C09;--orange-tint:#FDEFE8;--orange-line:rgba(236,69,13,.28);
+  --pos:#0FA958;--neg:#E5484D;--warn:#E8A100;
+  --sans:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  --gut:clamp(20px,5vw,72px);--max:1320px;--cont:calc(var(--max) + var(--gut)*2);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--panel-2);color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}.mono{font-family:var(--mono)}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 4px var(--orange-tint)}
+.btn{font-family:var(--sans);font-size:14px;font-weight:500;padding:12px 20px;border-radius:100px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:9px;transition:all .2s}
+.btn-primary{background:var(--orange);color:#fff}.btn-primary:hover{background:var(--orange-600);transform:translateY(-1px);box-shadow:0 8px 24px rgba(236,69,13,.25)}
+.btn-grey{background:var(--panel);color:var(--ink)}.btn-grey:hover{background:#ebebe8}
+.btn-dark{background:var(--ink);color:#fff}.btn-dark:hover{background:#000}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{max-width:var(--cont);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px var(--gut)}
+.brand{display:flex;align-items:center;gap:11px;font-weight:600;font-size:17px;letter-spacing:-.01em}
+.brand svg{width:30px;height:30px}
+.nav-links{display:flex;gap:22px;align-items:center}
+.nav-links a{font-size:14px;color:var(--fog)}.nav-links a:hover,.nav-links a.active{color:var(--ink)}
+@media(max-width:1040px){.nav-links{display:none}}
+
+main{max-width:var(--cont);margin:0 auto;padding:24px var(--gut) 80px}
+.back{font-family:var(--mono);font-size:12px;color:var(--fog);display:inline-flex;gap:7px;margin-bottom:20px}
+.back:hover{color:var(--ink)}
+
+.ohead{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;margin-bottom:22px}
+.ohead .top{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;color:var(--fog-2);margin-bottom:12px}
+.tpill{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:6px;background:var(--orange-tint);color:var(--orange)}
+.statusp{color:var(--orange)}
+.ohead h1{font-size:clamp(24px,3.4vw,34px);font-weight:300;letter-spacing:-.02em;line-height:1.1}
+.ohead .client{font-family:var(--mono);font-size:12px;color:var(--fog);margin-top:8px}
+.osum{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:20px}
+.osum .c{background:#fff;padding:13px 14px}
+.osum .c .k{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--fog-2)}
+.osum .c .v{font-family:var(--mono);font-size:14px;margin-top:5px;font-weight:500}
+.osum .c .v.sig{color:var(--orange)}
+@media(max-width:780px){.osum{grid-template-columns:1fr 1fr 1fr}}
+.oactions{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+
+.layout{display:grid;grid-template-columns:1fr 300px;gap:22px;align-items:start}
+@media(max-width:920px){.layout{grid-template-columns:1fr}}
+.panelcard{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.tabs{display:flex;gap:4px;padding:0 18px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tab{font-family:var(--mono);font-size:12px;padding:14px 12px;border:none;background:none;color:var(--fog);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.tab.on{color:var(--ink);border-bottom-color:var(--orange)}
+.pane{display:none;padding:24px}.pane.on{display:block}
+.pane h4{font-size:13px;font-weight:600;margin:0 0 10px}.pane h4.mt{margin-top:22px}
+.pane p{font-size:14px;color:var(--fog);line-height:1.6;margin-bottom:10px}
+.pane ol,.pane ul{list-style:none}
+.pane li{font-size:13.5px;color:var(--ink);line-height:1.5;padding:8px 0 8px 24px;position:relative;border-bottom:1px solid var(--line)}
+.pane li:last-child{border:none}
+.pane ol{counter-reset:s}.pane ol li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:8px;font-family:var(--mono);font-size:11px;color:var(--orange);font-weight:600}
+.pane ul li::before{content:"";position:absolute;left:3px;top:14px;width:6px;height:6px;border-radius:2px;background:var(--orange)}
+.schema{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px}
+.schema th{text-align:left;color:var(--fog-2);font-weight:500;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:8px 10px;border-bottom:1px solid var(--line-2)}
+.schema td{padding:9px 10px;border-bottom:1px solid var(--line)}.schema td.t{color:var(--orange)}
+.codeblock{background:var(--ink);color:#E7E7E7;border-radius:10px;padding:16px;font-family:var(--mono);font-size:11.5px;line-height:1.7;overflow-x:auto;white-space:pre;margin-top:6px}
+.codeblock .k{color:#7DD3A8}.codeblock .o{color:#FF9466}
+.sample{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;height:260px;background:linear-gradient(150deg,var(--panel),#fff);margin-bottom:12px}
+.sample img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05)}
+.sample .ov{position:absolute;inset:0;opacity:0;transition:opacity .25s}.sample.annot .ov{opacity:1}
+.sample .toggle{position:absolute;right:12px;top:12px;z-index:3;font-family:var(--mono);font-size:11px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:100px;padding:7px 13px;cursor:pointer}
+.sample .lbl{position:absolute;left:12px;bottom:12px;z-index:3;font-family:var(--mono);font-size:10px;background:rgba(255,255,255,.9);padding:5px 9px;border-radius:6px}
+.lbtbl{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12.5px}
+.lbtbl th{text-align:left;color:var(--fog-2);font-size:10px;text-transform:uppercase;padding:8px 6px;border-bottom:1px solid var(--line-2)}
+.lbtbl td{padding:10px 6px;border-bottom:1px solid var(--line)}.lbtbl .num{text-align:right;font-variant-numeric:tabular-nums}
+.lbtbl .e{color:var(--orange)}
+.trow{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.trow:last-child{border:none}.trow .k{color:var(--fog)}.trow .v{font-family:var(--mono);font-weight:500}
+
+/* side rail */
+.rail{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;position:sticky;top:88px}
+.rail h3{font-size:14px;font-weight:600;margin-bottom:4px}
+.rail .sub{font-size:12.5px;color:var(--fog);margin-bottom:16px;line-height:1.5}
+.fillbig{height:8px;background:var(--panel);border-radius:100px;overflow:hidden;margin:6px 0 6px}
+.fillbig i{display:block;height:100%;background:var(--orange);border-radius:100px}
+.filllab{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--fog)}
+.rail .mini{margin-top:18px;font-family:var(--mono);font-size:11px;color:var(--fog-2);line-height:1.8;border-top:1px solid var(--line);padding-top:14px}
+
+/* checkout modal */
+.scrim{position:fixed;inset:0;background:rgba(13,13,13,.45);backdrop-filter:blur(3px);z-index:200;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.open{opacity:1;pointer-events:auto}
+.modal{position:fixed;top:0;right:0;bottom:0;width:min(520px,100%);background:#fff;z-index:201;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-24px 0 64px rgba(0,0,0,.18)}
+.modal.open{transform:translateX(0)}
+.mhead{padding:20px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.mhead h3{font-size:17px;font-weight:600}
+.mhead .x{width:32px;height:32px;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;font-size:16px;color:var(--fog)}
+.mbody{flex:1;overflow-y:auto;padding:22px 24px}
+.fld{margin-bottom:20px}
+.fld .lab{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--fog-2);display:block;margin-bottom:8px}
+.fld input[type=number],.fld select{width:100%;font-family:var(--mono);font-size:14px;padding:11px 13px;border:1px solid var(--line-2);border-radius:9px;background:#fff;color:var(--ink)}
+.opts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.opt{border:1px solid var(--line-2);border-radius:9px;padding:11px;cursor:pointer;text-align:center;font-size:12.5px;transition:all .15s}
+.opt .m{font-family:var(--mono);font-size:10px;color:var(--fog-2);margin-top:3px}
+.opt.on{border-color:var(--orange);background:var(--orange-tint);color:var(--orange)}
+.opt.on .m{color:var(--orange)}
+.drop{border:1px dashed var(--line-2);border-radius:9px;padding:14px;text-align:center;font-size:12.5px;color:var(--fog);font-family:var(--mono)}
+.mfoot{border-top:1px solid var(--line);padding:18px 24px;background:var(--panel-2)}
+.estrow{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.estrow .k{font-size:13px;color:var(--fog)}
+.estrow .v{font-family:var(--mono);font-size:24px;font-weight:500}
+.estsub{font-family:var(--mono);font-size:11px;color:var(--fog-2);margin-bottom:14px}
+.done{display:none;text-align:center;padding:40px 24px}
+.done.show{display:block}
+.done .ic{width:54px;height:54px;border-radius:50%;background:var(--orange-tint);color:var(--orange);display:grid;place-items:center;margin:0 auto 16px;font-size:22px}
+.done h3{font-size:18px;font-weight:600;margin-bottom:8px}.done p{font-size:13.5px;color:var(--fog);line-height:1.6}
+
+footer{border-top:1px solid var(--line);padding:42px var(--gut);background:#fff}
+.foot-in{max-width:var(--cont);margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;color:var(--fog-2);font-size:13px;align-items:center}
+.foot-in .brand{font-size:15px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 48 48" fill="none"><path d="M15 12 C24 12 22 22 29 24 C22 26 24 36 15 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 12 C24 12 26 22 19 24 C26 26 24 36 33 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Zuzo Robotics
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Network</a>
+      <a href="index.html#how">How it works</a>
+      <a href="order-book.html#catalog">Challenges</a>
+      <a href="anti-gaming.html">Anti-gaming</a>
+      <a href="datasets.html">Datasets</a>
+      <a class="active" href="order-book.html">Order book</a>
+    </div>
+    <a class="btn btn-dark" href="order-book.html">Launch app</a>
+  </div>
+</nav>
+
+<main>
+  <a class="back" href="order-book.html">← Back to order book</a>
+
+  <div class="ohead">
+    <div class="top"><span class="tpill" id="o-type">Hand pose</span><span id="o-id">ORD-2271</span><span class="statusp">● open</span></div>
+    <h1 id="o-title">Kitchen manipulation</h1>
+    <div class="client" id="o-client">Client · Frontier humanoid lab (undisclosed)</div>
+    <div class="osum">
+      <div class="c"><div class="k">Pay rate</div><div class="v sig" id="o-pay">$118/hr</div></div>
+      <div class="c"><div class="k">Volume</div><div class="v" id="o-vol">50,000 hrs</div></div>
+      <div class="c"><div class="k">Order value</div><div class="v" id="o-value">$5.9M</div></div>
+      <div class="c"><div class="k">Deadline</div><div class="v" id="o-deadline">14 days</div></div>
+      <div class="c"><div class="k">Miners</div><div class="v" id="o-miners">29</div></div>
+      <div class="c"><div class="k">Filled</div><div class="v" id="o-fill">31%</div></div>
+    </div>
+    <div class="oactions">
+      <a class="btn btn-primary" href="#" onclick="return false">Claim hours</a>
+      <button class="btn btn-dark" id="openCheckout">Order this data</button>
+      <a class="btn btn-grey" href="#" onclick="return false">Download sample</a>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="panelcard">
+      <div class="tabs">
+        <button class="tab on" data-p="brief">Brief</button>
+        <button class="tab" data-p="schema">Format &amp; schema</button>
+        <button class="tab" data-p="samples">Samples</button>
+        <button class="tab" data-p="board">Leaderboard</button>
+        <button class="tab" data-p="terms">Terms</button>
+      </div>
+
+      <div class="pane on" data-p="brief">
+        <h4>Summary</h4>
+        <p id="o-capture">Stereo RGB + IMU egocentric capture requiring 21-joint hand keypoint correction and per-frame contact state.</p>
+        <h4 class="mt">Capture workflow</h4>
+        <ol>
+          <li>Receive the raw demonstration pack and the matching calibration file.</li>
+          <li>Align each clip to the supplied world coordinate frame in your tool of choice.</li>
+          <li>Annotate against the rubric, then run the local schema validator before you submit.</li>
+        </ol>
+        <h4 class="mt">Acceptance rubric</h4>
+        <ul>
+          <li>All required keypoints present on every frame the target is visible.</li>
+          <li>Transitions correct to within two frames of ground truth.</li>
+          <li>Submission passes the geometric consistency check against calibration.</li>
+          <li>Hidden honeypot clips scored at or above the acceptance threshold.</li>
+        </ul>
+      </div>
+
+      <div class="pane" data-p="schema">
+        <h4>Capture specification</h4>
+        <ul>
+          <li id="o-spec">Embodiment: egocentric human. Sensors: stereo RGB + IMU at 30 fps.</li>
+          <li>Episode length 8–40 seconds. Delivered as per-episode folders with a manifest.</li>
+        </ul>
+        <h4 class="mt">Delivery schema</h4>
+        <table class="schema">
+          <tr><th>Key</th><th>Dtype</th><th>Shape</th><th>Units</th></tr>
+          <tr><td>hand_kp</td><td class="t">float32</td><td>[T, 21, 3]</td><td>m</td></tr>
+          <tr><td>contact</td><td class="t">uint8</td><td>[T, 5]</td><td>bool</td></tr>
+          <tr><td>head_pose</td><td class="t">float32</td><td>[T, 6]</td><td>m · rad</td></tr>
+          <tr><td>timestamps</td><td class="t">int64</td><td>[T]</td><td>ns</td></tr>
+        </table>
+        <h4 class="mt">Sample label</h4>
+        <div class="codeblock">{
+  <span class="k">"episode_id"</span>: <span class="o">"ord_00482"</span>,
+  <span class="k">"fps"</span>: 30,
+  <span class="k">"hand_kp"</span>: [[[0.12, 0.04, 0.51], ...]],
+  <span class="k">"contact"</span>: [[0, 0, 1, 1, 0], ...],
+  <span class="k">"checksum"</span>: <span class="o">"sha256:9f2c…"</span>
+}</div>
+      </div>
+
+      <div class="pane" data-p="samples">
+        <h4>Sample clip — raw vs annotated</h4>
+        <div class="sample" id="sample">
+          <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=820&q=70" onerror="this.style.display='none'">
+          <svg class="ov" viewBox="0 0 460 260" preserveAspectRatio="xMidYMid slice">
+            <g stroke="rgba(236,69,13,.6)" stroke-width="1.4"><line x1="190" y1="190" x2="212" y2="130"/><line x1="212" y1="130" x2="228" y2="92"/><line x1="190" y1="190" x2="250" y2="128"/><line x1="250" y1="128" x2="278" y2="92"/><line x1="190" y1="190" x2="282" y2="134"/></g>
+            <g fill="#EC450D"><circle cx="190" cy="190" r="4.5"/><circle cx="212" cy="130" r="3"/><circle cx="228" cy="92" r="3"/><circle cx="250" cy="128" r="3"/><circle cx="278" cy="92" r="3"/><circle cx="282" cy="134" r="3"/></g>
+            <rect x="160" y="70" width="180" height="140" fill="none" stroke="#EC450D" stroke-width="1.4" stroke-dasharray="4 4"/>
+          </svg>
+          <button class="toggle" id="toggle">Show annotation</button>
+          <span class="lbl">ego_cam_00 · frame 0482</span>
+        </div>
+        <p>Three example episodes and the full schema are downloadable before purchase. The full dataset and bulk access unlock on order completion.</p>
+        <a class="btn btn-grey" href="#" onclick="return false">Download 3 sample clips + label JSON</a>
+      </div>
+
+      <div class="pane" data-p="board">
+        <h4>Top miners on this order</h4>
+        <table class="lbtbl">
+          <tr><th>Rank</th><th>Miner</th><th class="num">Accept %</th><th class="num">Hours</th><th class="num">Earned</th></tr>
+          <tr><td>1</td><td>5Dt42o5VSQ…</td><td class="num">98.7%</td><td class="num">4,210</td><td class="num e">$4,210</td></tr>
+          <tr><td>2</td><td>5Fn9PWH2PE…</td><td class="num">96.1%</td><td class="num">3,020</td><td class="num e">$3,180</td></tr>
+          <tr><td>3</td><td>5FXDWbJSw6…</td><td class="num">94.8%</td><td class="num">2,440</td><td class="num e">$2,540</td></tr>
+          <tr><td>4</td><td>5GEGJohxNm…</td><td class="num">91.2%</td><td class="num">1,780</td><td class="num e">$1,870</td></tr>
+        </table>
+      </div>
+
+      <div class="pane" data-p="terms">
+        <h4>Quality &amp; commercial terms</h4>
+        <div class="trow"><span class="k">Honeypot rate</span><span class="v">10–15% · hidden</span></div>
+        <div class="trow"><span class="k">Acceptance threshold</span><span class="v">≥ 0.92 eval</span></div>
+        <div class="trow"><span class="k">Review SLA</span><span class="v">24 hours</span></div>
+        <div class="trow"><span class="k">Payout</span><span class="v">per accepted hour, on validation</span></div>
+        <div class="trow"><span class="k">License</span><span class="v">Commercial · buyer-exclusive</span></div>
+        <div class="trow"><span class="k">Provenance</span><span class="v">on-chain, per submission</span></div>
+        <div class="trow"><span class="k">Settlement</span><span class="v">escrow in $TAO, released on QC</span></div>
+      </div>
+    </div>
+
+    <aside class="rail">
+      <h3>Order progress</h3>
+      <div class="sub">Hours delivered against the brief.</div>
+      <div class="fillbig"><i id="rail-fill" style="width:31%"></i></div>
+      <div class="filllab"><span id="rail-deliv">15,400 / 50,000 hrs</span><b id="rail-pct">31%</b></div>
+      <div class="mini">TRUST GATES ACCESS<br>HONEYPOTS @ 10–15%<br>EMISSIONS → TOP EVAL DELTA<br>SETTLES IN $TAO ESCROW</div>
+      <button class="btn btn-primary" id="openCheckout2" style="width:100%;justify-content:center;margin-top:18px">Order this data</button>
+    </aside>
+  </div>
+</main>
+
+<!-- CHECKOUT -->
+<div class="scrim" id="scrim"></div>
+<aside class="modal" id="modal">
+  <div class="mhead"><h3>Order this data</h3><button class="x" id="closeCheckout">×</button></div>
+  <div class="mbody" id="mbody">
+    <div class="fld">
+      <label class="lab">Volume (hours)</label>
+      <input type="number" id="ck-vol" value="50000" min="100" step="100">
+    </div>
+    <div class="fld">
+      <label class="lab">License tier</label>
+      <div class="opts" id="ck-license">
+        <div class="opt on" data-mult="1.5">Exclusive<div class="m">×1.5</div></div>
+        <div class="opt" data-mult="1.0">Non-exclusive<div class="m">×1.0</div></div>
+        <div class="opt" data-mult="0.6">Research<div class="m">×0.6</div></div>
+      </div>
+    </div>
+    <div class="fld">
+      <label class="lab">Delivery format</label>
+      <select id="ck-format">
+        <option>LeRobot parquet + MP4</option>
+        <option>HDF5 episodes</option>
+        <option>Raw MP4 + label JSON</option>
+        <option>Custom (specify)</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label class="lab">Annotation rubric</label>
+      <div class="drop">Drop rubric / spec doc · or click to upload</div>
+    </div>
+    <div class="fld">
+      <label class="lab">Held-out eval set (for QC)</label>
+      <div class="drop">Drop gold eval clips · optional</div>
+    </div>
+    <div class="fld">
+      <label class="lab">Delivery window</label>
+      <select id="ck-window"><option>4 weeks</option><option>8 weeks</option><option>12 weeks</option><option>Rolling</option></select>
+    </div>
+  </div>
+  <div class="mfoot" id="mfoot">
+    <div class="estrow"><span class="k">Estimated cost</span><span class="v" id="ck-est">$8,850,000</span></div>
+    <div class="estsub" id="ck-estsub">50,000 hrs × $118/hr × 1.5 · settled in $TAO escrow</div>
+    <button class="btn btn-primary" id="placeOrder" style="width:100%;justify-content:center">Place order &amp; fund escrow</button>
+  </div>
+  <div class="done" id="ckDone">
+    <div class="ic">✓</div>
+    <h3>Order posted to the book</h3>
+    <p>Your brief is live and miners can begin claiming hours. Escrow is funded and releases per milestone on QC acceptance. You'll get delivery updates as the fill bar advances.</p>
+    <button class="btn btn-grey" id="closeDone" style="margin-top:18px">Done</button>
+  </div>
+</aside>
+
+<footer>
+  <div class="foot-in">
+    <span class="brand">
+      <svg viewBox="0 0 48 48" width="24" height="24" fill="none"><path d="M15 12 C24 12 22 22 29 24 C22 26 24 36 15 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 12 C24 12 26 22 19 24 C26 26 24 36 33 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Zuzo Robotics
+    </span>
+    <span class="mono">Physical AI Data Network · Built on Bittensor · © 2026 · <a href="design-system.html" style="border-bottom:1px solid var(--line-2)">design system</a></span>
+  </div>
+</footer>
+
+<script>
+const ORDERS={
+ 'ORD-2271':{type:'Hand pose',client:'Frontier humanoid lab (undisclosed)',title:'Kitchen manipulation',capture:'Stereo RGB + IMU egocentric capture requiring 21-joint hand keypoint correction and per-frame contact state.',spec:'Embodiment: egocentric human. Sensors: stereo RGB + IMU at 30 fps.',vol:'50,000 hrs',volNum:50000,unit:'hrs',pay:118,value:'$5.9M',deadline:'14 days',miners:29,fill:31,deliv:'15,400 / 50,000 hrs'},
+ 'ORD-2243':{type:'Force / tactile',client:'Autonomous-home lab (undisclosed)',title:'Pouring & insertion',capture:'RGB plus force-torque capture, marking contact onset, slip, and insertion events.',spec:'Embodiment: fixed-base arm. Sensors: RGB + 6-axis force-torque at 60 fps.',vol:'5,000 hrs',volNum:5000,unit:'hrs',pay:120,value:'$0.6M',deadline:'3 days',miners:18,fill:88,deliv:'4,400 / 5,000 hrs'},
+ 'ORD-2255':{type:'Episode',client:'Logistics automation (undisclosed)',title:'Bin picking & sorting',capture:'Monocular RGB episodes with instruction and outcome labelling.',spec:'Embodiment: fixed-base. Sensors: monocular RGB at 30 fps.',vol:'80,000 hrs',volNum:80000,unit:'hrs',pay:22,value:'$1.76M',deadline:'21 days',miners:61,fill:72,deliv:'57,600 / 80,000 hrs'},
+ 'ORD-2262':{type:'6-DoF pose',client:'Manipulation research group (undisclosed)',title:'Object & end-effector pose',capture:'RGB-D capture for 6-DoF object and end-effector tracks consistent through occlusion.',spec:'Embodiment: egocentric + RGB-D. 6-DoF tracks per frame.',vol:'1.2M frames',volNum:1200000,unit:'frames',pay:92,value:'$2.1M',deadline:'17 days',miners:24,fill:34,deliv:'410k / 1.2M frames'},
+ 'ORD-2268':{type:'Action',client:'Industrial robotics OEM (undisclosed)',title:'Tool use & assembly',capture:'Monocular RGB capture decomposed into timestamped motion primitives.',spec:'Embodiment: fixed-base. Sensors: monocular RGB at 30 fps.',vol:'25,000 hrs',volNum:25000,unit:'hrs',pay:64,value:'$1.6M',deadline:'9 days',miners:37,fill:58,deliv:'14,500 / 25,000 hrs'},
+ 'ORD-2249':{type:'Point-cloud',client:'Mobile-manipulation startup (undisclosed)',title:'Navigation segmentation',capture:'Fused LiDAR and RGB scenes segmented into semantic and instance tracks.',spec:'Embodiment: mobile base. Sensors: LiDAR + multi-camera RGB.',vol:'9,500 scenes',volNum:9500,unit:'scenes',pay:78,value:'$0.9M',deadline:'12 days',miners:19,fill:63,deliv:'6,000 / 9,500 scenes'},
+ 'ORD-2240':{type:'Affordance',client:'Dexterous-grasp lab (undisclosed)',title:'Grasp-point & contact',capture:'RGB-D capture with graspable-region and contact-point labelling.',spec:'Embodiment: fixed-base + RGB-D. Gripper geometry supplied.',vol:'540k grasps',volNum:540000,unit:'grasps',pay:96,value:'$1.1M',deadline:'19 days',miners:15,fill:33,deliv:'180k / 540k grasps'},
+ 'ORD-2231':{type:'Clipping',client:'Home-robot startup (undisclosed)',title:'Laundry & tidying',capture:'Monocular RGB sessions clipped into clean episodes with boundary detection.',spec:'Embodiment: egocentric. Sensors: monocular RGB at 30 fps.',vol:'12,000 hrs',volNum:12000,unit:'hrs',pay:9,value:'$0.11M',deadline:'6 days',miners:44,fill:44,deliv:'5,300 / 12,000 hrs'}
+};
+const params=new URLSearchParams(location.search);
+const id=params.get('id')&&ORDERS[params.get('id')]?params.get('id'):'ORD-2271';
+const o=ORDERS[id];
+const set=(el,v)=>{document.getElementById(el).textContent=v;};
+set('o-type',o.type);set('o-id',id);set('o-title',o.title);set('o-client','Client · '+o.client);
+set('o-pay','$'+o.pay+'/hr');set('o-vol',o.vol);set('o-value',o.value);set('o-deadline',o.deadline);set('o-miners',o.miners);set('o-fill',o.fill+'%');
+set('o-capture',o.capture);set('o-spec',o.spec);
+document.getElementById('rail-fill').style.width=o.fill+'%';
+set('rail-pct',o.fill+'%');set('rail-deliv',o.deliv);
+document.title='Zuzo Robotics — '+id;
+
+// tabs
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  t.classList.add('on');document.querySelector('.pane[data-p="'+t.dataset.p+'"]').classList.add('on');
+}));
+// sample toggle
+const samp=document.getElementById('sample'),tog=document.getElementById('toggle');
+tog.addEventListener('click',()=>{samp.classList.toggle('annot');tog.textContent=samp.classList.contains('annot')?'Show raw':'Show annotation';});
+
+// checkout
+const scrim=document.getElementById('scrim'),modal=document.getElementById('modal');
+function openCk(){
+  document.getElementById('ck-vol').value=o.volNum;
+  document.getElementById('mbody').style.display='';document.getElementById('mfoot').style.display='';document.getElementById('ckDone').classList.remove('show');
+  recalc();scrim.classList.add('open');modal.classList.add('open');document.body.style.overflow='hidden';
+}
+function closeCk(){scrim.classList.remove('open');modal.classList.remove('open');document.body.style.overflow='';}
+document.getElementById('openCheckout').addEventListener('click',openCk);
+document.getElementById('openCheckout2').addEventListener('click',openCk);
+document.getElementById('closeCheckout').addEventListener('click',closeCk);
+document.getElementById('closeDone').addEventListener('click',closeCk);
+scrim.addEventListener('click',closeCk);
+if(location.hash==='#checkout')setTimeout(openCk,200);
+
+let mult=1.5;
+document.querySelectorAll('#ck-license .opt').forEach(op=>op.addEventListener('click',()=>{
+  document.querySelectorAll('#ck-license .opt').forEach(x=>x.classList.remove('on'));op.classList.add('on');mult=parseFloat(op.dataset.mult);recalc();
+}));
+document.getElementById('ck-vol').addEventListener('input',recalc);
+function recalc(){
+  const vol=parseFloat(document.getElementById('ck-vol').value)||0;
+  const cost=Math.round(vol*o.pay*mult);
+  document.getElementById('ck-est').textContent='$'+cost.toLocaleString();
+  document.getElementById('ck-estsub').textContent=vol.toLocaleString()+' '+o.unit+' × $'+o.pay+'/'+(o.unit==='hrs'?'hr':'unit')+' × '+mult+' · settled in $TAO escrow';
+}
+document.getElementById('placeOrder').addEventListener('click',()=>{
+  document.getElementById('mbody').style.display='none';document.getElementById('mfoot').style.display='none';document.getElementById('ckDone').classList.add('show');
+});
+recalc();
+</script>
+</body>
+</html>

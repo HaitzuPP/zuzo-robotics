@@ -16,6 +16,7 @@
   --pos:#0FA958;--neg:#E5484D;--warn:#E8A100;
   --sans:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
   --gut:clamp(20px,5vw,72px);--max:1320px;
+  --cont:calc(var(--max) + var(--gut)*2);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -23,162 +24,92 @@ body{font-family:var(--sans);background:var(--panel-2);color:var(--ink);-webkit-
 a{color:inherit;text-decoration:none}.mono{font-family:var(--mono)}
 .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 4px var(--orange-tint);animation:pulse 2.2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.btn{font-family:var(--sans);font-size:14px;font-weight:500;padding:11px 18px;border-radius:100px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:9px;transition:all .2s;white-space:nowrap}
+.btn{font-family:var(--sans);font-size:14px;font-weight:500;padding:11px 18px;border-radius:100px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:9px;transition:all .2s}
 .btn-primary{background:var(--orange);color:#fff}.btn-primary:hover{background:var(--orange-600);transform:translateY(-1px);box-shadow:0 8px 24px rgba(236,69,13,.25)}
 .btn-grey{background:var(--panel);color:var(--ink)}.btn-grey:hover{background:#ebebe8}
 .btn-dark{background:var(--ink);color:#fff}.btn-dark:hover{background:#000}
 
-/* NAV (canonical header — app variant uses the status bar in place of the announcement strip) */
 nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.nav-in{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px var(--gut)}
+.nav-in{max-width:var(--cont);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px var(--gut)}
 .brand{display:flex;align-items:center;gap:11px;font-weight:600;font-size:17px;letter-spacing:-.01em}
 .brand svg{width:30px;height:30px}
 .nav-links{display:flex;gap:22px;align-items:center}
 .nav-links a{font-size:14px;color:var(--fog)}.nav-links a:hover,.nav-links a.active{color:var(--ink)}
 @media(max-width:1040px){.nav-links{display:none}}
 
-.statusbar{background:#fff;border-bottom:1px solid var(--line)}
-.statusbar .in{max-width:var(--max);margin:0 auto;display:flex;align-items:center;gap:clamp(16px,3vw,38px);flex-wrap:wrap;padding:12px var(--gut);font-family:var(--mono);font-size:12.5px;color:var(--fog)}
-.statusbar .s b{color:var(--ink);font-weight:500}
-.statusbar .right{margin-left:auto;display:flex;align-items:center;gap:8px;color:var(--orange);font-weight:500}
+/* network vitals band */
+.vitals{background:#fff;border-bottom:1px solid var(--line)}
+.vitals-in{max-width:var(--cont);margin:0 auto;display:flex;align-items:center;gap:clamp(14px,2.4vw,34px);flex-wrap:wrap;padding:12px var(--gut);font-family:var(--mono);font-size:12px;color:var(--fog)}
+.vitals-in .v b{color:var(--ink);font-weight:500}
+.vitals-in .right{margin-left:auto;display:flex;align-items:center;gap:8px;color:var(--orange);font-weight:500}
 
-.app-in{max-width:var(--max);margin:0 auto;padding:26px var(--gut) 70px}
-.apphead{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.app-in{max-width:var(--cont);margin:0 auto;padding:26px var(--gut) 64px}
+.apphead{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:20px}
 .apphead h1{font-size:clamp(24px,3vw,32px);font-weight:300;letter-spacing:-.02em}
-.apphead p{font-size:14px;color:var(--fog);margin-top:6px;max-width:520px}
-.tabs{display:flex;gap:8px;overflow-x:auto;padding:22px 0 4px;margin-bottom:22px;scrollbar-width:thin}
-.tab{font-family:var(--mono);font-size:12px;padding:9px 15px;border-radius:100px;border:1px solid var(--line);color:var(--fog);cursor:pointer;background:#fff;white-space:nowrap;transition:all .2s}
-.tab:hover{color:var(--ink)}.tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-.lab{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--fog-2);margin:26px 0 14px}
+.apphead p{font-size:14px;color:var(--fog);margin-top:6px;max-width:540px}
 
-.highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.hl{display:flex;gap:15px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}
-.hl .ic{width:36px;height:36px;border-radius:9px;background:var(--orange-tint);display:grid;place-items:center;color:var(--orange);font-size:16px;flex-shrink:0}
-.hl .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--fog-2)}
-.hl .m{font-size:17px;font-weight:600;margin:7px 0 3px;letter-spacing:-.01em}
-.hl .sub{font-family:var(--mono);font-size:12px;color:var(--fog)}.hl .sub.pos{color:var(--pos)}
-@media(max-width:880px){.highlights{grid-template-columns:1fr}}
+/* toolbar */
+.toolbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.seg{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:100px;padding:3px}
+.seg button{font-family:var(--mono);font-size:12px;padding:7px 15px;border:none;background:none;color:var(--fog);cursor:pointer;border-radius:100px}
+.seg button.on{background:var(--ink);color:#fff}
+.chips{display:flex;gap:7px;flex-wrap:wrap;overflow-x:auto}
+.chip{font-family:var(--mono);font-size:11.5px;padding:7px 13px;border-radius:100px;border:1px solid var(--line);color:var(--fog);cursor:pointer;background:#fff;white-space:nowrap}
+.chip:hover{color:var(--ink)}.chip.on{background:var(--orange-tint);color:var(--orange);border-color:var(--orange-line)}
+.toolbar .meta{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--fog-2)}
 
-.app-grid{display:grid;grid-template-columns:1fr 320px;gap:26px;margin-top:6px}
-@media(max-width:1000px){.app-grid{grid-template-columns:1fr}}
-.order-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:620px){.order-grid{grid-template-columns:1fr}}
-.order{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;cursor:pointer;transition:all .2s}
-.order:hover{border-color:var(--orange-line);box-shadow:0 10px 26px rgba(13,13,13,.05)}
-.order .toprow{display:flex;gap:7px;align-items:center;font-family:var(--mono);font-size:10px;letter-spacing:.05em;margin-bottom:13px}
-.tag{padding:4px 8px;border-radius:6px;text-transform:uppercase}
-.tag.cat{background:var(--ink);color:#fff;font-weight:500}
-.tag.vis{border:1px solid var(--line-2);color:var(--fog)}
-.order .oid{margin-left:auto;color:var(--fog-2)}
-.order .client{font-family:var(--mono);font-size:11px;color:var(--fog);letter-spacing:.02em}
-.order h4{font-size:17px;margin:5px 0 2px;font-weight:600;letter-spacing:-.01em}
-.order h4 .vol{color:var(--orange)}
-.order .cap-line{font-family:var(--mono);font-size:11px;color:var(--fog-2);margin-bottom:14px}
-.bar{height:7px;background:var(--panel);border-radius:100px;overflow:hidden}
-.bar i{display:block;height:100%;background:var(--orange);border-radius:100px}
-.barlabel{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--fog);margin:9px 0 4px}.barlabel b{color:var(--ink);font-weight:500}
-.ometrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-top:15px}
-.ometrics .cell{background:#fff;padding:11px 12px}
-.ometrics .cell .k{font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--fog-2);text-transform:uppercase}
-.ometrics .cell .v{font-family:var(--mono);font-size:14px;margin-top:5px;font-weight:500}
-.ometrics .cell .v.sig{color:var(--orange)}.ometrics .cell .v.warn{color:var(--neg)}
+/* table */
+.tablewrap{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.scroll{overflow-x:auto}
+table.tbl{width:100%;border-collapse:collapse;font-size:13px;min-width:880px}
+table.tbl th{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--fog-2);text-align:left;padding:13px 16px;border-bottom:1px solid var(--line-2);cursor:pointer;white-space:nowrap;user-select:none}
+table.tbl th.num{text-align:right}
+table.tbl th:hover{color:var(--ink)}
+table.tbl th .car{color:var(--orange);font-size:9px}
+table.tbl td{padding:13px 16px;border-bottom:1px solid var(--line);white-space:nowrap;vertical-align:middle}
+table.tbl tbody tr{cursor:pointer;transition:background .15s}
+table.tbl tbody tr:hover{background:var(--panel-2)}
+table.tbl tbody tr:last-child td{border-bottom:none}
+.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tpill{font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;padding:4px 8px;border-radius:6px;background:var(--orange-tint);color:var(--orange);display:inline-block}
+.vis{font-family:var(--mono);font-size:10px;color:var(--fog-2);margin-left:6px}
+.oid{font-family:var(--mono);color:var(--ink);font-weight:500}
+.muted{color:var(--fog)}
+.ftiny{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.ftiny .bar{width:64px;height:6px;background:var(--panel);border-radius:100px;overflow:hidden}
+.ftiny .bar i{display:block;height:100%;background:var(--orange);border-radius:100px}
+.ftiny b{font-family:var(--mono);font-variant-numeric:tabular-nums;width:34px;text-align:right}
+.spill{font-family:var(--mono);font-size:10px;padding:4px 9px;border-radius:100px}
+.spill.open{background:rgba(15,169,88,.1);color:var(--pos)}
+.spill.soon{background:rgba(229,72,77,.1);color:var(--neg)}
+.hk{font-family:var(--mono);color:var(--fog)}
+.deadline-soon{color:var(--neg)}
+.rk1{color:var(--orange);font-weight:600}
 
-.board{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;align-self:start}
-.board .bhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.board .bhead h3{font-size:14px;font-weight:600}
-.board .bhead a{font-family:var(--mono);font-size:11px;color:var(--fog);border-bottom:1px solid var(--line-2)}
-.miner{display:flex;align-items:center;gap:13px;padding:14px 0;border-bottom:1px solid var(--line)}
-.miner:last-child{border:none}
-.miner .rk{width:22px;height:22px;border-radius:6px;background:var(--panel);display:grid;place-items:center;font-family:var(--mono);font-size:11px;color:var(--fog)}
-.miner.top .rk{background:var(--orange);color:#fff;font-weight:600}
-.miner .id{font-family:var(--mono);font-size:13px}
-.miner .w{font-family:var(--mono);font-size:11px;color:var(--fog-2);margin-top:2px}
-.miner .e{margin-left:auto;font-family:var(--mono);font-size:13px;color:var(--orange)}
-.note{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--fog-2);line-height:1.8}
-.order .open-hint{font-family:var(--mono);font-size:10px;color:var(--fog-2);margin-top:13px;display:flex;align-items:center;gap:5px}
-.order:hover .open-hint{color:var(--orange)}
-
-/* ORDER DETAIL DRAWER */
-.od-scrim{position:fixed;inset:0;background:rgba(13,13,13,.42);backdrop-filter:blur(3px);z-index:200;opacity:0;pointer-events:none;transition:opacity .2s}
-.od-scrim.open{opacity:1;pointer-events:auto}
-.od{position:fixed;top:0;right:0;bottom:0;width:min(780px,100%);background:var(--white);z-index:201;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:-24px 0 64px rgba(0,0,0,.16)}
-.od.open{transform:translateX(0)}
-.od-top{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;border-bottom:1px solid var(--line)}
-.od-top .l{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;color:var(--fog-2)}
-.od-pill{padding:4px 9px;border-radius:6px;background:var(--orange-tint);color:var(--orange);font-size:10px;letter-spacing:.06em;text-transform:uppercase}
-.od-close{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:16px;color:var(--fog);display:grid;place-items:center}
-.od-close:hover{border-color:var(--line-2);color:var(--ink)}
-.od-head{padding:22px 28px 18px}
-.od-head h2{font-size:23px;font-weight:500;letter-spacing:-.02em;line-height:1.2}
-.od-head .client{font-family:var(--mono);font-size:12px;color:var(--fog);margin-top:7px}
-.od-sum{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:18px 28px 0}
-.od-sum .c{background:#fff;padding:12px 14px}
-.od-sum .c .k{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--fog-2)}
-.od-sum .c .v{font-family:var(--mono);font-size:15px;margin-top:5px;font-weight:500}
-.od-sum .c .v.sig{color:var(--orange)}
-.od-tabs{display:flex;gap:6px;padding:18px 28px 0;overflow-x:auto;border-bottom:1px solid var(--line)}
-.od-tab{font-family:var(--mono);font-size:12px;padding:9px 13px;border:none;background:none;color:var(--fog);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
-.od-tab.on{color:var(--ink);border-bottom-color:var(--orange)}
-.od-body{flex:1;overflow-y:auto;padding:24px 28px}
-.od-panel{display:none}.od-panel.on{display:block}
-.od-panel h4{font-size:13px;font-weight:600;margin:0 0 10px}
-.od-panel h4.mt{margin-top:24px}
-.od-panel p{font-size:14px;color:var(--fog);line-height:1.6;margin-bottom:10px}
-.od-panel ol,.od-panel ul{margin:0 0 8px 0;padding-left:0;list-style:none}
-.od-panel li{font-size:13.5px;color:var(--ink);line-height:1.5;padding:8px 0 8px 24px;position:relative;border-bottom:1px solid var(--line)}
-.od-panel li:last-child{border:none}
-.od-panel ol{counter-reset:s}
-.od-panel ol li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:8px;font-family:var(--mono);font-size:11px;color:var(--orange);font-weight:600}
-.od-panel ul li::before{content:"";position:absolute;left:3px;top:14px;width:6px;height:6px;border-radius:2px;background:var(--orange)}
-.schema{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px}
-.schema th{text-align:left;color:var(--fog-2);font-weight:500;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:8px 10px;border-bottom:1px solid var(--line-2)}
-.schema td{padding:9px 10px;border-bottom:1px solid var(--line);color:var(--ink)}
-.schema td.t{color:var(--orange)}
-.codeblock{background:var(--ink);color:#E7E7E7;border-radius:10px;padding:16px;font-family:var(--mono);font-size:11.5px;line-height:1.7;overflow-x:auto;white-space:pre}
-.codeblock .k{color:#7DD3A8}.codeblock .o{color:#FF9466}
-.sample{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;height:230px;background:linear-gradient(150deg,var(--panel),#fff);margin-bottom:12px}
-.sample img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05)}
-.sample .ov{position:absolute;inset:0;opacity:0;transition:opacity .25s}
-.sample.annot .ov{opacity:1}
-.sample .toggle{position:absolute;right:12px;top:12px;z-index:3;font-family:var(--mono);font-size:11px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:100px;padding:7px 13px;cursor:pointer;color:var(--ink)}
-.sample .lbl{position:absolute;left:12px;bottom:12px;z-index:3;font-family:var(--mono);font-size:10px;background:rgba(255,255,255,.9);padding:5px 9px;border-radius:6px}
-.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
-.thumbs .th{height:64px;border-radius:8px;background:var(--panel);border:1px solid var(--line);position:relative;overflow:hidden}
-.thumbs .th img{width:100%;height:100%;object-fit:cover;filter:grayscale(1)}
-.od-lb .m{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12.5px}
-.od-lb .m:last-child{border:none}
-.od-lb .m .rk{width:20px;height:20px;border-radius:5px;background:var(--panel);display:grid;place-items:center;font-size:10px;color:var(--fog)}
-.od-lb .m.top .rk{background:var(--orange);color:#fff}
-.od-lb .m .ar{margin-left:auto;color:var(--fog)}
-.od-lb .m .er{color:var(--orange);width:72px;text-align:right}
-.terms-row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:13.5px}
-.terms-row:last-child{border:none}.terms-row .k{color:var(--fog)}.terms-row .v{font-family:var(--mono);font-weight:500}
-.od-foot{border-top:1px solid var(--line);padding:16px 28px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.od-foot .note2{font-family:var(--mono);font-size:10.5px;color:var(--fog-2);flex:1;min-width:140px}
-@media(max-width:620px){.od-sum{grid-template-columns:1fr 1fr}}
-
-/* CHALLENGE CATALOG */
+/* catalog */
 .catalog{background:#fff;border-top:1px solid var(--line);margin-top:46px;padding:54px var(--gut)}
 .catalog .in{max-width:var(--max);margin:0 auto}
 .catalog .ch-head{max-width:640px;margin-bottom:30px}
 .catalog .ch-head .k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
 .catalog .ch-head h2{font-size:clamp(24px,3.4vw,38px);font-weight:300;letter-spacing:-.02em;margin-top:12px;line-height:1.1}
 .catalog .ch-head p{margin-top:14px;color:var(--fog);font-size:15.5px;line-height:1.6}
-.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-@media(max-width:980px){.cat-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:620px){.cat-grid{grid-template-columns:1fr}}
-.ct{border:1px solid var(--line);border-radius:14px;padding:22px;transition:all .2s;background:#fff}
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:1080px){.cat-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:820px){.cat-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.cat-grid{grid-template-columns:1fr}}
+.ct{border:1px solid var(--line);border-radius:14px;padding:18px;transition:all .2s}
 .ct:hover{border-color:var(--orange-line);box-shadow:0 10px 26px rgba(13,13,13,.05)}
-.ct .row1{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ct .row1{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .ct .n{font-family:var(--mono);font-size:11px;color:var(--fog-2)}
-.ct .tier{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:5px;margin-left:auto}
-.tier.t1{background:rgba(15,169,88,.1);color:var(--pos)}
-.tier.t2{background:var(--orange-tint);color:var(--orange)}
-.tier.t3{background:rgba(13,13,13,.06);color:var(--ink)}
-.ct h4{font-size:16px;font-weight:600;letter-spacing:-.01em}
-.ct p{font-size:13px;color:var(--fog);line-height:1.55;margin:8px 0 12px}
-.ct .eg{font-family:var(--mono);font-size:11px;color:var(--ink);background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:9px 11px;line-height:1.5}
-.ct .eg b{color:var(--orange);font-weight:500}
+.ct .tier{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;padding:3px 6px;border-radius:5px;margin-left:auto}
+.tier.t1{background:rgba(15,169,88,.1);color:var(--pos)}.tier.t2{background:var(--orange-tint);color:var(--orange)}.tier.t3{background:rgba(13,13,13,.06);color:var(--ink)}
+.ct h4{font-size:15px;font-weight:600;letter-spacing:-.01em}
+.ct p{font-size:12.5px;color:var(--fog);line-height:1.5;margin-top:7px}
+
+footer{border-top:1px solid var(--line);padding:42px var(--gut);background:#fff}
+.foot-in{max-width:var(--cont);margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;color:var(--fog-2);font-size:13px;align-items:center}
+.foot-in .brand{font-size:15px}
+.hide{display:none}
 </style>
 </head>
 <body>
@@ -201,13 +132,17 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.85);backdrop-
   </div>
 </nav>
 
-<div class="statusbar">
-  <div class="in">
-    <span class="s">OPEN ORDERS <b>14</b></span>
-    <span class="s">HOURS REQUESTED <b>412k</b></span>
-    <span class="s">HOURS DELIVERED <b>187k</b></span>
-    <span class="s">AVG PAY <b>$41/hr</b></span>
-    <span class="s">MINERS ONLINE <b>148</b></span>
+<!-- network vitals -->
+<div class="vitals">
+  <div class="vitals-in">
+    <span class="v">OPEN ORDERS <b>14</b></span>
+    <span class="v">HOURS REQ <b>412k</b></span>
+    <span class="v">DELIVERED <b>187k</b></span>
+    <span class="v">MINERS <b>148</b></span>
+    <span class="v">VALIDATORS <b>32</b></span>
+    <span class="v">AVG PAY <b>$41/hr</b></span>
+    <span class="v">ACCEPT <b>94.2%</b></span>
+    <span class="v">EPOCH <b>4,182</b></span>
     <span class="right"><span class="dot"></span> NETWORK LIVE</span>
   </div>
 </div>
@@ -218,126 +153,121 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.85);backdrop-
       <h1>Open data orders</h1>
       <p>Live briefs from robotics labs. Claim hours, deliver verified annotation, get paid on delivery.</p>
     </div>
-    <a class="btn btn-primary" href="#">Submit an order</a>
+    <a class="btn btn-primary" href="order.html?id=ORD-2271#checkout">Submit an order</a>
   </div>
 
-  <div class="tabs">
-    <button class="tab on">All orders</button>
-    <button class="tab">Episode-level</button>
-    <button class="tab">Action labelling</button>
-    <button class="tab">Clipping</button>
-    <button class="tab">Hand pose</button>
-    <button class="tab">6-DoF pose</button>
-    <button class="tab">Point-cloud</button>
-    <button class="tab">Affordance</button>
-    <button class="tab">Force / tactile</button>
-    <button class="tab">Reward</button>
-    <button class="tab">Multi-view</button>
-  </div>
-
-  <div class="lab">Order highlights</div>
-  <div class="highlights">
-    <div class="hl"><div class="ic">◳</div><div><div class="t">Largest open order</div><div class="m">80,000 hrs · Bin picking</div><div class="sub">Logistics automation · undisclosed</div></div></div>
-    <div class="hl"><div class="ic">$</div><div><div class="t">Highest pay rate</div><div class="m">$120 / hr</div><div class="sub pos">Force / tactile · frontier lab</div></div></div>
-    <div class="hl"><div class="ic">⏱</div><div><div class="t">Closing soonest</div><div class="m">ORD-2243 · 88% filled</div><div class="sub">3 days remaining</div></div></div>
-  </div>
-
-  <div class="app-grid">
-    <div>
-      <div class="lab">Active orders</div>
-      <div class="order-grid">
-
-        <div class="order">
-          <div class="toprow"><span class="tag cat">Hand pose</span><span class="tag vis">Private</span><span class="oid">ORD-2271</span></div>
-          <div class="client">Client · Frontier humanoid lab (undisclosed)</div>
-          <h4><span class="vol">50,000 hrs</span> · Kitchen manipulation</h4>
-          <div class="cap-line">Stereo RGB + IMU · 21-joint correction</div>
-          <div class="barlabel"><span>15,400 / 50,000 hrs delivered</span><b>31%</b></div>
-          <div class="bar"><i style="width:31%"></i></div>
-          <div class="ometrics"><div class="cell"><div class="k">Pay rate</div><div class="v sig">$118/hr</div></div><div class="cell"><div class="k">Deadline</div><div class="v">14 days</div></div><div class="cell"><div class="k">Miners</div><div class="v">29</div></div></div>
-        </div>
-
-        <div class="order">
-          <div class="toprow"><span class="tag cat">Force / tactile</span><span class="tag vis">Private</span><span class="oid">ORD-2243</span></div>
-          <div class="client">Client · Autonomous-home lab (undisclosed)</div>
-          <h4><span class="vol">5,000 hrs</span> · Pouring & insertion</h4>
-          <div class="cap-line">RGB + force-torque · contact-event labelling</div>
-          <div class="barlabel"><span>4,400 / 5,000 hrs delivered</span><b>88%</b></div>
-          <div class="bar"><i style="width:88%"></i></div>
-          <div class="ometrics"><div class="cell"><div class="k">Pay rate</div><div class="v sig">$120/hr</div></div><div class="cell"><div class="k">Deadline</div><div class="v warn">3 days</div></div><div class="cell"><div class="k">Miners</div><div class="v">18</div></div></div>
-        </div>
-
-        <div class="order">
-          <div class="toprow"><span class="tag cat">Episode</span><span class="tag vis">Public</span><span class="oid">ORD-2255</span></div>
-          <div class="client">Client · Logistics automation (undisclosed)</div>
-          <h4><span class="vol">80,000 hrs</span> · Bin picking & sorting</h4>
-          <div class="cap-line">Monocular RGB · instruction & outcome</div>
-          <div class="barlabel"><span>57,600 / 80,000 hrs delivered</span><b>72%</b></div>
-          <div class="bar"><i style="width:72%"></i></div>
-          <div class="ometrics"><div class="cell"><div class="k">Pay rate</div><div class="v sig">$22/hr</div></div><div class="cell"><div class="k">Deadline</div><div class="v">21 days</div></div><div class="cell"><div class="k">Miners</div><div class="v">61</div></div></div>
-        </div>
-
-        <div class="order">
-          <div class="toprow"><span class="tag cat">6-DoF pose</span><span class="tag vis">Private</span><span class="oid">ORD-2262</span></div>
-          <div class="client">Client · Manipulation research group (undisclosed)</div>
-          <h4><span class="vol">1.2M frames</span> · Object & end-effector pose</h4>
-          <div class="cap-line">RGB-D · 6-DoF tracks through occlusion</div>
-          <div class="barlabel"><span>410k / 1.2M frames delivered</span><b>34%</b></div>
-          <div class="bar"><i style="width:34%"></i></div>
-          <div class="ometrics"><div class="cell"><div class="k">Pay rate</div><div class="v sig">$92/hr</div></div><div class="cell"><div class="k">Deadline</div><div class="v">17 days</div></div><div class="cell"><div class="k">Miners</div><div class="v">24</div></div></div>
-        </div>
-
-        <div class="order">
-          <div class="toprow"><span class="tag cat">Action</span><span class="tag vis">Private</span><span class="oid">ORD-2268</span></div>
-          <div class="client">Client · Industrial robotics OEM (undisclosed)</div>
-          <h4><span class="vol">25,000 hrs</span> · Tool use & assembly</h4>
-          <div class="cap-line">Monocular RGB · primitive segmentation</div>
-          <div class="barlabel"><span>14,500 / 25,000 hrs delivered</span><b>58%</b></div>
-          <div class="bar"><i style="width:58%"></i></div>
-          <div class="ometrics"><div class="cell"><div class="k">Pay rate</div><div class="v sig">$64/hr</div></div><div class="cell"><div class="k">Deadline</div><div class="v">9 days</div></div><div class="cell"><div class="k">Miners</div><div class="v">37</div></div></div>
-        </div>
-
-        <div class="order">
-          <div class="toprow"><span class="tag cat">Point-cloud</span><span class="tag vis">Public</span><span class="oid">ORD-2249</span></div>
-          <div class="client">Client · Mobile-manipulation startup (undisclosed)</div>
-          <h4><span class="vol">9,500 scenes</span> · Navigation segmentation</h4>
-          <div class="cap-line">Fused LiDAR + RGB · instance tracks</div>
-          <div class="barlabel"><span>6,000 / 9,500 scenes delivered</span><b>63%</b></div>
-          <div class="bar"><i style="width:63%"></i></div>
-          <div class="ometrics"><div class="cell"><div class="k">Pay rate</div><div class="v sig">$78/hr</div></div><div class="cell"><div class="k">Deadline</div><div class="v">12 days</div></div><div class="cell"><div class="k">Miners</div><div class="v">19</div></div></div>
-        </div>
-
-        <div class="order">
-          <div class="toprow"><span class="tag cat">Affordance</span><span class="tag vis">Private</span><span class="oid">ORD-2240</span></div>
-          <div class="client">Client · Dexterous-grasp lab (undisclosed)</div>
-          <h4><span class="vol">540k grasps</span> · Grasp-point & contact</h4>
-          <div class="cap-line">RGB-D · reachability & collision validation</div>
-          <div class="barlabel"><span>180k / 540k grasps delivered</span><b>33%</b></div>
-          <div class="bar"><i style="width:33%"></i></div>
-          <div class="ometrics"><div class="cell"><div class="k">Pay rate</div><div class="v sig">$96/hr</div></div><div class="cell"><div class="k">Deadline</div><div class="v">19 days</div></div><div class="cell"><div class="k">Miners</div><div class="v">15</div></div></div>
-        </div>
-
-        <div class="order">
-          <div class="toprow"><span class="tag cat">Clipping</span><span class="tag vis">Public</span><span class="oid">ORD-2231</span></div>
-          <div class="client">Client · Home-robot startup (undisclosed)</div>
-          <h4><span class="vol">12,000 hrs</span> · Laundry & tidying</h4>
-          <div class="cap-line">Monocular RGB · episode boundary detection</div>
-          <div class="barlabel"><span>5,300 / 12,000 hrs delivered</span><b>44%</b></div>
-          <div class="bar"><i style="width:44%"></i></div>
-          <div class="ometrics"><div class="cell"><div class="k">Pay rate</div><div class="v sig">$9/hr</div></div><div class="cell"><div class="k">Deadline</div><div class="v">6 days</div></div><div class="cell"><div class="k">Miners</div><div class="v">44</div></div></div>
-        </div>
-
-      </div>
+  <div class="toolbar">
+    <div class="seg" id="seg">
+      <button class="on" data-view="orders">Orders</button>
+      <button data-view="miners">Miners</button>
     </div>
+    <div class="chips" id="chips">
+      <button class="chip on" data-f="all">All types</button>
+      <button class="chip" data-f="Hand pose">Hand pose</button>
+      <button class="chip" data-f="Action">Action</button>
+      <button class="chip" data-f="Episode">Episode</button>
+      <button class="chip" data-f="Clipping">Clipping</button>
+      <button class="chip" data-f="6-DoF pose">6-DoF pose</button>
+      <button class="chip" data-f="Point-cloud">Point-cloud</button>
+      <button class="chip" data-f="Affordance">Affordance</button>
+      <button class="chip" data-f="Force / tactile">Force / tactile</button>
+    </div>
+    <span class="meta" id="meta">14 open orders</span>
+  </div>
 
-    <div class="board">
-      <div class="bhead"><h3>Top miners</h3><a href="#">Full ranking</a></div>
-      <div class="miner top"><div class="rk">1</div><div><div class="id">5Dt42o5VSQ…</div><div class="w">1,302 wins</div></div><div class="e">$12,298</div></div>
-      <div class="miner"><div class="rk">2</div><div><div class="id">5FXDWbJSw6…</div><div class="w">805 wins</div></div><div class="e">$8,876</div></div>
-      <div class="miner"><div class="rk">3</div><div><div class="id">5Fn9PWH2PE…</div><div class="w">428 wins</div></div><div class="e">$7,844</div></div>
-      <div class="miner"><div class="rk">4</div><div><div class="id">5FX8Hi1PDp…</div><div class="w">401 wins</div></div><div class="e">$5,986</div></div>
-      <div class="miner"><div class="rk">5</div><div><div class="id">5GEGJohxNm…</div><div class="w">197 wins</div></div><div class="e">$3,241</div></div>
-      <div class="note">Trust score gates order access. Honeypots run at 10–15% of volume. Emissions flow to the highest eval delta.</div>
+  <!-- ORDERS TABLE -->
+  <div class="tablewrap" id="ordersView">
+    <div class="scroll">
+      <table class="tbl" id="ordersTbl">
+        <thead>
+          <tr>
+            <th data-k="id">Order</th>
+            <th data-k="type">Type</th>
+            <th data-k="client">Client</th>
+            <th data-k="vol" class="num">Volume</th>
+            <th data-k="pay" class="num">$/hr</th>
+            <th data-k="value" class="num">Value</th>
+            <th data-k="deadline" class="num">Deadline</th>
+            <th data-k="miners" class="num">Miners</th>
+            <th data-k="fill" class="num">Fill</th>
+            <th data-k="status">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-type="Hand pose" data-id="ORD-2271" data-vol="50000" data-pay="118" data-value="5900000" data-deadline="14" data-miners="29" data-fill="31" data-status="0">
+            <td class="oid">ORD-2271</td><td><span class="tpill">Hand pose</span><span class="vis">PRIV</span></td><td class="muted">Frontier humanoid lab</td>
+            <td class="num">50,000 hrs</td><td class="num">$118</td><td class="num">$5.9M</td><td class="num">14d</td><td class="num">29</td>
+            <td class="num"><span class="ftiny"><span class="bar"><i style="width:31%"></i></span><b>31%</b></span></td><td><span class="spill open">Open</span></td>
+          </tr>
+          <tr data-type="Force / tactile" data-id="ORD-2243" data-vol="5000" data-pay="120" data-value="600000" data-deadline="3" data-miners="18" data-fill="88" data-status="1">
+            <td class="oid">ORD-2243</td><td><span class="tpill">Force / tactile</span><span class="vis">PRIV</span></td><td class="muted">Autonomous-home lab</td>
+            <td class="num">5,000 hrs</td><td class="num">$120</td><td class="num">$0.6M</td><td class="num deadline-soon">3d</td><td class="num">18</td>
+            <td class="num"><span class="ftiny"><span class="bar"><i style="width:88%"></i></span><b>88%</b></span></td><td><span class="spill soon">Closing</span></td>
+          </tr>
+          <tr data-type="Episode" data-id="ORD-2255" data-vol="80000" data-pay="22" data-value="1760000" data-deadline="21" data-miners="61" data-fill="72" data-status="0">
+            <td class="oid">ORD-2255</td><td><span class="tpill">Episode</span><span class="vis">PUB</span></td><td class="muted">Logistics automation</td>
+            <td class="num">80,000 hrs</td><td class="num">$22</td><td class="num">$1.76M</td><td class="num">21d</td><td class="num">61</td>
+            <td class="num"><span class="ftiny"><span class="bar"><i style="width:72%"></i></span><b>72%</b></span></td><td><span class="spill open">Open</span></td>
+          </tr>
+          <tr data-type="6-DoF pose" data-id="ORD-2262" data-vol="1200000" data-pay="92" data-value="2100000" data-deadline="17" data-miners="24" data-fill="34" data-status="0">
+            <td class="oid">ORD-2262</td><td><span class="tpill">6-DoF pose</span><span class="vis">PRIV</span></td><td class="muted">Manipulation research group</td>
+            <td class="num">1.2M frames</td><td class="num">$92</td><td class="num">$2.1M</td><td class="num">17d</td><td class="num">24</td>
+            <td class="num"><span class="ftiny"><span class="bar"><i style="width:34%"></i></span><b>34%</b></span></td><td><span class="spill open">Open</span></td>
+          </tr>
+          <tr data-type="Action" data-id="ORD-2268" data-vol="25000" data-pay="64" data-value="1600000" data-deadline="9" data-miners="37" data-fill="58" data-status="0">
+            <td class="oid">ORD-2268</td><td><span class="tpill">Action</span><span class="vis">PRIV</span></td><td class="muted">Industrial robotics OEM</td>
+            <td class="num">25,000 hrs</td><td class="num">$64</td><td class="num">$1.6M</td><td class="num">9d</td><td class="num">37</td>
+            <td class="num"><span class="ftiny"><span class="bar"><i style="width:58%"></i></span><b>58%</b></span></td><td><span class="spill open">Open</span></td>
+          </tr>
+          <tr data-type="Point-cloud" data-id="ORD-2249" data-vol="9500" data-pay="78" data-value="900000" data-deadline="12" data-miners="19" data-fill="63" data-status="0">
+            <td class="oid">ORD-2249</td><td><span class="tpill">Point-cloud</span><span class="vis">PUB</span></td><td class="muted">Mobile-manipulation startup</td>
+            <td class="num">9,500 scenes</td><td class="num">$78</td><td class="num">$0.9M</td><td class="num">12d</td><td class="num">19</td>
+            <td class="num"><span class="ftiny"><span class="bar"><i style="width:63%"></i></span><b>63%</b></span></td><td><span class="spill open">Open</span></td>
+          </tr>
+          <tr data-type="Affordance" data-id="ORD-2240" data-vol="540000" data-pay="96" data-value="1100000" data-deadline="19" data-miners="15" data-fill="33" data-status="0">
+            <td class="oid">ORD-2240</td><td><span class="tpill">Affordance</span><span class="vis">PRIV</span></td><td class="muted">Dexterous-grasp lab</td>
+            <td class="num">540k grasps</td><td class="num">$96</td><td class="num">$1.1M</td><td class="num">19d</td><td class="num">15</td>
+            <td class="num"><span class="ftiny"><span class="bar"><i style="width:33%"></i></span><b>33%</b></span></td><td><span class="spill open">Open</span></td>
+          </tr>
+          <tr data-type="Clipping" data-id="ORD-2231" data-vol="12000" data-pay="9" data-value="108000" data-deadline="6" data-miners="44" data-fill="44" data-status="0">
+            <td class="oid">ORD-2231</td><td><span class="tpill">Clipping</span><span class="vis">PUB</span></td><td class="muted">Home-robot startup</td>
+            <td class="num">12,000 hrs</td><td class="num">$9</td><td class="num">$0.11M</td><td class="num">6d</td><td class="num">44</td>
+            <td class="num"><span class="ftiny"><span class="bar"><i style="width:44%"></i></span><b>44%</b></span></td><td><span class="spill open">Open</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MINERS METAGRAPH TABLE -->
+  <div class="tablewrap hide" id="minersView">
+    <div class="scroll">
+      <table class="tbl" id="minersTbl">
+        <thead>
+          <tr>
+            <th data-k="uid" class="num">UID</th>
+            <th data-k="hk">Hotkey</th>
+            <th data-k="type">Type</th>
+            <th data-k="trust" class="num">Trust</th>
+            <th data-k="incentive" class="num">Incentive</th>
+            <th data-k="emission" class="num">Emission τ</th>
+            <th data-k="accept" class="num">Accept %</th>
+            <th data-k="hours" class="num">Hours</th>
+            <th data-k="earned" class="num">$ Earned</th>
+            <th data-k="active">Last active</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-uid="142" data-trust="0.987" data-incentive="0.061" data-emission="48.2" data-accept="98.7" data-hours="11240" data-earned="12298"><td class="num rk1">142</td><td class="hk">5Dt42o5VSQ…</td><td><span class="tpill">Miner</span></td><td class="num">0.987</td><td class="num">0.061</td><td class="num">48.2</td><td class="num">98.7%</td><td class="num">11,240</td><td class="num">$12,298</td><td class="muted mono">2 blk</td></tr>
+          <tr data-uid="38" data-trust="0.964" data-incentive="0.044" data-emission="34.8" data-accept="96.1" data-hours="8420" data-earned="8876"><td class="num">38</td><td class="hk">5FXDWbJSw6…</td><td><span class="tpill">Miner</span></td><td class="num">0.964</td><td class="num">0.044</td><td class="num">34.8</td><td class="num">96.1%</td><td class="num">8,420</td><td class="num">$8,876</td><td class="muted mono">1 blk</td></tr>
+          <tr data-uid="7" data-trust="0.951" data-incentive="0.039" data-emission="30.1" data-accept="94.8" data-hours="6890" data-earned="7844"><td class="num">7</td><td class="hk">5Fn9PWH2PE…</td><td><span class="tpill">Miner</span></td><td class="num">0.951</td><td class="num">0.039</td><td class="num">30.1</td><td class="num">94.8%</td><td class="num">6,890</td><td class="num">$7,844</td><td class="muted mono">4 blk</td></tr>
+          <tr data-uid="201" data-trust="0.933" data-incentive="0.031" data-emission="24.6" data-accept="92.0" data-hours="5410" data-earned="5986"><td class="num">201</td><td class="hk">5FX8Hi1PDp…</td><td><span class="tpill">Miner</span></td><td class="num">0.933</td><td class="num">0.031</td><td class="num">24.6</td><td class="num">92.0%</td><td class="num">5,410</td><td class="num">$5,986</td><td class="muted mono">3 blk</td></tr>
+          <tr data-uid="56" data-trust="0.918" data-incentive="0.022" data-emission="18.0" data-accept="90.4" data-hours="3120" data-earned="3241"><td class="num">56</td><td class="hk">5GEGJohxNm…</td><td><span class="tpill">Miner</span></td><td class="num">0.918</td><td class="num">0.022</td><td class="num">18.0</td><td class="num">90.4%</td><td class="num">3,120</td><td class="num">$3,241</td><td class="muted mono">6 blk</td></tr>
+          <tr data-uid="3" data-trust="0.999" data-incentive="0.000" data-emission="62.4" data-accept="99.9" data-hours="0" data-earned="0"><td class="num">3</td><td class="hk">5Cii8Vkdma…</td><td><span class="tpill" style="background:rgba(13,13,13,.06);color:var(--ink)">Validator</span></td><td class="num">0.999</td><td class="num">—</td><td class="num">62.4</td><td class="num">99.9%</td><td class="num">—</td><td class="num">—</td><td class="muted mono">0 blk</td></tr>
+          <tr data-uid="89" data-trust="0.872" data-incentive="0.014" data-emission="11.3" data-accept="87.6" data-hours="2040" data-earned="1980"><td class="num">89</td><td class="hk">5Hb2pQ9rLm…</td><td><span class="tpill">Miner</span></td><td class="num">0.872</td><td class="num">0.014</td><td class="num">11.3</td><td class="num">87.6%</td><td class="num">2,040</td><td class="num">$1,980</td><td class="muted mono">5 blk</td></tr>
+          <tr data-uid="174" data-trust="0.661" data-incentive="0.006" data-emission="4.1" data-accept="71.2" data-hours="640" data-earned="540"><td class="num">174</td><td class="hk">5Gw0xT4nQv…</td><td><span class="tpill">Miner</span></td><td class="num">0.661</td><td class="num">0.006</td><td class="num">4.1</td><td class="num">71.2%</td><td class="num">640</td><td class="num">$540</td><td class="muted mono">12 blk</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
@@ -351,197 +281,71 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.85);backdrop-
       <p>Every order maps to one challenge type, tiered by complexity. New miners start on Tier 1 and unlock higher tiers as trust compounds.</p>
     </div>
     <div class="cat-grid">
-
-      <div class="ct"><div class="row1"><span class="n">01</span><span class="tier t1">Tier 1</span></div><h4>Episode-level annotation</h4><p>One or a few high-level labels per trajectory: the instruction, objects, and outcome. Grounds language to behaviour.</p><div class="eg"><b>Task:</b> Write 5–10 instructions describing this episode.</div></div>
-
-      <div class="ct"><div class="row1"><span class="n">02</span><span class="tier t2">Tier 2</span></div><h4>Action labelling</h4><p>Decompose the episode into timestamped atomic skills. Unlocks long-horizon tasks and skill recombination.</p><div class="eg"><b>Task:</b> Mark the start and end frame of each primitive.</div></div>
-
-      <div class="ct"><div class="row1"><span class="n">03</span><span class="tier t1">Tier 1</span></div><h4>Clipping</h4><p>Cut raw recordings into clean units and strip idle and reset frames that poison behavioural cloning.</p><div class="eg"><b>Task:</b> Split a 10-minute session into pick-place episodes.</div></div>
-
-      <div class="ct"><div class="row1"><span class="n">04</span><span class="tier t3">Tier 3</span></div><h4>Hand pose estimation</h4><p>Per-frame 3D hand and finger keypoints, correcting an automated estimator. The bridge from human video to gripper.</p><div class="eg"><b>Task:</b> Correct the 21 keypoints where the estimator drifted.</div></div>
-
-      <div class="ct"><div class="row1"><span class="n">05</span><span class="tier t2">Tier 2</span></div><h4>6-DoF object pose</h4><p>Full position and orientation tracks for objects and end-effectors, consistent through occlusion, against RGB-D.</p><div class="eg"><b>Task:</b> Annotate the mug's 6-DoF pose across all visible frames.</div></div>
-
-      <div class="ct"><div class="row1"><span class="n">06</span><span class="tier t2">Tier 2</span></div><h4>Point-cloud labelling</h4><p>Semantic and instance segmentation of fused LiDAR and multi-camera scenes, with persistent track IDs.</p><div class="eg"><b>Task:</b> Segment every graspable instance and assign a track ID.</div></div>
-
-      <div class="ct"><div class="row1"><span class="n">07</span><span class="tier t3">Tier 3</span></div><h4>Affordance & grasp</h4><p>Graspable regions and functional contact points, validated for reachability and collision against gripper geometry.</p><div class="eg"><b>Task:</b> Mark valid grasp points on the drill and its grip axis.</div></div>
-
-      <div class="ct"><div class="row1"><span class="n">08</span><span class="tier t3">Tier 3</span></div><h4>Force / tactile events</h4><p>Mark contact onset, slip, and insertion on synchronized force-torque and tactile streams. Scarce and high-value.</p><div class="eg"><b>Task:</b> Mark first contact and successful peg insertion frames.</div></div>
-
-      <div class="ct"><div class="row1"><span class="n">09</span><span class="tier t1">Tier 1</span></div><h4>Language instructions</h4><p>Write and diversify natural-language instructions at consistent granularity for instruction-conditioned VLAs.</p><div class="eg"><b>Task:</b> Paraphrase into two alternatives preserving the goal.</div></div>
-
-      <div class="ct"><div class="row1"><span class="n">10</span><span class="tier t2">Tier 2</span></div><h4>Reward & progress</h4><p>Per-frame progress scores and sub-goal markers, providing dense supervision for reward models and value functions.</p><div class="eg"><b>Task:</b> Assign a monotonic 0-to-1 progress score per frame.</div></div>
-
-      <div class="ct"><div class="row1"><span class="n">11</span><span class="tier t1">Tier 1</span></div><h4>Success / failure & safety</h4><p>Classify outcomes and flag collisions, drops, and near-misses with timestamps. Foundational for filtering and safety.</p><div class="eg"><b>Task:</b> Flag every arm-environment collision with timestamps.</div></div>
-
-      <div class="ct"><div class="row1"><span class="n">12</span><span class="tier t2">Tier 2</span></div><h4>Multi-view sync & calibration</h4><p>Verify cross-camera time alignment and extrinsic calibration so every stream shares a drift-free timeline.</p><div class="eg"><b>Task:</b> Flag any drift across the four views and proprioception.</div></div>
-
+      <div class="ct"><div class="row1"><span class="n">01</span><span class="tier t1">Tier 1</span></div><h4>Episode-level annotation</h4><p>High-level labels per trajectory: instruction, objects, outcome.</p></div>
+      <div class="ct"><div class="row1"><span class="n">02</span><span class="tier t2">Tier 2</span></div><h4>Action labelling</h4><p>Timestamped atomic skills: reach, grasp, transport, place, release.</p></div>
+      <div class="ct"><div class="row1"><span class="n">03</span><span class="tier t1">Tier 1</span></div><h4>Clipping</h4><p>Cut raw recordings into clean units, stripping idle and reset frames.</p></div>
+      <div class="ct"><div class="row1"><span class="n">04</span><span class="tier t3">Tier 3</span></div><h4>Hand pose estimation</h4><p>Per-frame 3D hand and finger keypoints, correcting an estimator.</p></div>
+      <div class="ct"><div class="row1"><span class="n">05</span><span class="tier t2">Tier 2</span></div><h4>6-DoF object pose</h4><p>Position and orientation tracks, consistent through occlusion.</p></div>
+      <div class="ct"><div class="row1"><span class="n">06</span><span class="tier t2">Tier 2</span></div><h4>Point-cloud labelling</h4><p>Semantic and instance segmentation of fused LiDAR scenes.</p></div>
+      <div class="ct"><div class="row1"><span class="n">07</span><span class="tier t3">Tier 3</span></div><h4>Affordance & grasp</h4><p>Graspable regions and contact points, validated for reachability.</p></div>
+      <div class="ct"><div class="row1"><span class="n">08</span><span class="tier t3">Tier 3</span></div><h4>Force / tactile events</h4><p>Contact onset, slip, and insertion on force-torque streams.</p></div>
+      <div class="ct"><div class="row1"><span class="n">09</span><span class="tier t1">Tier 1</span></div><h4>Language instructions</h4><p>Write and diversify natural-language instructions per demo.</p></div>
+      <div class="ct"><div class="row1"><span class="n">10</span><span class="tier t2">Tier 2</span></div><h4>Reward & progress</h4><p>Per-frame progress scores and sub-goal completion markers.</p></div>
+      <div class="ct"><div class="row1"><span class="n">11</span><span class="tier t1">Tier 1</span></div><h4>Success / failure & safety</h4><p>Classify outcomes and flag collisions, drops, and near-misses.</p></div>
+      <div class="ct"><div class="row1"><span class="n">12</span><span class="tier t2">Tier 2</span></div><h4>Multi-view sync & calibration</h4><p>Verify cross-camera alignment and extrinsic calibration.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ORDER DETAIL DRAWER (deep-linkable via #ORD-id) -->
-<div class="od-scrim" id="odScrim"></div>
-<aside class="od" id="od" aria-hidden="true">
-  <div class="od-top">
-    <div class="l"><span class="od-pill" id="od-type">Hand pose</span><span id="od-id">ORD-2271</span><span style="color:var(--orange)">● open</span></div>
-    <button class="od-close" id="odClose" aria-label="Close">×</button>
+<footer>
+  <div class="foot-in">
+    <span class="brand">
+      <svg viewBox="0 0 48 48" width="24" height="24" fill="none"><path d="M15 12 C24 12 22 22 29 24 C22 26 24 36 15 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 12 C24 12 26 22 19 24 C26 26 24 36 33 36" stroke="#0D0D0D" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Zuzo Robotics
+    </span>
+    <span class="mono">Physical AI Data Network · Built on Bittensor · © 2026 · <a href="design-system.html" style="border-bottom:1px solid var(--line-2)">design system</a></span>
   </div>
-  <div class="od-head">
-    <h2 id="od-title">Kitchen manipulation</h2>
-    <div class="client" id="od-client">Client · Frontier humanoid lab (undisclosed)</div>
-  </div>
-  <div class="od-sum">
-    <div class="c"><div class="k">Pay rate</div><div class="v sig" id="od-pay">$118/hr</div></div>
-    <div class="c"><div class="k">Filled</div><div class="v" id="od-fill">31%</div></div>
-    <div class="c"><div class="k">Deadline</div><div class="v" id="od-deadline">14 days</div></div>
-    <div class="c"><div class="k">Miners</div><div class="v" id="od-miners">29</div></div>
-  </div>
-  <div class="od-tabs">
-    <button class="od-tab on" data-p="brief">Brief</button>
-    <button class="od-tab" data-p="schema">Format &amp; schema</button>
-    <button class="od-tab" data-p="samples">Samples</button>
-    <button class="od-tab" data-p="board">Leaderboard</button>
-    <button class="od-tab" data-p="terms">Terms</button>
-  </div>
-  <div class="od-body">
-    <div class="od-panel on" data-p="brief">
-      <h4>Summary</h4>
-      <p id="od-cap-text">Stereo RGB + IMU egocentric capture requiring 21-joint hand keypoint correction and per-frame contact state.</p>
-      <h4 class="mt">Capture workflow</h4>
-      <ol>
-        <li>Receive the raw demonstration pack and the matching stereo calibration file.</li>
-        <li>Align each clip to the supplied world coordinate frame in your tool of choice.</li>
-        <li>Annotate against the rubric, then run the local schema validator before you submit.</li>
-      </ol>
-      <h4 class="mt">Acceptance rubric</h4>
-      <ul>
-        <li>All keypoints present on every frame the hand is visible.</li>
-        <li>Contact-state transitions correct to within two frames of true contact.</li>
-        <li>Submission passes the geometric consistency check against the calibration file.</li>
-        <li>Hidden honeypot clips scored at or above the order's acceptance threshold.</li>
-      </ul>
-    </div>
-    <div class="od-panel" data-p="schema">
-      <h4>Capture specification</h4>
-      <ul>
-        <li>Embodiment: egocentric human. Sensors: stereo RGB + IMU at 30 fps.</li>
-        <li>Episode length 8–40 seconds. Required modalities: video, hand trajectory, contact.</li>
-      </ul>
-      <h4 class="mt">Delivery schema</h4>
-      <table class="schema">
-        <tr><th>Key</th><th>Dtype</th><th>Shape</th><th>Units</th></tr>
-        <tr><td>hand_kp</td><td class="t">float32</td><td>[T, 21, 3]</td><td>m</td></tr>
-        <tr><td>contact</td><td class="t">uint8</td><td>[T, 5]</td><td>bool</td></tr>
-        <tr><td>head_pose</td><td class="t">float32</td><td>[T, 6]</td><td>m · rad</td></tr>
-        <tr><td>timestamps</td><td class="t">int64</td><td>[T]</td><td>ns</td></tr>
-      </table>
-      <h4 class="mt">Sample label</h4>
-      <div class="codeblock">{
-  <span class="k">"episode_id"</span>: <span class="o">"ord2271_00482"</span>,
-  <span class="k">"fps"</span>: 30,
-  <span class="k">"hand_kp"</span>: [[[0.12, 0.04, 0.51], ...]],
-  <span class="k">"contact"</span>: [[0, 0, 1, 1, 0], ...],
-  <span class="k">"checksum"</span>: <span class="o">"sha256:9f2c…"</span>
-}</div>
-    </div>
-    <div class="od-panel" data-p="samples">
-      <h4>Sample clip — raw vs annotated</h4>
-      <div class="sample" id="odSample">
-        <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=760&q=70" onerror="this.style.display='none'">
-        <svg class="ov" viewBox="0 0 400 230" preserveAspectRatio="xMidYMid slice">
-          <g stroke="rgba(236,69,13,.6)" stroke-width="1.4">
-            <line x1="170" y1="170" x2="190" y2="120"/><line x1="190" y1="120" x2="205" y2="86"/>
-            <line x1="170" y1="170" x2="222" y2="118"/><line x1="222" y1="118" x2="248" y2="84"/>
-            <line x1="170" y1="170" x2="250" y2="124"/><line x1="250" y1="124" x2="276" y2="96"/>
-          </g>
-          <g fill="#EC450D"><circle cx="170" cy="170" r="4.5"/><circle cx="190" cy="120" r="3"/><circle cx="205" cy="86" r="3"/><circle cx="222" cy="118" r="3"/><circle cx="248" cy="84" r="3"/><circle cx="250" cy="124" r="3"/><circle cx="276" cy="96" r="3"/></g>
-          <rect x="140" y="64" width="170" height="128" fill="none" stroke="#EC450D" stroke-width="1.4" stroke-dasharray="4 4"/>
-        </svg>
-        <button class="toggle" id="odToggle">Show annotation</button>
-        <span class="lbl">ego_cam_00 · frame 0482</span>
-      </div>
-      <div class="thumbs">
-        <div class="th"><img src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=300&q=60" onerror="this.style.display='none'"></div>
-        <div class="th"><img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=300&q=60" onerror="this.style.display='none'"></div>
-        <div class="th"><img src="https://images.unsplash.com/photo-1563207153-f403bf289096?auto=format&fit=crop&w=300&q=60" onerror="this.style.display='none'"></div>
-      </div>
-      <a class="btn btn-grey" href="#" onclick="return false">Download 3 sample clips + label JSON</a>
-    </div>
-    <div class="od-panel" data-p="board">
-      <h4>Top miners on this order</h4>
-      <div class="od-lb">
-        <div class="m top"><span class="rk">1</span><span>5Dt42o5VSQ…</span><span class="ar">98.7% accept</span><span class="er">$4,210</span></div>
-        <div class="m"><span class="rk">2</span><span>5Fn9PWH2PE…</span><span class="ar">96.1% accept</span><span class="er">$3,180</span></div>
-        <div class="m"><span class="rk">3</span><span>5FXDWbJSw6…</span><span class="ar">94.8% accept</span><span class="er">$2,540</span></div>
-        <div class="m"><span class="rk">4</span><span>5GEGJohxNm…</span><span class="ar">91.2% accept</span><span class="er">$1,870</span></div>
-      </div>
-    </div>
-    <div class="od-panel" data-p="terms">
-      <h4>Quality &amp; commercial terms</h4>
-      <div class="terms-row"><span class="k">Honeypot rate</span><span class="v">10–15% · hidden</span></div>
-      <div class="terms-row"><span class="k">Acceptance threshold</span><span class="v">≥ 0.92 eval</span></div>
-      <div class="terms-row"><span class="k">Review SLA</span><span class="v">24 hours</span></div>
-      <div class="terms-row"><span class="k">Payout</span><span class="v">per accepted hour, on validation</span></div>
-      <div class="terms-row"><span class="k">License</span><span class="v">Commercial · buyer-exclusive</span></div>
-      <div class="terms-row"><span class="k">Provenance</span><span class="v">on-chain, per submission</span></div>
-    </div>
-  </div>
-  <div class="od-foot">
-    <a class="btn btn-primary" href="#" onclick="return false">Claim hours</a>
-    <a class="btn btn-grey" href="#" onclick="return false">Download sample</a>
-    <span class="note2">Miners claim and fulfill. Buyers download the sample, then order the full set.</span>
-  </div>
-</aside>
+</footer>
 
 <script>
-// top filter tabs
-document.querySelectorAll('.tabs .tab').forEach(t=>t.addEventListener('click',()=>{
-  document.querySelectorAll('.tabs .tab').forEach(x=>x.classList.remove('on'));
-  t.classList.add('on');
+// view toggle
+const ordersView=document.getElementById('ordersView'),minersView=document.getElementById('minersView'),chips=document.getElementById('chips'),meta=document.getElementById('meta');
+document.querySelectorAll('#seg button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('#seg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  const v=b.dataset.view;
+  ordersView.classList.toggle('hide',v!=='orders');
+  minersView.classList.toggle('hide',v!=='miners');
+  chips.style.display=v==='orders'?'flex':'none';
+  meta.textContent=v==='orders'?countOrders()+' open orders':'149 neurons · 32 validators';
 }));
-
-// order detail drawer
-const scrim=document.getElementById('odScrim'),od=document.getElementById('od');
-function openOrder(card){
-  const g=s=>card.querySelector(s)?card.querySelector(s).textContent.trim():'';
-  document.getElementById('od-type').textContent=g('.tag.cat');
-  document.getElementById('od-id').textContent=g('.oid');
-  document.getElementById('od-title').textContent=g('h4').replace(/\s+/g,' ');
-  document.getElementById('od-client').textContent=g('.client');
-  document.getElementById('od-cap-text').textContent=g('.cap-line');
-  const cells=card.querySelectorAll('.ometrics .cell .v');
-  document.getElementById('od-pay').textContent=cells[0]?cells[0].textContent:'';
-  document.getElementById('od-deadline').textContent=cells[1]?cells[1].textContent:'';
-  document.getElementById('od-miners').textContent=cells[2]?cells[2].textContent:'';
-  document.getElementById('od-fill').textContent=g('.barlabel b');
-  scrim.classList.add('open');od.classList.add('open');od.setAttribute('aria-hidden','false');
-  document.body.style.overflow='hidden';
-  const id=g('.oid');if(id)history.replaceState(null,'','#'+id);
+// type filter
+function countOrders(){return [...document.querySelectorAll('#ordersTbl tbody tr')].filter(r=>r.style.display!=='none').length;}
+document.querySelectorAll('#chips .chip').forEach(c=>c.addEventListener('click',()=>{
+  document.querySelectorAll('#chips .chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');
+  const f=c.dataset.f;
+  document.querySelectorAll('#ordersTbl tbody tr').forEach(r=>{r.style.display=(f==='all'||r.dataset.type===f)?'':'none';});
+  meta.textContent=countOrders()+' open orders';
+}));
+// row click → dedicated order route
+document.querySelectorAll('#ordersTbl tbody tr').forEach(r=>r.addEventListener('click',()=>{location.href='order.html?id='+r.dataset.id;}));
+// sortable tables
+function makeSortable(tbl){
+  const ths=tbl.querySelectorAll('th');
+  ths.forEach(th=>th.addEventListener('click',()=>{
+    const k=th.dataset.k,num=th.classList.contains('num');
+    const asc=!(th.dataset.asc==='1');ths.forEach(t=>{t.dataset.asc='';t.querySelector('.car')&&t.querySelector('.car').remove();});
+    th.dataset.asc=asc?'1':'0';
+    const car=document.createElement('span');car.className='car';car.textContent=asc?' ▲':' ▼';th.appendChild(car);
+    const tb=tbl.querySelector('tbody');
+    [...tb.querySelectorAll('tr')].sort((a,b)=>{
+      let x=a.dataset[k]??'',y=b.dataset[k]??'';
+      if(num){x=parseFloat(x)||0;y=parseFloat(y)||0;return asc?x-y:y-x;}
+      return asc?(''+x).localeCompare(y):(''+y).localeCompare(x);
+    }).forEach(r=>tb.appendChild(r));
+  }));
 }
-function closeOrder(){scrim.classList.remove('open');od.classList.remove('open');od.setAttribute('aria-hidden','true');document.body.style.overflow='';history.replaceState(null,'',location.pathname+location.search);}
-document.querySelectorAll('.order').forEach(c=>{
-  const h=document.createElement('div');h.className='open-hint';h.textContent='View order detail →';c.appendChild(h);
-  c.addEventListener('click',()=>openOrder(c));
-});
-document.getElementById('odClose').addEventListener('click',closeOrder);
-scrim.addEventListener('click',closeOrder);
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeOrder();});
-
-// detail tabs
-document.querySelectorAll('.od-tab').forEach(t=>t.addEventListener('click',()=>{
-  document.querySelectorAll('.od-tab').forEach(x=>x.classList.remove('on'));
-  document.querySelectorAll('.od-panel').forEach(p=>p.classList.remove('on'));
-  t.classList.add('on');
-  document.querySelector('.od-panel[data-p="'+t.dataset.p+'"]').classList.add('on');
-}));
-
-// raw / annotated toggle
-const samp=document.getElementById('odSample'),tog=document.getElementById('odToggle');
-tog.addEventListener('click',e=>{e.stopPropagation();samp.classList.toggle('annot');tog.textContent=samp.classList.contains('annot')?'Show raw':'Show annotation';});
-
-// deep link
-if(location.hash){const id=location.hash.slice(1);document.querySelectorAll('.order').forEach(c=>{if((c.querySelector('.oid')?c.querySelector('.oid').textContent.trim():'')===id)openOrder(c);});}
+makeSortable(document.getElementById('ordersTbl'));
+makeSortable(document.getElementById('minersTbl'));
 </script>
 </body>
 </html>
